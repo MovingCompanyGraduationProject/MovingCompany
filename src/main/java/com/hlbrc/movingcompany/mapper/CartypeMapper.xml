@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hlbrc.movingcompany.mapper.ICartypeMapper">
+  <resultMap id="BaseResultMap" type="com.hlbrc.movingcompany.entity.Cartype">
+    <id column="carTypeId" jdbcType="INTEGER" property="cartypeid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="carState" jdbcType="VARCHAR" property="carstate" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    carTypeId, name, carState, createTime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cartype
+    where carTypeId = #{cartypeid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cartype
+    where carTypeId = #{cartypeid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.Cartype">
+    insert into cartype (carTypeId, name, carState, 
+      createTime, updateTime)
+    values (#{cartypeid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{carstate,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.Cartype">
+    insert into cartype
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cartypeid != null">
+        carTypeId,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="carstate != null">
+        carState,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cartypeid != null">
+        #{cartypeid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="carstate != null">
+        #{carstate,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlbrc.movingcompany.entity.Cartype">
+    update cartype
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="carstate != null">
+        carState = #{carstate,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where carTypeId = #{cartypeid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hlbrc.movingcompany.entity.Cartype">
+    update cartype
+    set name = #{name,jdbcType=VARCHAR},
+      carState = #{carstate,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where carTypeId = #{cartypeid,jdbcType=INTEGER}
+  </update>
+</mapper>

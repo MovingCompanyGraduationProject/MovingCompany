@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hlbrc.movingcompany.mapper.IOrderformMapper">
+  <resultMap id="BaseResultMap" type="com.hlbrc.movingcompany.entity.Orderform">
+    <id column="orderFormId" jdbcType="INTEGER" property="orderformid" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="CompanyMessageId" jdbcType="INTEGER" property="companymessageid" />
+    <result column="startSite" jdbcType="VARCHAR" property="startsite" />
+    <result column="endSite" jdbcType="VARCHAR" property="endsite" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="movingTime" jdbcType="TIMESTAMP" property="movingtime" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    orderFormId, userId, CompanyMessageId, startSite, endSite, name, tel, remark, movingTime, 
+    createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orderform
+    where orderFormId = #{orderformid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from orderform
+    where orderFormId = #{orderformid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.Orderform">
+    insert into orderform (orderFormId, userId, CompanyMessageId, 
+      startSite, endSite, name, 
+      tel, remark, movingTime, 
+      createTime)
+    values (#{orderformid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{companymessageid,jdbcType=INTEGER}, 
+      #{startsite,jdbcType=VARCHAR}, #{endsite,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{movingtime,jdbcType=TIMESTAMP}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.Orderform">
+    insert into orderform
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderformid != null">
+        orderFormId,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="companymessageid != null">
+        CompanyMessageId,
+      </if>
+      <if test="startsite != null">
+        startSite,
+      </if>
+      <if test="endsite != null">
+        endSite,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="movingtime != null">
+        movingTime,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderformid != null">
+        #{orderformid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="companymessageid != null">
+        #{companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="startsite != null">
+        #{startsite,jdbcType=VARCHAR},
+      </if>
+      <if test="endsite != null">
+        #{endsite,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="movingtime != null">
+        #{movingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlbrc.movingcompany.entity.Orderform">
+    update orderform
+    <set>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="companymessageid != null">
+        CompanyMessageId = #{companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="startsite != null">
+        startSite = #{startsite,jdbcType=VARCHAR},
+      </if>
+      <if test="endsite != null">
+        endSite = #{endsite,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="movingtime != null">
+        movingTime = #{movingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where orderFormId = #{orderformid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hlbrc.movingcompany.entity.Orderform">
+    update orderform
+    set userId = #{userid,jdbcType=INTEGER},
+      CompanyMessageId = #{companymessageid,jdbcType=INTEGER},
+      startSite = #{startsite,jdbcType=VARCHAR},
+      endSite = #{endsite,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      movingTime = #{movingtime,jdbcType=TIMESTAMP},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where orderFormId = #{orderformid,jdbcType=INTEGER}
+  </update>
+</mapper>

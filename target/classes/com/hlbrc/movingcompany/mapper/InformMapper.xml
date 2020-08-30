@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hlbrc.movingcompany.mapper.InformMapper">
+  <resultMap id="BaseResultMap" type="com.hlbrc.movingcompany.entity.Inform">
+    <id column="informId" jdbcType="INTEGER" property="informid" />
+    <result column="CompanyMessageId" jdbcType="INTEGER" property="companymessageid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="contextNum" jdbcType="VARCHAR" property="contextnum" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    informId, CompanyMessageId, name, contextNum, createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from inform
+    where informId = #{informid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from inform
+    where informId = #{informid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.Inform">
+    insert into inform (informId, CompanyMessageId, name, 
+      contextNum, createTime)
+    values (#{informid,jdbcType=INTEGER}, #{companymessageid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{contextnum,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.Inform">
+    insert into inform
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="informid != null">
+        informId,
+      </if>
+      <if test="companymessageid != null">
+        CompanyMessageId,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="contextnum != null">
+        contextNum,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="informid != null">
+        #{informid,jdbcType=INTEGER},
+      </if>
+      <if test="companymessageid != null">
+        #{companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="contextnum != null">
+        #{contextnum,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlbrc.movingcompany.entity.Inform">
+    update inform
+    <set>
+      <if test="companymessageid != null">
+        CompanyMessageId = #{companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="contextnum != null">
+        contextNum = #{contextnum,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where informId = #{informid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hlbrc.movingcompany.entity.Inform">
+    update inform
+    set CompanyMessageId = #{companymessageid,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      contextNum = #{contextnum,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where informId = #{informid,jdbcType=INTEGER}
+  </update>
+</mapper>
