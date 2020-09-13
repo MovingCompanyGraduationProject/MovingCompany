@@ -5,7 +5,11 @@ import java.util.Date;
 public class User {
     private Integer userid;
 
+    private Integer disid;
+
     private String name;
+
+    private String usertel;
 
     private String password;
 
@@ -24,13 +28,31 @@ public class User {
     private Date createtime;
 
     private String updatetime;
+    
+    private String address;
 
-    public Integer getUserid() {
+    public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Integer getUserid() {
         return userid;
     }
 
     public void setUserid(Integer userid) {
         this.userid = userid;
+    }
+
+    public Integer getDisid() {
+        return disid;
+    }
+
+    public void setDisid(Integer disid) {
+        this.disid = disid;
     }
 
     public String getName() {
@@ -39,6 +61,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getUsertel() {
+        return usertel;
+    }
+
+    public void setUsertel(String usertel) {
+        this.usertel = usertel == null ? null : usertel.trim();
     }
 
     public String getPassword() {

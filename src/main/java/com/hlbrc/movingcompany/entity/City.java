@@ -1,6 +1,6 @@
 package com.hlbrc.movingcompany.entity;
 
-public class city {
+public class City {
     private Integer citid;
 
     private String citname;

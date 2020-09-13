@@ -1,17 +1,17 @@
 package com.hlbrc.movingcompany.mapper;
 
-import com.hlbrc.movingcompany.entity.city;
+import com.hlbrc.movingcompany.entity.City;
 
 public interface ICityMapper {
     int deleteByPrimaryKey(Integer citid);
 
-    int insert(city record);
+    int insert(City record);
 
-    int insertSelective(city record);
+    int insertSelective(City record);
 
-    city selectByPrimaryKey(Integer citid);
+    City selectByPrimaryKey(Integer citid);
 
-    int updateByPrimaryKeySelective(city record);
+    int updateByPrimaryKeySelective(City record);
 
-    int updateByPrimaryKey(city record);
+    int updateByPrimaryKey(City record);
 }

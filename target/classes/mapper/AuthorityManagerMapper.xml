@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hlbrc.movingcompany.mapper.IAuthorityManagerMapper">
+  <resultMap id="BaseResultMap" type="com.hlbrc.movingcompany.entity.AuthorityManager">
+    <id column="authorityManagerId" jdbcType="INTEGER" property="authoritymanagerid" />
+    <result column="authorityTypeId" jdbcType="INTEGER" property="authoritytypeid" />
+    <result column="authorityRule" jdbcType="VARCHAR" property="authorityrule" />
+    <result column="authorityName" jdbcType="VARCHAR" property="authorityname" />
+    <result column="authorityManagerStatus" jdbcType="VARCHAR" property="authoritymanagerstatus" />
+    <result column="creator" jdbcType="INTEGER" property="creator" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="modifier" jdbcType="INTEGER" property="modifier" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    authorityManagerId, authorityTypeId, authorityRule, authorityName, authorityManagerStatus, 
+    creator, createTime, modifier, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.hlbrc.movingcompany.entity.AuthorityManagerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from authoritymanager
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="pageIndex != null and pageSize != null and pageSize != 0">
+          limit #{pageIndex},#{pageSize}
+      </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from authoritymanager
+    where authorityManagerId = #{authoritymanagerid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from authoritymanager
+    where authorityManagerId = #{authoritymanagerid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hlbrc.movingcompany.entity.AuthorityManagerExample">
+    delete from authoritymanager
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.AuthorityManager">
+    insert into authoritymanager (authorityManagerId, authorityTypeId, 
+      authorityRule, authorityName, authorityManagerStatus, 
+      creator, createTime, modifier, 
+      updateTime)
+    values (#{authoritymanagerid,jdbcType=INTEGER}, #{authoritytypeid,jdbcType=INTEGER}, 
+      #{authorityrule,jdbcType=VARCHAR}, #{authorityname,jdbcType=VARCHAR}, #{authoritymanagerstatus,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.AuthorityManager">
+    insert into authoritymanager
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="authoritymanagerid != null">
+        authorityManagerId,
+      </if>
+      <if test="authoritytypeid != null">
+        authorityTypeId,
+      </if>
+      <if test="authorityrule != null">
+        authorityRule,
+      </if>
+      <if test="authorityname != null">
+        authorityName,
+      </if>
+      <if test="authoritymanagerstatus != null">
+        authorityManagerStatus,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="authoritymanagerid != null">
+        #{authoritymanagerid,jdbcType=INTEGER},
+      </if>
+      <if test="authoritytypeid != null">
+        #{authoritytypeid,jdbcType=INTEGER},
+      </if>
+      <if test="authorityrule != null">
+        #{authorityrule,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityname != null">
+        #{authorityname,jdbcType=VARCHAR},
+      </if>
+      <if test="authoritymanagerstatus != null">
+        #{authoritymanagerstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hlbrc.movingcompany.entity.AuthorityManagerExample" resultType="java.lang.Long">
+    select count(*) from authoritymanager
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update authoritymanager
+    <set>
+      <if test="record.authoritymanagerid != null">
+        authorityManagerId = #{record.authoritymanagerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.authoritytypeid != null">
+        authorityTypeId = #{record.authoritytypeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.authorityrule != null">
+        authorityRule = #{record.authorityrule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorityname != null">
+        authorityName = #{record.authorityname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authoritymanagerstatus != null">
+        authorityManagerStatus = #{record.authoritymanagerstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update authoritymanager
+    set authorityManagerId = #{record.authoritymanagerid,jdbcType=INTEGER},
+      authorityTypeId = #{record.authoritytypeid,jdbcType=INTEGER},
+      authorityRule = #{record.authorityrule,jdbcType=VARCHAR},
+      authorityName = #{record.authorityname,jdbcType=VARCHAR},
+      authorityManagerStatus = #{record.authoritymanagerstatus,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      modifier = #{record.modifier,jdbcType=INTEGER},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlbrc.movingcompany.entity.AuthorityManager">
+    update authoritymanager
+    <set>
+      <if test="authoritytypeid != null">
+        authorityTypeId = #{authoritytypeid,jdbcType=INTEGER},
+      </if>
+      <if test="authorityrule != null">
+        authorityRule = #{authorityrule,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityname != null">
+        authorityName = #{authorityname,jdbcType=VARCHAR},
+      </if>
+      <if test="authoritymanagerstatus != null">
+        authorityManagerStatus = #{authoritymanagerstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where authorityManagerId = #{authoritymanagerid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hlbrc.movingcompany.entity.AuthorityManager">
+    update authoritymanager
+    set authorityTypeId = #{authoritytypeid,jdbcType=INTEGER},
+      authorityRule = #{authorityrule,jdbcType=VARCHAR},
+      authorityName = #{authorityname,jdbcType=VARCHAR},
+      authorityManagerStatus = #{authoritymanagerstatus,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=INTEGER},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where authorityManagerId = #{authoritymanagerid,jdbcType=INTEGER}
+  </update>
+</mapper>

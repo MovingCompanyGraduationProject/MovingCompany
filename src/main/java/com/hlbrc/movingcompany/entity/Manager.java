@@ -13,7 +13,27 @@ public class Manager {
 
     private Date updatetime;
 
-    public Integer getManagerid() {
+    private String tel;
+
+    private String email;
+
+    private Integer creator;
+
+    private Integer modifier;
+
+    private String status;
+    
+    private String rose;
+    
+    public String getRose() {
+		return rose;
+	}
+
+	public void setRose(String rose) {
+		this.rose = rose;
+	}
+
+	public Integer getManagerid() {
         return managerid;
     }
 
@@ -51,5 +71,45 @@ public class Manager {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel == null ? null : tel.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public Integer getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Integer creator) {
+        this.creator = creator;
+    }
+
+    public Integer getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(Integer modifier) {
+        this.modifier = modifier;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
     }
 }

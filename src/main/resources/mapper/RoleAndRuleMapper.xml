@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hlbrc.movingcompany.mapper.IRoleAndRuleMapper">
+  <resultMap id="BaseResultMap" type="com.hlbrc.movingcompany.entity.RoleAndRule">
+    <id column="roleAndRuleId" jdbcType="INTEGER" property="roleandruleid" />
+    <result column="authorityManagerId" jdbcType="INTEGER" property="authoritymanagerid" />
+    <result column="roleManagerId" jdbcType="INTEGER" property="rolemanagerid" />
+    <result column="managerId" jdbcType="INTEGER" property="managerid" />
+    <result column="roleAndRuleStatus" jdbcType="VARCHAR" property="roleandrulestatus" />
+    <result column="creator" jdbcType="INTEGER" property="creator" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="modifier" jdbcType="INTEGER" property="modifier" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    roleAndRuleId, authorityManagerId, roleManagerId, managerId, roleAndRuleStatus, creator, 
+    createTime, modifier, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.hlbrc.movingcompany.entity.RoleAndRuleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from roleandrule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="pageIndex != null and pageSize != null and pageSize != 0">
+        limit #{pageIndex},#{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from roleandrule
+    where roleAndRuleId = #{roleandruleid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from roleandrule
+    where roleAndRuleId = #{roleandruleid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hlbrc.movingcompany.entity.RoleAndRuleExample">
+    delete from roleandrule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.RoleAndRule">
+    insert into roleandrule (roleAndRuleId, authorityManagerId, 
+      roleManagerId, managerId, roleAndRuleStatus, 
+      creator, createTime, modifier, 
+      updateTime)
+    values (#{roleandruleid,jdbcType=INTEGER}, #{authoritymanagerid,jdbcType=INTEGER}, 
+      #{rolemanagerid,jdbcType=INTEGER}, #{managerid,jdbcType=INTEGER}, #{roleandrulestatus,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.RoleAndRule">
+    insert into roleandrule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleandruleid != null">
+        roleAndRuleId,
+      </if>
+      <if test="authoritymanagerid != null">
+        authorityManagerId,
+      </if>
+      <if test="rolemanagerid != null">
+        roleManagerId,
+      </if>
+      <if test="managerid != null">
+        managerId,
+      </if>
+      <if test="roleandrulestatus != null">
+        roleAndRuleStatus,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleandruleid != null">
+        #{roleandruleid,jdbcType=INTEGER},
+      </if>
+      <if test="authoritymanagerid != null">
+        #{authoritymanagerid,jdbcType=INTEGER},
+      </if>
+      <if test="rolemanagerid != null">
+        #{rolemanagerid,jdbcType=INTEGER},
+      </if>
+      <if test="managerid != null">
+        #{managerid,jdbcType=INTEGER},
+      </if>
+      <if test="roleandrulestatus != null">
+        #{roleandrulestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hlbrc.movingcompany.entity.RoleAndRuleExample" resultType="java.lang.Long">
+    select count(*) from roleandrule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update roleandrule
+    <set>
+      <if test="record.roleandruleid != null">
+        roleAndRuleId = #{record.roleandruleid,jdbcType=INTEGER},
+      </if>
+      <if test="record.authoritymanagerid != null">
+        authorityManagerId = #{record.authoritymanagerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.rolemanagerid != null">
+        roleManagerId = #{record.rolemanagerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.managerid != null">
+        managerId = #{record.managerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.roleandrulestatus != null">
+        roleAndRuleStatus = #{record.roleandrulestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update roleandrule
+    set roleAndRuleId = #{record.roleandruleid,jdbcType=INTEGER},
+      authorityManagerId = #{record.authoritymanagerid,jdbcType=INTEGER},
+      roleManagerId = #{record.rolemanagerid,jdbcType=INTEGER},
+      managerId = #{record.managerid,jdbcType=INTEGER},
+      roleAndRuleStatus = #{record.roleandrulestatus,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      modifier = #{record.modifier,jdbcType=INTEGER},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlbrc.movingcompany.entity.RoleAndRule">
+    update roleandrule
+    <set>
+      <if test="authoritymanagerid != null">
+        authorityManagerId = #{authoritymanagerid,jdbcType=INTEGER},
+      </if>
+      <if test="rolemanagerid != null">
+        roleManagerId = #{rolemanagerid,jdbcType=INTEGER},
+      </if>
+      <if test="managerid != null">
+        managerId = #{managerid,jdbcType=INTEGER},
+      </if>
+      <if test="roleandrulestatus != null">
+        roleAndRuleStatus = #{roleandrulestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where roleAndRuleId = #{roleandruleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hlbrc.movingcompany.entity.RoleAndRule">
+    update roleandrule
+    set authorityManagerId = #{authoritymanagerid,jdbcType=INTEGER},
+      roleManagerId = #{rolemanagerid,jdbcType=INTEGER},
+      managerId = #{managerid,jdbcType=INTEGER},
+      roleAndRuleStatus = #{roleandrulestatus,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=INTEGER},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where roleAndRuleId = #{roleandruleid,jdbcType=INTEGER}
+  </update>
+</mapper>
