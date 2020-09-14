@@ -38,7 +38,16 @@ public interface IMyEnums {
     /**完成*/
     public final static String ORDER_FINISHED = "6";
     /**
-     * 提示信息
+	 * 地址状态
+	 */
+	/**非默认地址*/
+	public final static int ADDRESS_NOT_DEFAULT = 0;
+	/**默认地址*/
+	public final static int ADDRESS_DEFAULT = 1;
+	/**该地址已删除*/
+	public final static int ADDRESS_DEL = 2;
+    /**
+               * 提示信息
      */
     /**成功*/
     public final static String SUCCEED = "ok";

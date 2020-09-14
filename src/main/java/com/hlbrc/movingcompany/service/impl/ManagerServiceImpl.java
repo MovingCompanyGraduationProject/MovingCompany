@@ -254,16 +254,16 @@ public class ManagerServiceImpl implements IManagerService {
 			example.setPageIndex(Integer.parseInt(json.getString("pageIndex"))-1);
 	        example.setPageSize(2);
 	        if(!"".equals(json.getString("authoritymanagerid"))) {
-	        	criteria.andAuthoritymanageridEqualTo(Integer.getInteger(json.getString("authoritymanagerid")));
+	        	criteria.andAuthoritymanageridEqualTo(Integer.parseInt(json.getString("authoritymanagerid")));
 	        }
 	        if(!"".equals(json.getString("rolemanagerid"))) {
-	        	criteria.andRolemanageridEqualTo(Integer.getInteger(json.getString("rolemanagerid")));
+	        	criteria.andRolemanageridEqualTo(Integer.parseInt(json.getString("rolemanagerid")));
 	        }
 			if(!"".equals(json.getString("managerid"))) {
-				criteria.andManageridEqualTo(Integer.getInteger(json.getString("managerid")));
+				criteria.andManageridEqualTo(Integer.parseInt(json.getString("managerid")));
 			}
 			if(!"".equals(json.getString("roleandruleid"))) {
-				criteria.andRoleandruleidEqualTo(Integer.getInteger(json.getString("roleandruleid")));
+				criteria.andRoleandruleidEqualTo(Integer.parseInt(json.getString("roleandruleid")));
 			}
 			if(!"".equals(json.getString("roleandrulestatus"))) {
 				criteria.andRoleandrulestatusEqualTo(json.getString("roleandrulestatus"));
@@ -337,7 +337,7 @@ public class ManagerServiceImpl implements IManagerService {
 						roleandrule.setCreator(old_manager.getManagerid());
 						roleandrule.setManagerid(id);
 						roleandrule.setRoleandrulestatus(IMyEnums.NORMAL);
-						roleandrule.setRolemanagerid(Integer.getInteger(s));
+						roleandrule.setRolemanagerid(Integer.parseInt(s));
 						i += role_and_rule_mapper.insertSelective(roleandrule);
 					}
 				}
@@ -400,7 +400,7 @@ public class ManagerServiceImpl implements IManagerService {
 						roleandrule.setCreatetime(new Date());
 						roleandrule.setCreator(manager.getManagerid());
 						roleandrule.setRoleandrulestatus(IMyEnums.NORMAL);
-						roleandrule.setAuthoritymanagerid(Integer.getInteger(a));
+						roleandrule.setAuthoritymanagerid(Integer.parseInt(a));
 						roleandrule.setRolemanagerid(id);
 						i += role_and_rule_mapper.insertSelective(roleandrule);
 					}
@@ -480,7 +480,7 @@ public class ManagerServiceImpl implements IManagerService {
 				}
 				authoritymanager.setAuthorityname(json.getString("authorityname"));
 				authoritymanager.setAuthorityrule(json.getString("authorityrule"));
-				authoritymanager.setAuthoritytypeid(Integer.getInteger(json.getString("authoritytypeid")));
+				authoritymanager.setAuthoritytypeid(Integer.parseInt(json.getString("authoritytypeid")));
 				authoritymanager.setCreatetime(new Date());
 				authoritymanager.setCreator(manager.getManagerid());
 				authoritymanager.setAuthoritymanagerstatus(IMyEnums.NORMAL);
@@ -513,9 +513,9 @@ public class ManagerServiceImpl implements IManagerService {
 				RoleAndRule roleandrule = new RoleAndRule();
 				roleandrule.setCreatetime(new Date());
 				roleandrule.setManagerid(manager.getManagerid());
-				roleandrule.setRoleandruleid(Integer.getInteger(json.getString("roleandruleid")));
+				roleandrule.setRoleandruleid(Integer.parseInt(json.getString("roleandruleid")));
 				roleandrule.setRoleandrulestatus(IMyEnums.NORMAL);
-				roleandrule.setRolemanagerid(Integer.getInteger(json.getString("rolemanagerid")));
+				roleandrule.setRolemanagerid(Integer.parseInt(json.getString("rolemanagerid")));
 				int i = role_and_rule_mapper.insertSelective(roleandrule);
 				if(i>0) {
 					obj.accumulate("msg", IMyEnums.SUCCEED);
@@ -571,13 +571,13 @@ public class ManagerServiceImpl implements IManagerService {
 				}
 				example = new ManagerExample();
 				criteria = example.createCriteria();
-				criteria.andManageridEqualTo(Integer.getInteger(json.getString("managerid")));
+				criteria.andManageridEqualTo(Integer.parseInt(json.getString("managerid")));
 				int i = manager_mapper.updateByExampleSelective(manager, example);
 				String[] rolemanagerids = null;
 				if(json.getString("rolemanagerids")!=null&&!"".equals(json.getString("rolemanagerids"))) {
 					RoleAndRuleExample example1 = new RoleAndRuleExample();
 					RoleAndRuleExample.Criteria criteria1 = example1.createCriteria();
-					criteria1.andManageridEqualTo(Integer.getInteger(json.getString("managerid")));
+					criteria1.andManageridEqualTo(Integer.parseInt(json.getString("managerid")));
 					List<RoleAndRule> list = role_and_rule_mapper.selectByExample(example1);
 					rolemanagerids = json.getString("rolemanagerids").split(";");
 					String[] orgList = null;
@@ -592,16 +592,16 @@ public class ManagerServiceImpl implements IManagerService {
 							RoleAndRule roleandrule = new RoleAndRule();
 							roleandrule.setCreatetime(new Date());
 							roleandrule.setCreator(old_manager.getManagerid());
-							roleandrule.setManagerid(Integer.getInteger(json.getString("managerid")));
+							roleandrule.setManagerid(Integer.parseInt(json.getString("managerid")));
 							roleandrule.setRoleandrulestatus(IMyEnums.NORMAL);
-							roleandrule.setRolemanagerid(Integer.getInteger(s));
+							roleandrule.setRolemanagerid(Integer.parseInt(s));
 							i += role_and_rule_mapper.insertSelective(roleandrule);
 						}
 						for(String s:map.get("-1")) {
 							RoleAndRuleExample example2 = new RoleAndRuleExample();
 							RoleAndRuleExample.Criteria criteria2 = example1.createCriteria();
-							criteria2.andManageridEqualTo(Integer.getInteger(json.getString("managerid")));
-							criteria2.andRolemanageridEqualTo(Integer.getInteger(s));
+							criteria2.andManageridEqualTo(Integer.parseInt(json.getString("managerid")));
+							criteria2.andRolemanageridEqualTo(Integer.parseInt(s));
 							RoleAndRule rar = new RoleAndRule();
 							rar.setRoleandrulestatus(IMyEnums.DELETE);
 							rar.setModifier(old_manager.getManagerid());
@@ -615,9 +615,9 @@ public class ManagerServiceImpl implements IManagerService {
 								RoleAndRule roleandrule = new RoleAndRule();
 								roleandrule.setCreatetime(new Date());
 								roleandrule.setCreator(old_manager.getManagerid());
-								roleandrule.setManagerid(Integer.getInteger(json.getString("managerid")));
+								roleandrule.setManagerid(Integer.parseInt(json.getString("managerid")));
 								roleandrule.setRoleandrulestatus(IMyEnums.NORMAL);
-								roleandrule.setRolemanagerid(Integer.getInteger(s));
+								roleandrule.setRolemanagerid(Integer.parseInt(s));
 								i += role_and_rule_mapper.insertSelective(roleandrule);
 							}
 						}
@@ -627,7 +627,7 @@ public class ManagerServiceImpl implements IManagerService {
 							for(int j=0;j<list.size();j++) {
 								RoleAndRuleExample example2 = new RoleAndRuleExample();
 								RoleAndRuleExample.Criteria criteria2 = example1.createCriteria();
-								criteria2.andManageridEqualTo(Integer.getInteger(json.getString("managerid")));
+								criteria2.andManageridEqualTo(Integer.parseInt(json.getString("managerid")));
 								criteria2.andRolemanageridEqualTo(list.get(j).getRolemanagerid());
 								RoleAndRule rar = new RoleAndRule();
 								rar.setRoleandrulestatus(IMyEnums.DELETE);
@@ -684,13 +684,13 @@ public class ManagerServiceImpl implements IManagerService {
 					rolemanager.setRolename(json.getString("rolename"));
 				}
 				criteria = example.createCriteria();
-				criteria.andRolemanageridEqualTo(Integer.getInteger(json.getString("rolemanagerid")));
+				criteria.andRolemanageridEqualTo(Integer.parseInt(json.getString("rolemanagerid")));
 				int i = role_manager_mapper.updateByExampleSelective(rolemanager, example);
 				String[] rolemanagerids = null;
 				if(json.getString("authoritymanagerids")!=null&&!"".equals(json.getString("authoritymanagerids"))) {
 					RoleAndRuleExample example1 = new RoleAndRuleExample();
 					RoleAndRuleExample.Criteria criteria1 = example1.createCriteria();
-					criteria1.andRolemanageridEqualTo(Integer.getInteger(json.getString("rolemanagerid")));
+					criteria1.andRolemanageridEqualTo(Integer.parseInt(json.getString("rolemanagerid")));
 					List<RoleAndRule> list = role_and_rule_mapper.selectByExample(example1);
 					rolemanagerids = json.getString("authoritymanagerids").split(";");
 					String[] orgList = null;
@@ -705,16 +705,16 @@ public class ManagerServiceImpl implements IManagerService {
 							RoleAndRule roleandrule = new RoleAndRule();
 							roleandrule.setCreatetime(new Date());
 							roleandrule.setCreator(old_manager.getManagerid());
-							roleandrule.setRolemanagerid(Integer.getInteger(json.getString("rolemanagerid")));
+							roleandrule.setRolemanagerid(Integer.parseInt(json.getString("rolemanagerid")));
 							roleandrule.setRoleandrulestatus(IMyEnums.NORMAL);
-							roleandrule.setAuthoritymanagerid(Integer.getInteger(s));
+							roleandrule.setAuthoritymanagerid(Integer.parseInt(s));
 							i += role_and_rule_mapper.insertSelective(roleandrule);
 						}
 						for(String s:map.get("-1")) {
 							RoleAndRuleExample example2 = new RoleAndRuleExample();
 							RoleAndRuleExample.Criteria criteria2 = example1.createCriteria();
-							criteria2.andRolemanageridEqualTo(Integer.getInteger(json.getString("rolemanagerid")));
-							criteria2.andAuthoritymanageridEqualTo(Integer.getInteger(s));
+							criteria2.andRolemanageridEqualTo(Integer.parseInt(json.getString("rolemanagerid")));
+							criteria2.andAuthoritymanageridEqualTo(Integer.parseInt(s));
 							RoleAndRule rar = new RoleAndRule();
 							rar.setRoleandrulestatus(IMyEnums.DELETE);
 							rar.setModifier(old_manager.getManagerid());
@@ -728,9 +728,9 @@ public class ManagerServiceImpl implements IManagerService {
 								RoleAndRule roleandrule = new RoleAndRule();
 								roleandrule.setCreatetime(new Date());
 								roleandrule.setCreator(old_manager.getManagerid());
-								roleandrule.setRolemanagerid(Integer.getInteger(json.getString("rolemanagerid")));
+								roleandrule.setRolemanagerid(Integer.parseInt(json.getString("rolemanagerid")));
 								roleandrule.setRoleandrulestatus(IMyEnums.NORMAL);
-								roleandrule.setAuthoritymanagerid(Integer.getInteger(s));
+								roleandrule.setAuthoritymanagerid(Integer.parseInt(s));
 								i += role_and_rule_mapper.insertSelective(roleandrule);
 							}
 						}
@@ -740,7 +740,7 @@ public class ManagerServiceImpl implements IManagerService {
 							RoleAndRuleExample example2 = new RoleAndRuleExample();
 							RoleAndRuleExample.Criteria criteria2 = example1.createCriteria();
 							for(int j=0;j<list.size();j++) {
-								criteria2.andRolemanageridEqualTo(Integer.getInteger(json.getString("rolemanagerid")));
+								criteria2.andRolemanageridEqualTo(Integer.parseInt(json.getString("rolemanagerid")));
 								criteria2.andAuthoritymanageridEqualTo(list.get(j).getAuthoritymanagerid());
 								RoleAndRule rar = new RoleAndRule();
 								rar.setRoleandrulestatus(IMyEnums.DELETE);
@@ -795,7 +795,7 @@ public class ManagerServiceImpl implements IManagerService {
 				}
 				AuthorityTypeExample example = new AuthorityTypeExample();
 				AuthorityTypeExample.Criteria criteria = example.createCriteria();
-				criteria.andAuthoritytypeidEqualTo(Integer.getInteger(json.getString("authoritytypeid")));
+				criteria.andAuthoritytypeidEqualTo(Integer.parseInt(json.getString("authoritytypeid")));
 				int i = authority_type_mapper.updateByExampleSelective(authoritytype, example);
 				if(i>0) {
 					obj.accumulate("msg", IMyEnums.SUCCEED);
@@ -846,7 +846,7 @@ public class ManagerServiceImpl implements IManagerService {
 					authoritymanager.setAuthorityname(json.getString("authorityname"));
 				}
 				if(json.getString("authoritytypeid")!=null&&!"".equals(json.getString("authoritytypeid"))) {
-					authoritymanager.setAuthoritytypeid(Integer.getInteger(json.getString("authoritytypeid")));
+					authoritymanager.setAuthoritytypeid(Integer.parseInt(json.getString("authoritytypeid")));
 				}
 				authoritymanager.setModifier(manager.getManagerid());
 				authoritymanager.setUpdatetime(new Date());
@@ -901,7 +901,7 @@ public class ManagerServiceImpl implements IManagerService {
 				if(json.getString("status")!=null&&!"".equals(json.getString("status"))) {
 					ManagerExample example  = new ManagerExample();
 					ManagerExample.Criteria criteria = example.createCriteria();
-					criteria.andManageridEqualTo(Integer.getInteger(json.getString("managerid")));
+					criteria.andManageridEqualTo(Integer.parseInt(json.getString("managerid")));
 					Manager manager = new Manager();
 					manager.setStatus(json.getString("status"));
 					manager.setModifier(manager_old.getManagerid());
@@ -936,7 +936,7 @@ public class ManagerServiceImpl implements IManagerService {
 				if(json.getString("rolestatus")!=null&&!"".equals(json.getString("rolestatus"))) {
 					RoleManagerExample example  = new RoleManagerExample();
 					RoleManagerExample.Criteria criteria = example.createCriteria();
-					criteria.andRolemanageridEqualTo(Integer.getInteger(json.getString("rolemanagerid")));
+					criteria.andRolemanageridEqualTo(Integer.parseInt(json.getString("rolemanagerid")));
 					RoleManager rolemanager = new RoleManager();
 					rolemanager.setRolestatus(json.getString("rolestatus"));
 					rolemanager.setModifier(manager.getManagerid());
@@ -971,7 +971,7 @@ public class ManagerServiceImpl implements IManagerService {
 				if(json.getString("authoritytypestatus")!=null&&!"".equals(json.getString("authoritytypestatus"))) {
 					AuthorityTypeExample example  = new AuthorityTypeExample();
 					AuthorityTypeExample.Criteria criteria = example.createCriteria();
-					criteria.andAuthoritytypeidEqualTo(Integer.getInteger(json.getString("authoritytypeid")));
+					criteria.andAuthoritytypeidEqualTo(Integer.parseInt(json.getString("authoritytypeid")));
 					AuthorityType authoritytype = new AuthorityType();
 					authoritytype.setAuthoritytypestatus(json.getString("authoritytypestatus"));
 					authoritytype.setModifier(manager.getManagerid());
@@ -1006,7 +1006,7 @@ public class ManagerServiceImpl implements IManagerService {
 				if(json.getString("authoritymanagerstatus")!=null&&!"".equals(json.getString("authoritymanagerstatus"))) {
 					AuthorityManagerExample example  = new AuthorityManagerExample();
 					AuthorityManagerExample.Criteria criteria = example.createCriteria();
-					criteria.andAuthoritymanageridEqualTo(Integer.getInteger(json.getString("authoritymanagerid")));
+					criteria.andAuthoritymanageridEqualTo(Integer.parseInt(json.getString("authoritymanagerid")));
 					AuthorityManager authoritymanager = new AuthorityManager();
 					authoritymanager.setAuthoritymanagerstatus(json.getString("authoritymanagerstatus"));
 					authoritymanager.setModifier(manager.getManagerid());
@@ -1041,7 +1041,7 @@ public class ManagerServiceImpl implements IManagerService {
 				if(json.getString("roleandrulestatus")!=null&&!"".equals(json.getString("roleandrulestatus"))) {
 					RoleAndRuleExample example  = new RoleAndRuleExample();
 					RoleAndRuleExample.Criteria criteria = example.createCriteria();
-					criteria.andRoleandruleidEqualTo(Integer.getInteger(json.getString("roleandruleid")));
+					criteria.andRoleandruleidEqualTo(Integer.parseInt(json.getString("roleandruleid")));
 					RoleAndRule roleandrule = new RoleAndRule();
 					roleandrule.setRoleandrulestatus(json.getString("roleandrulestatus"));
 					roleandrule.setModifier(manager.getManagerid());
@@ -1080,7 +1080,7 @@ public class ManagerServiceImpl implements IManagerService {
 						for(int j=0;j<managerids.length;j++) {
 							ManagerExample example  = new ManagerExample();
 							ManagerExample.Criteria criteria = example.createCriteria();
-							criteria.andManageridEqualTo(Integer.getInteger(managerids[j]));
+							criteria.andManageridEqualTo(Integer.parseInt(managerids[j]));
 							Manager manager = new Manager();
 							manager.setStatus(json.getString("status"));
 							manager.setModifier(old_manager.getManagerid());
@@ -1122,7 +1122,7 @@ public class ManagerServiceImpl implements IManagerService {
 						for(int j=0;j<rolemanagerids.length;j++) {
 							RoleManagerExample example  = new RoleManagerExample();
 							RoleManagerExample.Criteria criteria = example.createCriteria();
-							criteria.andRolemanageridEqualTo(Integer.getInteger(rolemanagerids[j]));
+							criteria.andRolemanageridEqualTo(Integer.parseInt(rolemanagerids[j]));
 							RoleManager rolemanager = new RoleManager();
 							rolemanager.setRolestatus(json.getString("rolestatus"));
 							rolemanager.setModifier(manager.getManagerid());
@@ -1163,7 +1163,7 @@ public class ManagerServiceImpl implements IManagerService {
 						for(int j=0;j<authoritytypeids.length;j++) {
 							AuthorityTypeExample example  = new AuthorityTypeExample();
 							AuthorityTypeExample.Criteria criteria = example.createCriteria();
-							criteria.andAuthoritytypeidEqualTo(Integer.getInteger(authoritytypeids[j]));
+							criteria.andAuthoritytypeidEqualTo(Integer.parseInt(authoritytypeids[j]));
 							AuthorityType authoritytype = new AuthorityType();
 							authoritytype.setAuthoritytypestatus(json.getString("authoritytypestatus"));
 							authoritytype.setModifier(manager.getManagerid());
@@ -1205,7 +1205,7 @@ public class ManagerServiceImpl implements IManagerService {
 						for(int j=0;j<authoritymanagerids.length;j++) {
 							AuthorityManagerExample example  = new AuthorityManagerExample();
 							AuthorityManagerExample.Criteria criteria = example.createCriteria();
-							criteria.andAuthoritymanageridEqualTo(Integer.getInteger(authoritymanagerids[j]));
+							criteria.andAuthoritymanageridEqualTo(Integer.parseInt(authoritymanagerids[j]));
 							AuthorityManager authoritymanager = new AuthorityManager();
 							authoritymanager.setAuthoritymanagerstatus(json.getString("authoritymanagerstatus"));
 							authoritymanager.setModifier(manager.getManagerid());
@@ -1246,7 +1246,7 @@ public class ManagerServiceImpl implements IManagerService {
 						for(int j=0;j<roleandruleids.length;j++) {
 							RoleAndRuleExample example  = new RoleAndRuleExample();
 							RoleAndRuleExample.Criteria criteria = example.createCriteria();
-							criteria.andRoleandruleidEqualTo(Integer.getInteger(roleandruleids[j]));
+							criteria.andRoleandruleidEqualTo(Integer.parseInt(roleandruleids[j]));
 							RoleAndRule roleandrule = new RoleAndRule();
 							roleandrule.setRoleandrulestatus(json.getString("roleandrulestatus"));
 							roleandrule.setModifier(manager.getManagerid());
@@ -1279,7 +1279,7 @@ public class ManagerServiceImpl implements IManagerService {
 		if(message!=null&&!"".equals(message)) {
 			json = JSONObject.fromObject(message);
 			if(json.getString("managerid")!=null&&!"".equals(json.getString("managerid"))) {
-				Manager manager = manager_mapper.selectByPrimaryKey(Integer.getInteger(json.getString("managerid")));
+				Manager manager = manager_mapper.selectByPrimaryKey(Integer.parseInt(json.getString("managerid")));
 				if(manager!=null) {
 					obj.accumulate("manager", manager);
 					obj.accumulate("msg", IMyEnums.SUCCEED);
@@ -1363,7 +1363,7 @@ public class ManagerServiceImpl implements IManagerService {
 		if(message!=null&&!"".equals(message)) {
 			json = JSONObject.fromObject(message);
 			if(json.getString("rolemanagerid")!=null&&!"".equals("rolemanagerid")){
-				RoleManager rolemanager = role_manager_mapper.selectByPrimaryKey(Integer.getInteger(json.getString("rolemanagerid")));
+				RoleManager rolemanager = role_manager_mapper.selectByPrimaryKey(Integer.parseInt(json.getString("rolemanagerid")));
 				if(rolemanager!=null) {
 					obj.accumulate("rolemanager", rolemanager);
 					obj.accumulate("msg", IMyEnums.SUCCEED);
@@ -1389,7 +1389,7 @@ public class ManagerServiceImpl implements IManagerService {
 		if(message!=null&&!"".equals(message)) {
 			json = JSONObject.fromObject(message);
 			if(json.getString("authoritytypeid")!=null&&!"".equals("authoritytypeid")){
-				AuthorityType authoritytype = authority_type_mapper.selectByPrimaryKey(Integer.getInteger(json.getString("authoritytypeid")));
+				AuthorityType authoritytype = authority_type_mapper.selectByPrimaryKey(Integer.parseInt(json.getString("authoritytypeid")));
 				if(authoritytype!=null) {
 					obj.accumulate("authoritytype", authoritytype);
 					obj.accumulate("msg", IMyEnums.SUCCEED);
@@ -1415,7 +1415,7 @@ public class ManagerServiceImpl implements IManagerService {
 		if(message!=null&&!"".equals(message)) {
 			json = JSONObject.fromObject(message);
 			if(json.getString("authoritytypeid")!=null&&!"".equals("authoritytypeid")){
-				AuthorityManager authoritymanager = authority_manager_mapper.selectByPrimaryKey(Integer.getInteger(json.getString("authoritytypeid")));
+				AuthorityManager authoritymanager = authority_manager_mapper.selectByPrimaryKey(Integer.parseInt(json.getString("authoritytypeid")));
 				if(authoritymanager!=null) {
 					obj.accumulate("authoritymanager", authoritymanager);
 					obj.accumulate("msg", IMyEnums.SUCCEED);

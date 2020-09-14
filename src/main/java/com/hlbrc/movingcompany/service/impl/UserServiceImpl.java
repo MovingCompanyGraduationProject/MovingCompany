@@ -115,7 +115,7 @@ public class UserServiceImpl implements IUserService {
 			UserExample example = new UserExample();
 			UserExample.Criteria criteria = example.createCriteria();
 			json = JSONObject.fromObject(message);
-			criteria.andUseridEqualTo(Integer.getInteger(json.getString("userid")));
+			criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
 				obj.accumulate("user", JSONObject.fromObject(list.get(0)));
@@ -392,7 +392,7 @@ public class UserServiceImpl implements IUserService {
 				UserExample.Criteria criteria = example.createCriteria();
 				User user = new User();
 				json = JSONObject.fromObject(message);
-				criteria.andUseridEqualTo(Integer.getInteger(json.getString("userid")));
+				criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
 				user.setPassword(json.getString("password"));
 				user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
 				int i = user_mapper.updateByExampleSelective(user, example);
@@ -425,7 +425,7 @@ public class UserServiceImpl implements IUserService {
 				UserExample.Criteria criteria = example.createCriteria();
 				User user = new User();
 				json = JSONObject.fromObject(message);
-				criteria.andUseridEqualTo(Integer.getInteger(json.getString("userid")));
+				criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
 				user.setUserstate(json.getString("userstate"));
 				user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
 				int i = user_mapper.updateByExampleSelective(user, example);
@@ -462,7 +462,7 @@ public class UserServiceImpl implements IUserService {
 				int i = 0;
 				if(userids!=null&&userids.length>0) {
 					for(String id:userids) {
-						criteria.andUseridEqualTo(Integer.getInteger(id));
+						criteria.andUseridEqualTo(Integer.parseInt(id));
 						user.setUserstate(json.getString("userstate"));
 						user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
 						i += user_mapper.updateByExampleSelective(user, example);
