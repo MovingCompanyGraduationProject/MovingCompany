@@ -118,7 +118,7 @@ public class UserServiceImpl implements IUserService {
 			criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("user", JSONObject.fromObject(list.get(0)));
+				obj.accumulate("user", list.get(0));
 				obj.accumulate("msg", IMyEnums.SUCCEED);
 			}
 			else {
@@ -142,7 +142,7 @@ public class UserServiceImpl implements IUserService {
 			criteria.andUsertelEqualTo(json.getString("usertel"));
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("user", JSONObject.fromObject(list.get(0)));
+				obj.accumulate("user", list.get(0));
 				obj.accumulate("msg", IMyEnums.SUCCEED);
 			}
 			else {
@@ -166,7 +166,7 @@ public class UserServiceImpl implements IUserService {
 			criteria.andEmailEqualTo(json.getString("email"));
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("user", JSONObject.fromObject(list.get(0)));
+				obj.accumulate("user", list.get(0));
 				obj.accumulate("msg", IMyEnums.SUCCEED);
 			}
 			else {
@@ -254,7 +254,6 @@ public class UserServiceImpl implements IUserService {
 				UserExample.Criteria criteria = example.createCriteria();
 				json = JSONObject.fromObject(message);
 				criteria.andEmailEqualTo(json.getString("userid"));
-				json = JSONObject.fromObject(message);
 				AddressServiceImpl address = new AddressServiceImpl();
 				user.setAddress(address.getCityDis(json.getString("disId")));
 				String idnumber = json.getString("idnumber");
@@ -327,7 +326,7 @@ public class UserServiceImpl implements IUserService {
 			}
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("user", JSONObject.fromObject(list.get(0)));
+				obj.accumulate("user", list.get(0));
 				obj.accumulate("msg", IMyEnums.SUCCEED);
 			}
 			else {
@@ -367,7 +366,7 @@ public class UserServiceImpl implements IUserService {
 			}
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("user", JSONObject.fromObject(list.get(0)));
+				obj.accumulate("user", list.get(0));
 				obj.accumulate("msg", IMyEnums.SUCCEED);
 			}
 			else {
