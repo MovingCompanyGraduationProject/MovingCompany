@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hlbrc.movingcompany.mapper.ICompanyphotoMapper">
+  <resultMap id="BaseResultMap" type="com.hlbrc.movingcompany.entity.Companyphoto">
+    <id column="companyPhoto" jdbcType="INTEGER" property="companyphoto" />
+    <result column="CompanyMessageId" jdbcType="INTEGER" property="companymessageid" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="uploadTime" jdbcType="TIMESTAMP" property="uploadtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    companyPhoto, CompanyMessageId, path, uploadTime
+  </sql>
+  <select id="selectByExample" parameterType="com.hlbrc.movingcompany.entity.CompanyphotoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from companyphoto
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from companyphoto
+    where companyPhoto = #{companyphoto,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from companyphoto
+    where companyPhoto = #{companyphoto,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hlbrc.movingcompany.entity.CompanyphotoExample">
+    delete from companyphoto
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.Companyphoto">
+    insert into companyphoto (companyPhoto, CompanyMessageId, path, 
+      uploadTime)
+    values (#{companyphoto,jdbcType=INTEGER}, #{companymessageid,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, 
+      #{uploadtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.Companyphoto">
+    insert into companyphoto
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="companyphoto != null">
+        companyPhoto,
+      </if>
+      <if test="companymessageid != null">
+        CompanyMessageId,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="uploadtime != null">
+        uploadTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="companyphoto != null">
+        #{companyphoto,jdbcType=INTEGER},
+      </if>
+      <if test="companymessageid != null">
+        #{companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null">
+        #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hlbrc.movingcompany.entity.CompanyphotoExample" resultType="java.lang.Long">
+    select count(*) from companyphoto
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update companyphoto
+    <set>
+      <if test="record.companyphoto != null">
+        companyPhoto = #{record.companyphoto,jdbcType=INTEGER},
+      </if>
+      <if test="record.companymessageid != null">
+        CompanyMessageId = #{record.companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="record.path != null">
+        path = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadtime != null">
+        uploadTime = #{record.uploadtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update companyphoto
+    set companyPhoto = #{record.companyphoto,jdbcType=INTEGER},
+      CompanyMessageId = #{record.companymessageid,jdbcType=INTEGER},
+      path = #{record.path,jdbcType=VARCHAR},
+      uploadTime = #{record.uploadtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlbrc.movingcompany.entity.Companyphoto">
+    update companyphoto
+    <set>
+      <if test="companymessageid != null">
+        CompanyMessageId = #{companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null">
+        uploadTime = #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where companyPhoto = #{companyphoto,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hlbrc.movingcompany.entity.Companyphoto">
+    update companyphoto
+    set CompanyMessageId = #{companymessageid,jdbcType=INTEGER},
+      path = #{path,jdbcType=VARCHAR},
+      uploadTime = #{uploadtime,jdbcType=TIMESTAMP}
+    where companyPhoto = #{companyphoto,jdbcType=INTEGER}
+  </update>
+</mapper>

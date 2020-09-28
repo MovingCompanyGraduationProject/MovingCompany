@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hlbrc.movingcompany.mapper.IDistrictMapper">
+  <resultMap id="BaseResultMap" type="com.hlbrc.movingcompany.entity.District">
+    <id column="disId" jdbcType="INTEGER" property="disid" />
+    <result column="disName" jdbcType="VARCHAR" property="disname" />
+    <result column="citId" jdbcType="VARCHAR" property="citid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    disId, disName, citId
+  </sql>
+  <select id="selectByExample" parameterType="com.hlbrc.movingcompany.entity.DistrictExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from district
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from district
+    where disId = #{disid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from district
+    where disId = #{disid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hlbrc.movingcompany.entity.DistrictExample">
+    delete from district
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.District">
+    insert into district (disId, disName, citId
+      )
+    values (#{disid,jdbcType=INTEGER}, #{disname,jdbcType=VARCHAR}, #{citid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.District">
+    insert into district
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="disid != null">
+        disId,
+      </if>
+      <if test="disname != null">
+        disName,
+      </if>
+      <if test="citid != null">
+        citId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="disid != null">
+        #{disid,jdbcType=INTEGER},
+      </if>
+      <if test="disname != null">
+        #{disname,jdbcType=VARCHAR},
+      </if>
+      <if test="citid != null">
+        #{citid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hlbrc.movingcompany.entity.DistrictExample" resultType="java.lang.Long">
+    select count(*) from district
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update district
+    <set>
+      <if test="record.disid != null">
+        disId = #{record.disid,jdbcType=INTEGER},
+      </if>
+      <if test="record.disname != null">
+        disName = #{record.disname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.citid != null">
+        citId = #{record.citid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update district
+    set disId = #{record.disid,jdbcType=INTEGER},
+      disName = #{record.disname,jdbcType=VARCHAR},
+      citId = #{record.citid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlbrc.movingcompany.entity.District">
+    update district
+    <set>
+      <if test="disname != null">
+        disName = #{disname,jdbcType=VARCHAR},
+      </if>
+      <if test="citid != null">
+        citId = #{citid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where disId = #{disid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hlbrc.movingcompany.entity.District">
+    update district
+    set disName = #{disname,jdbcType=VARCHAR},
+      citId = #{citid,jdbcType=VARCHAR}
+    where disId = #{disid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hlbrc.movingcompany.mapper.IAppraiseMapper">
+  <resultMap id="BaseResultMap" type="com.hlbrc.movingcompany.entity.Appraise">
+    <id column="appraiseId" jdbcType="INTEGER" property="appraiseid" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="CompanyMessageId" jdbcType="INTEGER" property="companymessageid" />
+    <result column="overallMerit" jdbcType="VARCHAR" property="overallmerit" />
+    <result column="manner" jdbcType="VARCHAR" property="manner" />
+    <result column="fiducialPoint" jdbcType="VARCHAR" property="fiducialpoint" />
+    <result column="vehicleCondition" jdbcType="VARCHAR" property="vehiclecondition" />
+    <result column="contextCode" jdbcType="VARCHAR" property="contextcode" />
+    <result column="appraiseType" jdbcType="VARCHAR" property="appraisetype" />
+    <result column="likeNum" jdbcType="INTEGER" property="likenum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    appraiseId, userId, CompanyMessageId, overallMerit, manner, fiducialPoint, vehicleCondition, 
+    contextCode, appraiseType, likeNum
+  </sql>
+  <select id="selectByExample" parameterType="com.hlbrc.movingcompany.entity.AppraiseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from appraise
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from appraise
+    where appraiseId = #{appraiseid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from appraise
+    where appraiseId = #{appraiseid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hlbrc.movingcompany.entity.AppraiseExample">
+    delete from appraise
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.Appraise">
+    insert into appraise (appraiseId, userId, CompanyMessageId, 
+      overallMerit, manner, fiducialPoint, 
+      vehicleCondition, contextCode, appraiseType, 
+      likeNum)
+    values (#{appraiseid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{companymessageid,jdbcType=INTEGER}, 
+      #{overallmerit,jdbcType=VARCHAR}, #{manner,jdbcType=VARCHAR}, #{fiducialpoint,jdbcType=VARCHAR}, 
+      #{vehiclecondition,jdbcType=VARCHAR}, #{contextcode,jdbcType=VARCHAR}, #{appraisetype,jdbcType=VARCHAR}, 
+      #{likenum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.Appraise">
+    insert into appraise
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="appraiseid != null">
+        appraiseId,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="companymessageid != null">
+        CompanyMessageId,
+      </if>
+      <if test="overallmerit != null">
+        overallMerit,
+      </if>
+      <if test="manner != null">
+        manner,
+      </if>
+      <if test="fiducialpoint != null">
+        fiducialPoint,
+      </if>
+      <if test="vehiclecondition != null">
+        vehicleCondition,
+      </if>
+      <if test="contextcode != null">
+        contextCode,
+      </if>
+      <if test="appraisetype != null">
+        appraiseType,
+      </if>
+      <if test="likenum != null">
+        likeNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="appraiseid != null">
+        #{appraiseid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="companymessageid != null">
+        #{companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="overallmerit != null">
+        #{overallmerit,jdbcType=VARCHAR},
+      </if>
+      <if test="manner != null">
+        #{manner,jdbcType=VARCHAR},
+      </if>
+      <if test="fiducialpoint != null">
+        #{fiducialpoint,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclecondition != null">
+        #{vehiclecondition,jdbcType=VARCHAR},
+      </if>
+      <if test="contextcode != null">
+        #{contextcode,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisetype != null">
+        #{appraisetype,jdbcType=VARCHAR},
+      </if>
+      <if test="likenum != null">
+        #{likenum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hlbrc.movingcompany.entity.AppraiseExample" resultType="java.lang.Long">
+    select count(*) from appraise
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update appraise
+    <set>
+      <if test="record.appraiseid != null">
+        appraiseId = #{record.appraiseid,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.companymessageid != null">
+        CompanyMessageId = #{record.companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="record.overallmerit != null">
+        overallMerit = #{record.overallmerit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manner != null">
+        manner = #{record.manner,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fiducialpoint != null">
+        fiducialPoint = #{record.fiducialpoint,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehiclecondition != null">
+        vehicleCondition = #{record.vehiclecondition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contextcode != null">
+        contextCode = #{record.contextcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appraisetype != null">
+        appraiseType = #{record.appraisetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.likenum != null">
+        likeNum = #{record.likenum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update appraise
+    set appraiseId = #{record.appraiseid,jdbcType=INTEGER},
+      userId = #{record.userid,jdbcType=INTEGER},
+      CompanyMessageId = #{record.companymessageid,jdbcType=INTEGER},
+      overallMerit = #{record.overallmerit,jdbcType=VARCHAR},
+      manner = #{record.manner,jdbcType=VARCHAR},
+      fiducialPoint = #{record.fiducialpoint,jdbcType=VARCHAR},
+      vehicleCondition = #{record.vehiclecondition,jdbcType=VARCHAR},
+      contextCode = #{record.contextcode,jdbcType=VARCHAR},
+      appraiseType = #{record.appraisetype,jdbcType=VARCHAR},
+      likeNum = #{record.likenum,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlbrc.movingcompany.entity.Appraise">
+    update appraise
+    <set>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="companymessageid != null">
+        CompanyMessageId = #{companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="overallmerit != null">
+        overallMerit = #{overallmerit,jdbcType=VARCHAR},
+      </if>
+      <if test="manner != null">
+        manner = #{manner,jdbcType=VARCHAR},
+      </if>
+      <if test="fiducialpoint != null">
+        fiducialPoint = #{fiducialpoint,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclecondition != null">
+        vehicleCondition = #{vehiclecondition,jdbcType=VARCHAR},
+      </if>
+      <if test="contextcode != null">
+        contextCode = #{contextcode,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisetype != null">
+        appraiseType = #{appraisetype,jdbcType=VARCHAR},
+      </if>
+      <if test="likenum != null">
+        likeNum = #{likenum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where appraiseId = #{appraiseid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hlbrc.movingcompany.entity.Appraise">
+    update appraise
+    set userId = #{userid,jdbcType=INTEGER},
+      CompanyMessageId = #{companymessageid,jdbcType=INTEGER},
+      overallMerit = #{overallmerit,jdbcType=VARCHAR},
+      manner = #{manner,jdbcType=VARCHAR},
+      fiducialPoint = #{fiducialpoint,jdbcType=VARCHAR},
+      vehicleCondition = #{vehiclecondition,jdbcType=VARCHAR},
+      contextCode = #{contextcode,jdbcType=VARCHAR},
+      appraiseType = #{appraisetype,jdbcType=VARCHAR},
+      likeNum = #{likenum,jdbcType=INTEGER}
+    where appraiseId = #{appraiseid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hlbrc.movingcompany.mapper.ICarmessageMapper">
+  <resultMap id="BaseResultMap" type="com.hlbrc.movingcompany.entity.Carmessage">
+    <id column="carMessageId" jdbcType="INTEGER" property="carmessageid" />
+    <result column="CompanyMessageId" jdbcType="INTEGER" property="companymessageid" />
+    <result column="carTypeId" jdbcType="INTEGER" property="cartypeid" />
+    <result column="customNum" jdbcType="VARCHAR" property="customnum" />
+    <result column="licenseNum" jdbcType="VARCHAR" property="licensenum" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="GPSNum" jdbcType="VARCHAR" property="gpsnum" />
+    <result column="tonnage" jdbcType="DOUBLE" property="tonnage" />
+    <result column="carState" jdbcType="VARCHAR" property="carstate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    carMessageId, CompanyMessageId, carTypeId, customNum, licenseNum, brand, GPSNum, 
+    tonnage, carState, remark, money, createTime, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.hlbrc.movingcompany.entity.CarmessageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from carmessage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from carmessage
+    where carMessageId = #{carmessageid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from carmessage
+    where carMessageId = #{carmessageid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hlbrc.movingcompany.entity.CarmessageExample">
+    delete from carmessage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.Carmessage">
+    insert into carmessage (carMessageId, CompanyMessageId, carTypeId, 
+      customNum, licenseNum, brand, 
+      GPSNum, tonnage, carState, 
+      remark, money, createTime, 
+      updateTime)
+    values (#{carmessageid,jdbcType=INTEGER}, #{companymessageid,jdbcType=INTEGER}, #{cartypeid,jdbcType=INTEGER}, 
+      #{customnum,jdbcType=VARCHAR}, #{licensenum,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
+      #{gpsnum,jdbcType=VARCHAR}, #{tonnage,jdbcType=DOUBLE}, #{carstate,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{money,jdbcType=DOUBLE}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.Carmessage">
+    insert into carmessage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="carmessageid != null">
+        carMessageId,
+      </if>
+      <if test="companymessageid != null">
+        CompanyMessageId,
+      </if>
+      <if test="cartypeid != null">
+        carTypeId,
+      </if>
+      <if test="customnum != null">
+        customNum,
+      </if>
+      <if test="licensenum != null">
+        licenseNum,
+      </if>
+      <if test="brand != null">
+        brand,
+      </if>
+      <if test="gpsnum != null">
+        GPSNum,
+      </if>
+      <if test="tonnage != null">
+        tonnage,
+      </if>
+      <if test="carstate != null">
+        carState,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="carmessageid != null">
+        #{carmessageid,jdbcType=INTEGER},
+      </if>
+      <if test="companymessageid != null">
+        #{companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="cartypeid != null">
+        #{cartypeid,jdbcType=INTEGER},
+      </if>
+      <if test="customnum != null">
+        #{customnum,jdbcType=VARCHAR},
+      </if>
+      <if test="licensenum != null">
+        #{licensenum,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsnum != null">
+        #{gpsnum,jdbcType=VARCHAR},
+      </if>
+      <if test="tonnage != null">
+        #{tonnage,jdbcType=DOUBLE},
+      </if>
+      <if test="carstate != null">
+        #{carstate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hlbrc.movingcompany.entity.CarmessageExample" resultType="java.lang.Long">
+    select count(*) from carmessage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update carmessage
+    <set>
+      <if test="record.carmessageid != null">
+        carMessageId = #{record.carmessageid,jdbcType=INTEGER},
+      </if>
+      <if test="record.companymessageid != null">
+        CompanyMessageId = #{record.companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cartypeid != null">
+        carTypeId = #{record.cartypeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.customnum != null">
+        customNum = #{record.customnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.licensenum != null">
+        licenseNum = #{record.licensenum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brand != null">
+        brand = #{record.brand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gpsnum != null">
+        GPSNum = #{record.gpsnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tonnage != null">
+        tonnage = #{record.tonnage,jdbcType=DOUBLE},
+      </if>
+      <if test="record.carstate != null">
+        carState = #{record.carstate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=DOUBLE},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update carmessage
+    set carMessageId = #{record.carmessageid,jdbcType=INTEGER},
+      CompanyMessageId = #{record.companymessageid,jdbcType=INTEGER},
+      carTypeId = #{record.cartypeid,jdbcType=INTEGER},
+      customNum = #{record.customnum,jdbcType=VARCHAR},
+      licenseNum = #{record.licensenum,jdbcType=VARCHAR},
+      brand = #{record.brand,jdbcType=VARCHAR},
+      GPSNum = #{record.gpsnum,jdbcType=VARCHAR},
+      tonnage = #{record.tonnage,jdbcType=DOUBLE},
+      carState = #{record.carstate,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      money = #{record.money,jdbcType=DOUBLE},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlbrc.movingcompany.entity.Carmessage">
+    update carmessage
+    <set>
+      <if test="companymessageid != null">
+        CompanyMessageId = #{companymessageid,jdbcType=INTEGER},
+      </if>
+      <if test="cartypeid != null">
+        carTypeId = #{cartypeid,jdbcType=INTEGER},
+      </if>
+      <if test="customnum != null">
+        customNum = #{customnum,jdbcType=VARCHAR},
+      </if>
+      <if test="licensenum != null">
+        licenseNum = #{licensenum,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsnum != null">
+        GPSNum = #{gpsnum,jdbcType=VARCHAR},
+      </if>
+      <if test="tonnage != null">
+        tonnage = #{tonnage,jdbcType=DOUBLE},
+      </if>
+      <if test="carstate != null">
+        carState = #{carstate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where carMessageId = #{carmessageid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hlbrc.movingcompany.entity.Carmessage">
+    update carmessage
+    set CompanyMessageId = #{companymessageid,jdbcType=INTEGER},
+      carTypeId = #{cartypeid,jdbcType=INTEGER},
+      customNum = #{customnum,jdbcType=VARCHAR},
+      licenseNum = #{licensenum,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=VARCHAR},
+      GPSNum = #{gpsnum,jdbcType=VARCHAR},
+      tonnage = #{tonnage,jdbcType=DOUBLE},
+      carState = #{carstate,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DOUBLE},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where carMessageId = #{carmessageid,jdbcType=INTEGER}
+  </update>
+</mapper>
