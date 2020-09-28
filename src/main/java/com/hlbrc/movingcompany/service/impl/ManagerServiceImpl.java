@@ -62,14 +62,14 @@ public class ManagerServiceImpl implements IManagerService {
 			List<Manager> list = manager_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
 				session.setAttribute("manager", list.get(0));
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -100,7 +100,7 @@ public class ManagerServiceImpl implements IManagerService {
 			}
 			List<Manager> list = manager_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+				obj.put("msg", IMyEnums.SUCCEED);
 				for(Manager m:list) {
 					RoleAndRuleExample rexample = new RoleAndRuleExample();
 					RoleAndRuleExample.Criteria rcriteria = rexample.createCriteria();
@@ -130,14 +130,14 @@ public class ManagerServiceImpl implements IManagerService {
 					}
 				}
 				JSONArray jsonarray = JSONArray.fromObject(list);
-				obj.accumulate("jsonarray", jsonarray);
+				obj.put("jsonarray", jsonarray);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		System.err.println("qwe:"+obj.toString());
 		return obj.toString();
@@ -167,15 +167,15 @@ public class ManagerServiceImpl implements IManagerService {
 	        			r.setRolestatus("已停用");
 	        		}
 	        	}
-	        	obj.accumulate("role", list.get(0));
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+	        	obj.put("role", list.get(0));
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -196,15 +196,15 @@ public class ManagerServiceImpl implements IManagerService {
 	        }
 	        List<AuthorityType> list = authority_type_mapper.selectByExample(example);
 	        if(list!=null&&list.size()>0) {
-	        	obj.accumulate("authoritytype", list.get(0));
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+	        	obj.put("authoritytype", list.get(0));
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -228,15 +228,15 @@ public class ManagerServiceImpl implements IManagerService {
 	        }
 	        List<AuthorityManager> list = authority_manager_mapper.selectByExample(example);
 	        if(list!=null&&list.size()>0) {
-	        	obj.accumulate("authority", list.get(0));
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+	        	obj.put("authority", list.get(0));
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -279,15 +279,15 @@ public class ManagerServiceImpl implements IManagerService {
 			}
 	        List<RoleAndRule> list = role_and_rule_mapper.selectByExample(example);
 	        if(list!=null&&list.size()>0) {
-	        	obj.accumulate("authoritymanager", list.get(0));
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+	        	obj.put("authoritymanager", list.get(0));
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -311,7 +311,7 @@ public class ManagerServiceImpl implements IManagerService {
 				criteria.andTelEqualTo(json.getString("tel"));
 				List<Manager> list = manager_mapper.selectByExample(example);
 				if(list!=null&&list.size()>0) {
-					obj.accumulate("msg", IMyEnums.TEL_ALREADY_EXISTS);
+					obj.put("msg", IMyEnums.TEL_ALREADY_EXISTS);
 					return obj.toString();
 				}
 				manager.setTel(json.getString("tel"));
@@ -325,7 +325,7 @@ public class ManagerServiceImpl implements IManagerService {
 					id = manager_mapper.selectByExample(example).get(0).getManagerid();
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 					return obj.toString();
 				}
 				String[] rolemanagerids = null;
@@ -342,18 +342,18 @@ public class ManagerServiceImpl implements IManagerService {
 					}
 				}
 				if(i>=rolemanagerids.length) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -375,7 +375,7 @@ public class ManagerServiceImpl implements IManagerService {
 				criteria.andRolenameEqualTo(json.getString("rolename"));
 				List<RoleManager> list = role_manager_mapper.selectByExample(example);
 				if(list!=null&&list.size()>0) {
-					obj.accumulate("msg", IMyEnums.ROSE_NAME_ALREADY_EXISTS);
+					obj.put("msg", IMyEnums.ROSE_NAME_ALREADY_EXISTS);
 					return obj.toString();
 				}
 				rose.setRolename(json.getString("rolename"));
@@ -390,7 +390,7 @@ public class ManagerServiceImpl implements IManagerService {
 					id = role_manager_mapper.selectByExample(example).get(0).getRolemanagerid();
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 					return obj.toString();
 				}
 				if(!"".equals(json.getString("authoritymanagerids"))) {
@@ -406,18 +406,18 @@ public class ManagerServiceImpl implements IManagerService {
 					}
 				}
 				if(i>=authoritymanagerids.length) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -436,7 +436,7 @@ public class ManagerServiceImpl implements IManagerService {
 				criteria.andAuthoritynameEqualTo(json.getString("authorityname"));
 				List<AuthorityType> list = authority_type_mapper.selectByExample(example);
 				if(list!=null&&list.size()>0) {
-					obj.accumulate("msg", IMyEnums.AUTHORITY_TYPE_NAME_ALREADY_EXISTS);
+					obj.put("msg", IMyEnums.AUTHORITY_TYPE_NAME_ALREADY_EXISTS);
 					return obj.toString();
 				}
 				authoritype.setAuthorityname(json.getString("authorityname"));
@@ -445,18 +445,18 @@ public class ManagerServiceImpl implements IManagerService {
 				authoritype.setAuthoritytypestatus(IMyEnums.NORMAL);
 				int i = authority_type_mapper.insertSelective(authoritype);
 				if(i>0) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -475,7 +475,7 @@ public class ManagerServiceImpl implements IManagerService {
 				criteria.andAuthoritynameEqualTo(json.getString("authorityname"));
 				List<AuthorityManager> list = authority_manager_mapper.selectByExample(example);
 				if(list!=null&&list.size()>0) {
-					obj.accumulate("msg", IMyEnums.AUTHORITY_NAME_ALREADY_EXISTS);
+					obj.put("msg", IMyEnums.AUTHORITY_NAME_ALREADY_EXISTS);
 					return obj.toString();
 				}
 				authoritymanager.setAuthorityname(json.getString("authorityname"));
@@ -486,18 +486,18 @@ public class ManagerServiceImpl implements IManagerService {
 				authoritymanager.setAuthoritymanagerstatus(IMyEnums.NORMAL);
 				int i = authority_manager_mapper.insertSelective(authoritymanager);
 				if(i>0) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -518,18 +518,18 @@ public class ManagerServiceImpl implements IManagerService {
 				roleandrule.setRolemanagerid(Integer.parseInt(json.getString("rolemanagerid")));
 				int i = role_and_rule_mapper.insertSelective(roleandrule);
 				if(i>0) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -558,7 +558,7 @@ public class ManagerServiceImpl implements IManagerService {
 					criteria.andTelEqualTo(json.getString("tel"));
 					List<Manager> list = manager_mapper.selectByExample(example);
 					if(list!=null&&list.size()>0) {
-						obj.accumulate("msg", IMyEnums.TEL_ALREADY_EXISTS);
+						obj.put("msg", IMyEnums.TEL_ALREADY_EXISTS);
 						return obj.toString();
 					}
 					manager.setTel(json.getString("tel"));
@@ -639,18 +639,18 @@ public class ManagerServiceImpl implements IManagerService {
 					}
 				}
 				if(i>0) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -678,7 +678,7 @@ public class ManagerServiceImpl implements IManagerService {
 					criteria.andRolenameEqualTo(json.getString("rolename"));
 					List<RoleManager> list = role_manager_mapper.selectByExample(example);
 					if(list!=null&&list.size()>0) {
-						obj.accumulate("msg", IMyEnums.ROSE_NAME_ALREADY_EXISTS);
+						obj.put("msg", IMyEnums.ROSE_NAME_ALREADY_EXISTS);
 						return obj.toString();
 					}
 					rolemanager.setRolename(json.getString("rolename"));
@@ -752,18 +752,18 @@ public class ManagerServiceImpl implements IManagerService {
 					}
 				}
 				if(i>0) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -783,7 +783,7 @@ public class ManagerServiceImpl implements IManagerService {
 					criteria.andAuthoritynameEqualTo(json.getString("authorityname"));
 					List<AuthorityType> list = authority_type_mapper.selectByExample(example);
 					if(list!=null&&list.size()>0) {
-						obj.accumulate("msg", IMyEnums.AUTHORITY_TYPE_NAME_ALREADY_EXISTS);
+						obj.put("msg", IMyEnums.AUTHORITY_TYPE_NAME_ALREADY_EXISTS);
 						return obj.toString();
 					}
 					authoritytype.setAuthorityname(json.getString("authorityname"));
@@ -798,18 +798,18 @@ public class ManagerServiceImpl implements IManagerService {
 				criteria.andAuthoritytypeidEqualTo(Integer.parseInt(json.getString("authoritytypeid")));
 				int i = authority_type_mapper.updateByExampleSelective(authoritytype, example);
 				if(i>0) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -829,7 +829,7 @@ public class ManagerServiceImpl implements IManagerService {
 					criteria.andAuthorityruleEqualTo(json.getString("authorityrule"));
 					List<AuthorityManager> list = authority_manager_mapper.selectByExample(example);
 					if(list!=null&&list.size()>0) {
-						obj.accumulate("msg", IMyEnums.AUTHORITY_ALREADY_EXISTS);
+						obj.put("msg", IMyEnums.AUTHORITY_ALREADY_EXISTS);
 						return obj.toString();
 					}
 					authoritymanager.setAuthorityrule(json.getString("authorityrule"));
@@ -840,7 +840,7 @@ public class ManagerServiceImpl implements IManagerService {
 					criteria.andAuthorityruleEqualTo(json.getString("authorityname"));
 					List<AuthorityManager> list = authority_manager_mapper.selectByExample(example);
 					if(list!=null&&list.size()>0) {
-						obj.accumulate("msg", IMyEnums.AUTHORITY_NAME_ALREADY_EXISTS);
+						obj.put("msg", IMyEnums.AUTHORITY_NAME_ALREADY_EXISTS);
 						return obj.toString();
 					}
 					authoritymanager.setAuthorityname(json.getString("authorityname"));
@@ -855,18 +855,18 @@ public class ManagerServiceImpl implements IManagerService {
 				}
 				int i = authority_manager_mapper.updateByExampleSelective(authoritymanager, example);
 				if(i>0) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -881,11 +881,11 @@ public class ManagerServiceImpl implements IManagerService {
 				json = JSONObject.fromObject(message);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -908,19 +908,19 @@ public class ManagerServiceImpl implements IManagerService {
 					manager.setUpdatetime(new Date());
 					int i = manager_mapper.updateByExampleSelective(manager, example);
 					if(i>0) {
-						obj.accumulate("msg", IMyEnums.SUCCEED);
+						obj.put("msg", IMyEnums.SUCCEED);
 					}
 					else {
-						obj.accumulate("msg", IMyEnums.FAIL);
+						obj.put("msg", IMyEnums.FAIL);
 					}
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -943,19 +943,19 @@ public class ManagerServiceImpl implements IManagerService {
 					rolemanager.setUpdatetime(new Date());
 					int i = role_manager_mapper.updateByExampleSelective(rolemanager, example);
 					if(i>0) {
-						obj.accumulate("msg", IMyEnums.SUCCEED);
+						obj.put("msg", IMyEnums.SUCCEED);
 					}
 					else {
-						obj.accumulate("msg", IMyEnums.FAIL);
+						obj.put("msg", IMyEnums.FAIL);
 					}
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -978,19 +978,19 @@ public class ManagerServiceImpl implements IManagerService {
 					authoritytype.setUpdatetime(new Date());
 					int i = authority_type_mapper.updateByExampleSelective(authoritytype, example);
 					if(i>0) {
-						obj.accumulate("msg", IMyEnums.SUCCEED);
+						obj.put("msg", IMyEnums.SUCCEED);
 					}
 					else {
-						obj.accumulate("msg", IMyEnums.FAIL);
+						obj.put("msg", IMyEnums.FAIL);
 					}
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1013,19 +1013,19 @@ public class ManagerServiceImpl implements IManagerService {
 					authoritymanager.setUpdatetime(new Date());
 					int i = authority_manager_mapper.updateByExampleSelective(authoritymanager, example);
 					if(i>0) {
-						obj.accumulate("msg", IMyEnums.SUCCEED);
+						obj.put("msg", IMyEnums.SUCCEED);
 					}
 					else {
-						obj.accumulate("msg", IMyEnums.FAIL);
+						obj.put("msg", IMyEnums.FAIL);
 					}
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1048,19 +1048,19 @@ public class ManagerServiceImpl implements IManagerService {
 					roleandrule.setUpdatetime(new Date());
 					int i = role_and_rule_mapper.updateByExampleSelective(roleandrule, example);
 					if(i>0) {
-						obj.accumulate("msg", IMyEnums.SUCCEED);
+						obj.put("msg", IMyEnums.SUCCEED);
 					}
 					else {
-						obj.accumulate("msg", IMyEnums.FAIL);
+						obj.put("msg", IMyEnums.FAIL);
 					}
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1089,20 +1089,20 @@ public class ManagerServiceImpl implements IManagerService {
 						}
 					}
 					if(i>0) {
-						obj.accumulate("msg", IMyEnums.SUCCEED);
+						obj.put("msg", IMyEnums.SUCCEED);
 					}
 					else {
-						obj.accumulate("msg", IMyEnums.FAIL);
+						obj.put("msg", IMyEnums.FAIL);
 					}
 					
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1131,19 +1131,19 @@ public class ManagerServiceImpl implements IManagerService {
 						}
 					}
 					if(i>0) {
-						obj.accumulate("msg", IMyEnums.SUCCEED);
+						obj.put("msg", IMyEnums.SUCCEED);
 					}
 					else {
-						obj.accumulate("msg", IMyEnums.FAIL);
+						obj.put("msg", IMyEnums.FAIL);
 					}
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1173,19 +1173,19 @@ public class ManagerServiceImpl implements IManagerService {
 					}
 					
 					if(i>0) {
-						obj.accumulate("msg", IMyEnums.SUCCEED);
+						obj.put("msg", IMyEnums.SUCCEED);
 					}
 					else {
-						obj.accumulate("msg", IMyEnums.FAIL);
+						obj.put("msg", IMyEnums.FAIL);
 					}
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1214,19 +1214,19 @@ public class ManagerServiceImpl implements IManagerService {
 						}
 					}
 					if(i>0) {
-						obj.accumulate("msg", IMyEnums.SUCCEED);
+						obj.put("msg", IMyEnums.SUCCEED);
 					}
 					else {
-						obj.accumulate("msg", IMyEnums.FAIL);
+						obj.put("msg", IMyEnums.FAIL);
 					}
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1255,19 +1255,19 @@ public class ManagerServiceImpl implements IManagerService {
 						}
 					}
 					if(i>0) {
-						obj.accumulate("msg", IMyEnums.SUCCEED);
+						obj.put("msg", IMyEnums.SUCCEED);
 					}
 					else {
-						obj.accumulate("msg", IMyEnums.FAIL);
+						obj.put("msg", IMyEnums.FAIL);
 					}
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1281,19 +1281,19 @@ public class ManagerServiceImpl implements IManagerService {
 			if(json.getString("managerid")!=null&&!"".equals(json.getString("managerid"))) {
 				Manager manager = manager_mapper.selectByPrimaryKey(Integer.parseInt(json.getString("managerid")));
 				if(manager!=null) {
-					obj.accumulate("manager", manager);
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("manager", manager);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1310,19 +1310,19 @@ public class ManagerServiceImpl implements IManagerService {
 				criteria.andTelEqualTo(json.getString("tel"));
 				Manager manager = manager_mapper.selectByExample(example).get(0);
 				if(manager!=null) {
-					obj.accumulate("manager", manager);
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("manager", manager);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1339,19 +1339,19 @@ public class ManagerServiceImpl implements IManagerService {
 				criteria.andEmailEqualTo(json.getString("email"));
 				Manager manager = manager_mapper.selectByExample(example).get(0);
 				if(manager!=null) {
-					obj.accumulate("manager", manager);
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("manager", manager);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1365,19 +1365,19 @@ public class ManagerServiceImpl implements IManagerService {
 			if(json.getString("rolemanagerid")!=null&&!"".equals("rolemanagerid")){
 				RoleManager rolemanager = role_manager_mapper.selectByPrimaryKey(Integer.parseInt(json.getString("rolemanagerid")));
 				if(rolemanager!=null) {
-					obj.accumulate("rolemanager", rolemanager);
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("rolemanager", rolemanager);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1391,19 +1391,19 @@ public class ManagerServiceImpl implements IManagerService {
 			if(json.getString("authoritytypeid")!=null&&!"".equals("authoritytypeid")){
 				AuthorityType authoritytype = authority_type_mapper.selectByPrimaryKey(Integer.parseInt(json.getString("authoritytypeid")));
 				if(authoritytype!=null) {
-					obj.accumulate("authoritytype", authoritytype);
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("authoritytype", authoritytype);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -1417,19 +1417,19 @@ public class ManagerServiceImpl implements IManagerService {
 			if(json.getString("authoritytypeid")!=null&&!"".equals("authoritytypeid")){
 				AuthorityManager authoritymanager = authority_manager_mapper.selectByPrimaryKey(Integer.parseInt(json.getString("authoritytypeid")));
 				if(authoritymanager!=null) {
-					obj.accumulate("authoritymanager", authoritymanager);
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("authoritymanager", authoritymanager);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}

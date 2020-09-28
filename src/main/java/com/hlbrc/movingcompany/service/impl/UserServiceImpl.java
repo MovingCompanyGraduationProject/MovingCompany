@@ -43,14 +43,14 @@ public class UserServiceImpl implements IUserService {
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
 				session.setAttribute("user", list.get(0));
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -81,7 +81,7 @@ public class UserServiceImpl implements IUserService {
 			}
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+				obj.put("msg", IMyEnums.SUCCEED);
 				for(User m:list) {
 					AddressServiceImpl address = new AddressServiceImpl();
 					m.setAddress(address.getProCity(m.getDisid()+""));
@@ -94,14 +94,14 @@ public class UserServiceImpl implements IUserService {
 					}
 				}
 				JSONArray jsonarray = JSONArray.fromObject(list);
-				obj.accumulate("jsonarray", jsonarray);
+				obj.put("jsonarray", jsonarray);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		System.err.println("qwe:"+obj.toString());
 		return obj.toString();
@@ -118,15 +118,15 @@ public class UserServiceImpl implements IUserService {
 			criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("user", list.get(0));
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+				obj.put("user", list.get(0));
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -142,15 +142,15 @@ public class UserServiceImpl implements IUserService {
 			criteria.andUsertelEqualTo(json.getString("usertel"));
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("user", list.get(0));
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+				obj.put("user", list.get(0));
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -166,15 +166,15 @@ public class UserServiceImpl implements IUserService {
 			criteria.andEmailEqualTo(json.getString("email"));
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("user", list.get(0));
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+				obj.put("user", list.get(0));
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -194,7 +194,7 @@ public class UserServiceImpl implements IUserService {
 				criteria.andUsertelEqualTo(json.getString("usertel"));
 				List<User> list = user_mapper.selectByExample(example);
 				if(list!=null&&list.size()>0) {
-					obj.accumulate("msg", IMyEnums.TEL_ALREADY_EXISTS);
+					obj.put("msg", IMyEnums.TEL_ALREADY_EXISTS);
 					return obj.toString();
 				}
 				user.setAddress(json.getString("disId"));
@@ -225,18 +225,18 @@ public class UserServiceImpl implements IUserService {
 				user.setUsertel(json.getString("usertel"));
 				int i = user_mapper.insertSelective(user);
 				if(i>0) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -283,18 +283,18 @@ public class UserServiceImpl implements IUserService {
 				user.setUsertel(json.getString("usertel"));
 				int i = user_mapper.updateByExampleSelective(user, example);
 				if(i>0) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -326,15 +326,15 @@ public class UserServiceImpl implements IUserService {
 			}
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("user", list.get(0));
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+				obj.put("user", list.get(0));
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -366,15 +366,15 @@ public class UserServiceImpl implements IUserService {
 			}
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.accumulate("user", list.get(0));
-				obj.accumulate("msg", IMyEnums.SUCCEED);
+				obj.put("user", list.get(0));
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -396,18 +396,18 @@ public class UserServiceImpl implements IUserService {
 				user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
 				int i = user_mapper.updateByExampleSelective(user, example);
 				if(i>0) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -429,18 +429,18 @@ public class UserServiceImpl implements IUserService {
 				user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
 				int i = user_mapper.updateByExampleSelective(user, example);
 				if(i>0) {
-					obj.accumulate("msg", IMyEnums.SUCCEED);
+					obj.put("msg", IMyEnums.SUCCEED);
 				}
 				else {
-					obj.accumulate("msg", IMyEnums.FAIL);
+					obj.put("msg", IMyEnums.FAIL);
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}
@@ -467,19 +467,19 @@ public class UserServiceImpl implements IUserService {
 						i += user_mapper.updateByExampleSelective(user, example);
 					}
 					if(i>0) {
-						obj.accumulate("msg", IMyEnums.SUCCEED);
+						obj.put("msg", IMyEnums.SUCCEED);
 					}
 					else {
-						obj.accumulate("msg", IMyEnums.FAIL);
+						obj.put("msg", IMyEnums.FAIL);
 					}
 				}
 			}
 			else {
-				obj.accumulate("msg", IMyEnums.FAIL);
+				obj.put("msg", IMyEnums.FAIL);
 			}
 		}
 		else {
-			obj.accumulate("msg", IMyEnums.FAIL);
+			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
 	}

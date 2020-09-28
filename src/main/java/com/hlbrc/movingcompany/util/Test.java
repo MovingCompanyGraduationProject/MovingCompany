@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.hlbrc.movingcompany.entity.City;
-import com.hlbrc.movingcompany.enums.IMyEnums;
 
 import net.sf.json.JSONObject;
 
