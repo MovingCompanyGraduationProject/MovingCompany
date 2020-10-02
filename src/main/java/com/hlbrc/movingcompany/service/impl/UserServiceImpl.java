@@ -43,6 +43,7 @@ public class UserServiceImpl implements IUserService {
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
 				session.setAttribute("user", list.get(0));
+				obj.put("user", list.get(0));
 				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {

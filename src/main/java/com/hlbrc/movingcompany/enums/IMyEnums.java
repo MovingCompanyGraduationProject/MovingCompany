@@ -37,6 +37,7 @@ public interface IMyEnums {
     public final static String ORDER_REFUND = "5";
     /**完成*/
     public final static String ORDER_FINISHED = "6";
+    
     /**
 	 * 地址状态
 	 */
@@ -46,8 +47,9 @@ public interface IMyEnums {
 	public final static int ADDRESS_DEFAULT = 1;
 	/**该地址已删除*/
 	public final static int ADDRESS_DEL = 2;
-    /**
-               * 提示信息
+	
+	 /**
+	  * 提示信息
      */
     /**成功*/
     public final static String SUCCEED = "ok";
@@ -71,4 +73,20 @@ public interface IMyEnums {
     public final static String AUTHORITY_NAME_ALREADY_EXISTS = "no_7";
     /**权限规则已存在*/
     public final static String AUTHORITY_ALREADY_EXISTS = "no_8";
+    /**管理员名称重复*/
+    public final static String ADMINISTRATOR_NAME_ALREADY_EXISTS = "no_9";
+    /**用户未登录*/
+    public final static String USER_NOT_LOGIN = "no_10";
+    /**邮箱地址不存在*/
+    public final static String EMAIL_NOT_ALREADY_EXISTS = "no_11";
+    
+    /**
+               * 验证码状态
+     */
+    /**验证码正常*/
+    public final static String CODE_NORMAL = "NORMAL";
+    /**验证码失效*/
+    public final static String CODE_LOSE_EFFICAAY = "LOSE_EFFICAAY";
+    /**验证码错误*/
+    public final static String CODE_ERROR = "ERROR";
 }

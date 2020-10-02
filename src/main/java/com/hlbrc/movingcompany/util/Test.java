@@ -29,6 +29,13 @@ public class Test {
     	obj.accumulate("msg", "ok");
     	obj.accumulate("city", list.get(0));
     	System.out.println(obj.toString());
+    	
+    	String str = "<li class=\"py-2 border-top\"> \r\n" + 
+    			"						<a href=\"https://bj.qgbjvip.com/article/4876.html\" title=\"北京西城区搬家哪个好？\" target=\"_blank\" class=\"text-dark position-relative d-flex align-items-center pr-2\"> \r\n" + 
+    			"							<span></span> 北京西城区搬家哪个好？ \r\n" + 
+    			"							<img src=\"images/home_right.png\" alt=\"北京西城区搬家哪个好？\" class=\"index-news-ul-rightimg position-absolute\">\r\n" + 
+    			"						</a> \r\n" + 
+    			"					</li>";
     }
     
 }
