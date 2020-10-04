@@ -79,9 +79,11 @@ public interface IMyEnums {
     public final static String USER_NOT_LOGIN = "no_10";
     /**邮箱地址不存在*/
     public final static String EMAIL_NOT_ALREADY_EXISTS = "no_11";
+    /**用户名已存在*/
+    public final static String USERNAME_ALREADY_EXISTS = "no_12";
     
     /**
-               * 验证码状态
+     * 验证码状态
      */
     /**验证码正常*/
     public final static String CODE_NORMAL = "NORMAL";
@@ -89,4 +91,12 @@ public interface IMyEnums {
     public final static String CODE_LOSE_EFFICAAY = "LOSE_EFFICAAY";
     /**验证码错误*/
     public final static String CODE_ERROR = "ERROR";
+    
+    /**
+     * 留言类别
+     */
+    /**商家入驻*/
+    public final static String LEAVE_MESSAGE_ENTER = "ENTER";
+    /**城市合作*/
+    public final static String LEAVE_MESSAGE_COOPERATION = "COOPERATION";
 }

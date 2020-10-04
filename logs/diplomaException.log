@@ -1,0 +1,9 @@
+2020-10-03 12:55:48 com.hlbrc.movingcompany.controller.MainController.checkUserName(MainController.java:181) MainController.java DEBUG 校验该用户名是否已存在失败：JSONObject["email"] not found.
+2020-10-03 12:56:44 com.hlbrc.movingcompany.controller.MainController.checkUserName(MainController.java:181) MainController.java DEBUG 校验该用户名是否已存在失败：JSONObject["email"] not found.
+2020-10-03 12:58:50 com.hlbrc.movingcompany.controller.MainController.checkUserName(MainController.java:181) MainController.java DEBUG 校验该用户名是否已存在失败：JSONObject["email"] not found.
+2020-10-03 12:59:15 com.hlbrc.movingcompany.controller.MainController.checkUserName(MainController.java:181) MainController.java DEBUG 校验该用户名是否已存在失败：JSONObject["email"] not found.
+2020-10-03 12:59:20 com.hlbrc.movingcompany.controller.MainController.checkUserName(MainController.java:181) MainController.java DEBUG 校验该用户名是否已存在失败：JSONObject["email"] not found.
+2020-10-03 12:59:30 com.hlbrc.movingcompany.controller.MainController.checkUserName(MainController.java:181) MainController.java DEBUG 校验该用户名是否已存在失败：JSONObject["email"] not found.
+2020-10-03 12:59:52 com.hlbrc.movingcompany.controller.MainController.checkUserName(MainController.java:181) MainController.java DEBUG 校验该用户名是否已存在失败：JSONObject["email"] not found.
+2020-10-03 17:08:03 com.hlbrc.movingcompany.controller.UserController.userRegister(UserController.java:74) UserController.java DEBUG 用户注册失败：For input string: ""
+2020-10-03 17:09:51 com.hlbrc.movingcompany.controller.UserController.userRegister(UserController.java:75) UserController.java DEBUG 用户注册失败：For input string: ""

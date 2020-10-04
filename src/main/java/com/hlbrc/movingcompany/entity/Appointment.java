@@ -15,6 +15,8 @@ public class Appointment {
 
     private String tel;
 
+    private Integer servicetypeid;
+
     private Date movingtime;
 
     private Date createtime;
@@ -65,6 +67,14 @@ public class Appointment {
 
     public void setTel(String tel) {
         this.tel = tel == null ? null : tel.trim();
+    }
+
+    public Integer getServicetypeid() {
+        return servicetypeid;
+    }
+
+    public void setServicetypeid(Integer servicetypeid) {
+        this.servicetypeid = servicetypeid;
     }
 
     public Date getMovingtime() {

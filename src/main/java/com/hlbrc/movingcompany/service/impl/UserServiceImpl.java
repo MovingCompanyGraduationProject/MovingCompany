@@ -179,6 +179,30 @@ public class UserServiceImpl implements IUserService {
 		}
 		return obj.toString();
 	}
+	
+	@Override
+	public String queryuserByUserName(String message) {
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		if(message!=null&&!"".equals(message)) {
+			UserExample example = new UserExample();
+			UserExample.Criteria criteria = example.createCriteria();
+			json = JSONObject.fromObject(message);
+			criteria.andNameEqualTo(json.getString("username"));
+			List<User> list = user_mapper.selectByExample(example);
+			if(list!=null&&list.size()>0) {
+				obj.put("user", list.get(0));
+				obj.put("msg", IMyEnums.SUCCEED);
+			}
+			else {
+				obj.put("msg", IMyEnums.FAIL);
+			}
+		}
+		else {
+			obj.put("msg", IMyEnums.FAIL);
+		}
+		return obj.toString();
+	}
 
 	@Override
 	public String insertuser(String message, HttpSession session) {
@@ -239,6 +263,72 @@ public class UserServiceImpl implements IUserService {
 		else {
 			obj.put("msg", IMyEnums.FAIL);
 		}
+		return obj.toString();
+	}
+	
+	@Override
+	public String insertuser(String message) {
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		if(message!=null&&!"".equals(message)) {
+			json = JSONObject.fromObject(message);
+			User user = new User();
+			UserExample example = new UserExample();
+			UserExample.Criteria criteria = example.createCriteria();
+			criteria.andEmailEqualTo(json.getString("email"));
+			List<User> list = user_mapper.selectByExample(example);
+			if(list!=null&&list.size()>0) {
+				obj.put("msg", IMyEnums.EMAIL_ALREADY_EXISTS);
+				return obj.toString();
+			}
+			example = new UserExample();
+			criteria = example.createCriteria();
+			criteria.andNameEqualTo(json.getString("name"));
+			List<User> list1 = user_mapper.selectByExample(example);
+			if(list1!=null&&list1.size()>0) {
+				obj.put("msg", IMyEnums.USERNAME_ALREADY_EXISTS);
+				return obj.toString();
+			}
+			user.setAddress(json.getString("disId"));
+			String idnumber = json.getString("idnumber");
+			if(idnumber!=null&&!"".equals(idnumber)) {
+//				String birthday=idnumber.substring(6,14);
+				int day=Integer.parseInt(idnumber.substring(10,14));
+				int age=Time.Getyear()-Integer.parseInt(idnumber.substring(6,10));
+				if(Integer.parseInt(Time.Getmonth()+Time.Getday())<day)
+					 age=age-1;		
+				//通过身份证号码判断性别
+				String sex;
+				if(Integer.parseInt(idnumber.substring(16,17))%2==0)
+					sex="女";
+				else
+					sex="男";
+				user.setAge(age);
+				user.setSex(sex);
+			}
+			user.setCreatetime(new Date());
+			user.setDelstate(IMyEnums.NORMAL);
+			if(json.getString("disId")!=null&&!"".equals(json.getString("disId"))) {
+				user.setDisid(Integer.parseInt(json.getString("disId")));
+			}
+			user.setEmail(json.getString("email"));
+			user.setIdnumber(idnumber);
+			user.setName(json.getString("name"));
+			user.setPassword(MD5.getMD5(json.getString("password")));
+			user.setUserstate(IMyEnums.NORMAL);
+			user.setUsertel(json.getString("usertel"));
+			int i = user_mapper.insertSelective(user);
+			if(i>0) {
+				obj.put("msg", IMyEnums.SUCCEED);
+			}
+			else {
+				obj.put("msg", IMyEnums.FAIL);
+			}
+		}
+		else {
+			obj.put("msg", IMyEnums.FAIL);
+		}
+		
 		return obj.toString();
 	}
 
@@ -393,7 +483,7 @@ public class UserServiceImpl implements IUserService {
 				User user = new User();
 				json = JSONObject.fromObject(message);
 				criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
-				user.setPassword(json.getString("password"));
+				user.setPassword(MD5.getMD5(json.getString("password")));
 				user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
 				int i = user_mapper.updateByExampleSelective(user, example);
 				if(i>0) {
@@ -402,6 +492,32 @@ public class UserServiceImpl implements IUserService {
 				else {
 					obj.put("msg", IMyEnums.FAIL);
 				}
+			}
+			else {
+				obj.put("msg", IMyEnums.FAIL);
+			}
+		}
+		else {
+			obj.put("msg", IMyEnums.FAIL);
+		}
+		return obj.toString();
+	}
+	
+	@Override
+	public String updateuserpassword(String message) {
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		if(message!=null&&!"".equals(message)) {
+			UserExample example = new UserExample();
+			UserExample.Criteria criteria = example.createCriteria();
+			User user = new User();
+			json = JSONObject.fromObject(message);
+			criteria.andEmailEqualTo(json.getString("email"));
+			user.setPassword(MD5.getMD5(json.getString("password")));
+			user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
+			int i = user_mapper.updateByExampleSelective(user, example);
+			if(i>0) {
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
 				obj.put("msg", IMyEnums.FAIL);

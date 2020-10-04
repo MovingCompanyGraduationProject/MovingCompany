@@ -40,6 +40,13 @@ public interface IUserService {
 	 */
 	public String queryuserByEmail(String message);
 	/**
+	 * 根据用户名称，查看用户信息
+	 * @param message
+	 * @return
+	 * @throws ParseException 
+	 */
+	public String queryuserByUserName(String message);
+	/**
 	 * 查看除用户状态为未删除状态的用户
 	 * @param message
 	 * @return
@@ -60,11 +67,23 @@ public interface IUserService {
 	 */
 	public String insertuser(String message, HttpSession session);
 	/**
+	 * 用户添加 校验邮箱 用户名是否存在
+	 * @param message
+	 * @return
+	 */
+	public String insertuser(String message);
+	/**
 	 * 用户修改密码
 	 * @param message
 	 * @return
 	 */
 	public String updateuserpassword(String message, HttpSession session);
+	/**
+	 * 用户修改密码
+	 * @param message
+	 * @return
+	 */
+	public String updateuserpassword(String message);
 	/**
 	 * 用户修改信息
 	 * @param message

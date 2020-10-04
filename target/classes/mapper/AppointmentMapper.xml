@@ -8,6 +8,7 @@
     <result column="endSite" jdbcType="VARCHAR" property="endsite" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="serviceTypeId" jdbcType="INTEGER" property="servicetypeid" />
     <result column="movingTime" jdbcType="TIMESTAMP" property="movingtime" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    appointmentId, userId, startSite, endSite, name, tel, movingTime, createTime
+    appointmentId, userId, startSite, endSite, name, tel, serviceTypeId, movingTime, 
+    createTime
   </sql>
   <select id="selectByExample" parameterType="com.hlbrc.movingcompany.entity.AppointmentExample" resultMap="BaseResultMap">
     select
@@ -105,10 +107,12 @@
   <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.Appointment">
     insert into appointment (appointmentId, userId, startSite, 
       endSite, name, tel, 
-      movingTime, createTime)
+      serviceTypeId, movingTime, createTime
+      )
     values (#{appointmentid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{startsite,jdbcType=VARCHAR}, 
       #{endsite,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
-      #{movingtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP})
+      #{servicetypeid,jdbcType=INTEGER}, #{movingtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.Appointment">
     insert into appointment
@@ -130,6 +134,9 @@
       </if>
       <if test="tel != null">
         tel,
+      </if>
+      <if test="servicetypeid != null">
+        serviceTypeId,
       </if>
       <if test="movingtime != null">
         movingTime,
@@ -156,6 +163,9 @@
       </if>
       <if test="tel != null">
         #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="servicetypeid != null">
+        #{servicetypeid,jdbcType=INTEGER},
       </if>
       <if test="movingtime != null">
         #{movingtime,jdbcType=TIMESTAMP},
@@ -192,6 +202,9 @@
       <if test="record.tel != null">
         tel = #{record.tel,jdbcType=VARCHAR},
       </if>
+      <if test="record.servicetypeid != null">
+        serviceTypeId = #{record.servicetypeid,jdbcType=INTEGER},
+      </if>
       <if test="record.movingtime != null">
         movingTime = #{record.movingtime,jdbcType=TIMESTAMP},
       </if>
@@ -211,6 +224,7 @@
       endSite = #{record.endsite,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       tel = #{record.tel,jdbcType=VARCHAR},
+      serviceTypeId = #{record.servicetypeid,jdbcType=INTEGER},
       movingTime = #{record.movingtime,jdbcType=TIMESTAMP},
       createTime = #{record.createtime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -235,6 +249,9 @@
       <if test="tel != null">
         tel = #{tel,jdbcType=VARCHAR},
       </if>
+      <if test="servicetypeid != null">
+        serviceTypeId = #{servicetypeid,jdbcType=INTEGER},
+      </if>
       <if test="movingtime != null">
         movingTime = #{movingtime,jdbcType=TIMESTAMP},
       </if>
@@ -251,6 +268,7 @@
       endSite = #{endsite,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
+      serviceTypeId = #{servicetypeid,jdbcType=INTEGER},
       movingTime = #{movingtime,jdbcType=TIMESTAMP},
       createTime = #{createtime,jdbcType=TIMESTAMP}
     where appointmentId = #{appointmentid,jdbcType=INTEGER}
