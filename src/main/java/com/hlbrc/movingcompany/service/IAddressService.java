@@ -36,4 +36,19 @@ public interface IAddressService {
 	 * @param disid
 	 */
 	public String getDis(String disid);
+	/**
+	 * 获取所有省 初始化
+	 * @return
+	 */
+	public String getAllPro();
+	/**
+	 * 通过省id获取所有市区
+	 * @return
+	 */
+	public String getAllCityByProId(String message);
+	/**
+	 * 通过市id获取所有区
+	 * @return
+	 */
+	public String getAllDisByCityId(String message);
 }

@@ -2,14 +2,15 @@ package com.hlbrc.movingcompany.enums;
 
 public interface IMyEnums {
 	/**
-     * 状态
+	 * 状态
      */
 	/**已删除*/
     public final static String DELETE = "0";
     /**正常*/
     public final static String NORMAL = "1";
+    
     /**
-     * 用户状态
+               * 用户状态
      */
 	/**在线*/
     public final static String USER_ON_lINE = "1";
@@ -21,7 +22,7 @@ public interface IMyEnums {
     public final static String USER_LIMIT_LOGIN = "4";
     
     /**
-     * 订单状态
+               * 订单状态
      */
     /**取消*/
     public final static String ORDER_CANCEL = "0";
@@ -83,7 +84,7 @@ public interface IMyEnums {
     public final static String USERNAME_ALREADY_EXISTS = "no_12";
     
     /**
-     * 验证码状态
+               * 验证码状态
      */
     /**验证码正常*/
     public final static String CODE_NORMAL = "NORMAL";
@@ -93,10 +94,22 @@ public interface IMyEnums {
     public final static String CODE_ERROR = "ERROR";
     
     /**
-     * 留言类别
+               * 留言类别
      */
     /**商家入驻*/
     public final static String LEAVE_MESSAGE_ENTER = "ENTER";
     /**城市合作*/
     public final static String LEAVE_MESSAGE_COOPERATION = "COOPERATION";
+    
+    /**
+               * 认证状态
+     */
+    /**未认证*/
+    public final static String CERTIFICATION_STATUS_UNVERIFIED = "UNVERIFIED";
+    /**审核中*/
+    public final static String CERTIFICATION_STATUS_UNDER_REVIEW = "UNDER_REVIEW";
+    /**已认证*/
+    public final static String CERTIFICATION_STATUS_AUTHENTICATED = "AUTHENTICATED";
+    /**认证失败*/
+    public final static String CERTIFICATION_STATUS_FAIL = "FAIL";
 }

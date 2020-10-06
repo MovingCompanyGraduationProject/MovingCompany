@@ -20,6 +20,12 @@ import com.github.pagehelper.PageHelper;
 public class StartApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(StartApplication.class, args);
+		String str = "<li><a href=\"index.html\">首页</a></li>\r\n" + 
+				"						<li><a href=\"product.html \">搬家商家</a></li>\r\n" + 
+				"						<li><a href=\"zixun.html\">搬家资讯</a></li>\r\n" + 
+				"						<li><a href=\"changshi.html\">搬家常识</a></li>\r\n" + 
+				"						<li><a href=\"jiri.html\">搬家吉日</a></li>\r\n" + 
+				"						<li><a href=\"wenda.html\">搬家问答</a></li>";
 	}
     /**
      * 设置匹配*.action后缀请求

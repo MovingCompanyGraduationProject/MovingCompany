@@ -13,14 +13,24 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hlbrc.movingcompany.entity.CompanyMessage;
+import com.hlbrc.movingcompany.entity.CompanyMessageExample;
+import com.hlbrc.movingcompany.entity.Companyphoto;
+import com.hlbrc.movingcompany.entity.CompanyphotoExample;
 import com.hlbrc.movingcompany.entity.Manager;
+import com.hlbrc.movingcompany.entity.ServiceDescribe;
+import com.hlbrc.movingcompany.entity.ServiceDescribeExample;
 import com.hlbrc.movingcompany.entity.User;
 import com.hlbrc.movingcompany.entity.UserExample;
 import com.hlbrc.movingcompany.enums.IMyEnums;
+import com.hlbrc.movingcompany.mapper.ICompanyMessageMapper;
+import com.hlbrc.movingcompany.mapper.ICompanyphotoMapper;
+import com.hlbrc.movingcompany.mapper.IServiceDescribeMapper;
 import com.hlbrc.movingcompany.mapper.IUserMapper;
 import com.hlbrc.movingcompany.service.IUserService;
 import com.hlbrc.movingcompany.util.MD5;
 import com.hlbrc.movingcompany.util.Time;
+import com.hlbrc.movingcompany.util.TimerUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -29,6 +39,12 @@ import net.sf.json.JSONObject;
 public class UserServiceImpl implements IUserService {
 	@Autowired
 	private IUserMapper user_mapper;
+	@Autowired
+	ICompanyMessageMapper company_message_mapper;
+	@Autowired
+	ICompanyphotoMapper company_photo_mapper;
+	@Autowired
+	IServiceDescribeMapper service_describe_mapper;
 	
 	@Override
 	public String userlogin(String message, HttpSession session) {
@@ -42,6 +58,23 @@ public class UserServiceImpl implements IUserService {
 			criteria.andPasswordEqualTo(MD5.getMD5(json.getString("password")));
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
+				CompanyMessageExample example2 = new CompanyMessageExample();
+				CompanyMessageExample.Criteria criteria2 = example2.createCriteria();
+				criteria2.andUseridEqualTo(list.get(0).getUserid());
+				List<CompanyMessage> companyMessage = company_message_mapper.selectByExample(example2);
+				if(companyMessage!=null&&companyMessage.size()>0) {
+					ServiceDescribeExample example3 = new ServiceDescribeExample();
+					ServiceDescribeExample.Criteria criteria3 = example3.createCriteria();
+					criteria3.andCompanymessageidEqualTo(companyMessage.get(0).getCompanymessageid());
+					List<ServiceDescribe> serviceDescribe = service_describe_mapper.selectByExample(example3);
+					companyMessage.get(0).setServiceDescribe(serviceDescribe.get(0));
+					CompanyphotoExample example4 = new CompanyphotoExample();
+					CompanyphotoExample.Criteria criteria4 = example4.createCriteria();
+					criteria4.andCompanymessageidEqualTo(companyMessage.get(0).getCompanymessageid());
+					List<Companyphoto> companyphotos = company_photo_mapper.selectByExample(example4);
+					companyMessage.get(0).setCompanyphoto(companyphotos);
+				}
+				list.get(0).setCompanyMessage(companyMessage.get(0));
 				session.setAttribute("user", list.get(0));
 				obj.put("user", list.get(0));
 				obj.put("msg", IMyEnums.SUCCEED);
@@ -344,7 +377,7 @@ public class UserServiceImpl implements IUserService {
 				UserExample example = new UserExample();
 				UserExample.Criteria criteria = example.createCriteria();
 				json = JSONObject.fromObject(message);
-				criteria.andEmailEqualTo(json.getString("userid"));
+				criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
 				AddressServiceImpl address = new AddressServiceImpl();
 				user.setAddress(address.getCityDis(json.getString("disId")));
 				String idnumber = json.getString("idnumber");
@@ -372,6 +405,41 @@ public class UserServiceImpl implements IUserService {
 				user.setPassword(MD5.getMD5(json.getString("password")));
 				user.setUserstate(json.getString("userstate"));
 				user.setUsertel(json.getString("usertel"));
+				int i = user_mapper.updateByExampleSelective(user, example);
+				if(i>0) {
+					obj.put("msg", IMyEnums.SUCCEED);
+				}
+				else {
+					obj.put("msg", IMyEnums.FAIL);
+				}
+			}
+			else {
+				obj.put("msg", IMyEnums.FAIL);
+			}
+		}
+		else {
+			obj.put("msg", IMyEnums.FAIL);
+		}
+		return obj.toString();
+	}
+	
+	@Override
+	public String updateuserphoto(String message,HttpSession session) {
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		User ord_user = (User) session.getAttribute("user");
+		Manager manager = (Manager) session.getAttribute("manager");
+		if(manager!=null||ord_user!=null) {
+			if(message!=null&&!"".equals(message)) {
+				User user = new User();
+				UserExample example = new UserExample();
+				UserExample.Criteria criteria = example.createCriteria();
+				json = JSONObject.fromObject(message);
+				if(json.getString("userid")!=null&&!"".equals(json.getString("userid"))) {
+					criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
+				}
+				user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
+				user.setUserphoto(json.getString("userphoto"));
 				int i = user_mapper.updateByExampleSelective(user, example);
 				if(i>0) {
 					obj.put("msg", IMyEnums.SUCCEED);
@@ -599,6 +667,22 @@ public class UserServiceImpl implements IUserService {
 			obj.put("msg", IMyEnums.FAIL);
 		}
 		return obj.toString();
+	}
+
+	@Override
+	public void checkIdCard(String message,String uploadFolder) {
+		User user = new User();
+		UserExample example = new UserExample();
+		UserExample.Criteria criteria = example.createCriteria();
+		JSONObject json = JSONObject.fromObject(message);
+		if(json.getString("userid")!=null&&!"".equals(json.getString("userid"))) {
+			criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
+		}
+		user.setApprovestate(IMyEnums.CERTIFICATION_STATUS_UNDER_REVIEW);
+		user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
+		user_mapper.updateByExampleSelective(user, example);
+		String[] filePath = json.getString("idcardz").split("/");
+		TimerUtil.checkIdCard(json.getString("idCardSide"), uploadFolder+filePath[4]+"/"+filePath[5]+"/"+filePath[6], json.getInt("time"), message, user_mapper);
 	}
 	
 }

@@ -7,3 +7,32 @@
 2020-10-03 12:59:52 com.hlbrc.movingcompany.controller.MainController.checkUserName(MainController.java:181) MainController.java DEBUG 校验该用户名是否已存在失败：JSONObject["email"] not found.
 2020-10-03 17:08:03 com.hlbrc.movingcompany.controller.UserController.userRegister(UserController.java:74) UserController.java DEBUG 用户注册失败：For input string: ""
 2020-10-03 17:09:51 com.hlbrc.movingcompany.controller.UserController.userRegister(UserController.java:75) UserController.java DEBUG 用户注册失败：For input string: ""
+2020-10-05 10:07:51 com.hlbrc.movingcompany.controller.UserController.setUserPhotoPath(UserController.java:196) UserController.java DEBUG 上传头像失败：
+### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'userphoto' at row 1
+### The error may involve com.hlbrc.movingcompany.mapper.IUserMapper.updateByExampleSelective-Inline
+### The error occurred while setting parameters
+### SQL: update user      SET userphoto = ?                     WHERE (  userId = ? )
+### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'userphoto' at row 1
+; Data truncation: Data too long for column 'userphoto' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'userphoto' at row 1
+2020-10-05 10:12:49 com.hlbrc.movingcompany.controller.UserController.setUserPhotoPath(UserController.java:197) UserController.java DEBUG 上传头像失败：
+### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'userphoto' at row 1
+### The error may involve com.hlbrc.movingcompany.mapper.IUserMapper.updateByExampleSelective-Inline
+### The error occurred while setting parameters
+### SQL: update user      SET userphoto = ?                     WHERE (  userId = ? )
+### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'userphoto' at row 1
+; Data truncation: Data too long for column 'userphoto' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'userphoto' at row 1
+2020-10-05 10:14:01 com.hlbrc.movingcompany.controller.UserController.setUserPhotoPath(UserController.java:198) UserController.java DEBUG 上传头像失败：
+### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'userphoto' at row 1
+### The error may involve com.hlbrc.movingcompany.mapper.IUserMapper.updateByExampleSelective-Inline
+### The error occurred while setting parameters
+### SQL: update user      SET userphoto = ?                     WHERE (  userId = ? )
+### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'userphoto' at row 1
+; Data truncation: Data too long for column 'userphoto' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'userphoto' at row 1
+2020-10-06 10:44:50 com.hlbrc.movingcompany.controller.MainController.insertZiXun(MainController.java:293) MainController.java DEBUG 营业执照认证失败：JSONObject["fileName"] not found.
+2020-10-06 13:50:43 com.hlbrc.movingcompany.controller.MainController.insertMovingCompany(MainController.java:314) MainController.java DEBUG 发布搬家公司失败：
+### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'path' at row 1
+### The error may involve com.hlbrc.movingcompany.mapper.ICompanyphotoMapper.insertSelective-Inline
+### The error occurred while setting parameters
+### SQL: insert into companyphoto      ( CompanyMessageId,                       path,                       uploadTime )       values ( ?,                       ?,                       ? )
+### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'path' at row 1
+; Data truncation: Data too long for column 'path' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'path' at row 1

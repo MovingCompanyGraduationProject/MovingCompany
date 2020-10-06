@@ -1,15 +1,18 @@
 package com.hlbrc.movingcompany.entity;
 
 import java.util.Date;
+import java.util.List;
 
-public class Companymessage {
+public class CompanyMessage {
     private Integer companymessageid;
-
-    private Integer servicetypeid;
 
     private Integer disId;
 
     private String name;
+
+    private Double money;
+
+    private String servicecontext;
 
     private String feature;
 
@@ -25,24 +28,40 @@ public class Companymessage {
 
     private String approvestate;
 
+    private String businesslicense;
+
+    private Integer userid;
+
     private Date createtime;
 
     private Date updatetime;
+    
+    private ServiceDescribe serviceDescribe;
+    
+    private List<Companyphoto> companyphoto;
 
-    public Integer getCompanymessageid() {
+    public ServiceDescribe getServiceDescribe() {
+		return serviceDescribe;
+	}
+
+	public void setServiceDescribe(ServiceDescribe serviceDescribe) {
+		this.serviceDescribe = serviceDescribe;
+	}
+
+	public List<Companyphoto> getCompanyphoto() {
+		return companyphoto;
+	}
+
+	public void setCompanyphoto(List<Companyphoto> companyphoto) {
+		this.companyphoto = companyphoto;
+	}
+
+	public Integer getCompanymessageid() {
         return companymessageid;
     }
 
     public void setCompanymessageid(Integer companymessageid) {
         this.companymessageid = companymessageid;
-    }
-
-    public Integer getServicetypeid() {
-        return servicetypeid;
-    }
-
-    public void setServicetypeid(Integer servicetypeid) {
-        this.servicetypeid = servicetypeid;
     }
 
     public Integer getDisId() {
@@ -59,6 +78,22 @@ public class Companymessage {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Double getMoney() {
+        return money;
+    }
+
+    public void setMoney(Double money) {
+        this.money = money;
+    }
+
+    public String getServicecontext() {
+        return servicecontext;
+    }
+
+    public void setServicecontext(String servicecontext) {
+        this.servicecontext = servicecontext == null ? null : servicecontext.trim();
     }
 
     public String getFeature() {
@@ -115,6 +150,22 @@ public class Companymessage {
 
     public void setApprovestate(String approvestate) {
         this.approvestate = approvestate == null ? null : approvestate.trim();
+    }
+
+    public String getBusinesslicense() {
+        return businesslicense;
+    }
+
+    public void setBusinesslicense(String businesslicense) {
+        this.businesslicense = businesslicense == null ? null : businesslicense.trim();
+    }
+
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
     public Date getCreatetime() {

@@ -28,18 +28,28 @@ public class User {
     private Date createtime;
 
     private String updatetime;
-    
+
+    private String idcardz;
+
+    private String idcardf;
+
+    private String approvestate;
+
+    private String userphoto;
+
     private String address;
+    
+    private CompanyMessage companyMessage;
 
     public String getAddress() {
-		return address;
-	}
+        return address;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public Integer getUserid() {
+    public Integer getUserid() {
         return userid;
     }
 
@@ -142,4 +152,44 @@ public class User {
     public void setUpdatetime(String updatetime) {
         this.updatetime = updatetime == null ? null : updatetime.trim();
     }
+
+    public String getIdcardz() {
+        return idcardz;
+    }
+
+    public void setIdcardz(String idcardz) {
+        this.idcardz = idcardz == null ? null : idcardz.trim();
+    }
+
+    public String getIdcardf() {
+        return idcardf;
+    }
+
+    public void setIdcardf(String idcardf) {
+        this.idcardf = idcardf == null ? null : idcardf.trim();
+    }
+
+    public String getApprovestate() {
+        return approvestate;
+    }
+
+    public void setApprovestate(String approvestate) {
+        this.approvestate = approvestate == null ? null : approvestate.trim();
+    }
+
+    public String getUserphoto() {
+        return userphoto;
+    }
+
+    public void setUserphoto(String userphoto) {
+        this.userphoto = userphoto == null ? null : userphoto.trim();
+    }
+
+	public CompanyMessage getCompanyMessage() {
+		return companyMessage;
+	}
+
+	public void setCompanyMessage(CompanyMessage companyMessage) {
+		this.companyMessage = companyMessage;
+	}
 }

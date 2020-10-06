@@ -15,6 +15,10 @@
     <result column="delState" jdbcType="VARCHAR" property="delstate" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="updateTime" jdbcType="VARCHAR" property="updatetime" />
+    <result column="idCardZ" jdbcType="VARCHAR" property="idcardz" />
+    <result column="IdCardF" jdbcType="VARCHAR" property="idcardf" />
+    <result column="approveState" jdbcType="VARCHAR" property="approvestate" />
+    <result column="userphoto" jdbcType="VARCHAR" property="userphoto" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     userId, disId, name, userTel, password, age, sex, idNumber, email, userState, delState, 
-    createTime, updateTime
+    createTime, updateTime, idCardZ, IdCardF, approveState, userphoto
   </sql>
   <select id="selectByExample" parameterType="com.hlbrc.movingcompany.entity.UserExample" resultMap="BaseResultMap">
     select
@@ -92,7 +96,7 @@
       order by ${orderByClause}
     </if>
     <if test="pageIndex != null and pageSize != null and pageSize != 0">
-        limit #{pageIndex},#{pageSize}
+      limit #{pageIndex},#{pageSize}
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -116,12 +120,14 @@
       userTel, password, age, 
       sex, idNumber, email, 
       userState, delState, createTime, 
-      updateTime)
+      updateTime, idCardZ, IdCardF, 
+      approveState, userphoto)
     values (#{userid,jdbcType=INTEGER}, #{disid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{usertel,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
       #{sex,jdbcType=VARCHAR}, #{idnumber,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{userstate,jdbcType=VARCHAR}, #{delstate,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{updatetime,jdbcType=VARCHAR})
+      #{updatetime,jdbcType=VARCHAR}, #{idcardz,jdbcType=VARCHAR}, #{idcardf,jdbcType=VARCHAR}, 
+      #{approvestate,jdbcType=VARCHAR}, #{userphoto,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.User">
     insert into user
@@ -165,6 +171,18 @@
       <if test="updatetime != null">
         updateTime,
       </if>
+      <if test="idcardz != null">
+        idCardZ,
+      </if>
+      <if test="idcardf != null">
+        IdCardF,
+      </if>
+      <if test="approvestate != null">
+        approveState,
+      </if>
+      <if test="userphoto != null">
+        userphoto,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userid != null">
@@ -205,6 +223,18 @@
       </if>
       <if test="updatetime != null">
         #{updatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardz != null">
+        #{idcardz,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardf != null">
+        #{idcardf,jdbcType=VARCHAR},
+      </if>
+      <if test="approvestate != null">
+        #{approvestate,jdbcType=VARCHAR},
+      </if>
+      <if test="userphoto != null">
+        #{userphoto,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -256,6 +286,18 @@
       <if test="record.updatetime != null">
         updateTime = #{record.updatetime,jdbcType=VARCHAR},
       </if>
+      <if test="record.idcardz != null">
+        idCardZ = #{record.idcardz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardf != null">
+        IdCardF = #{record.idcardf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approvestate != null">
+        approveState = #{record.approvestate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userphoto != null">
+        userphoto = #{record.userphoto,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -275,7 +317,11 @@
       userState = #{record.userstate,jdbcType=VARCHAR},
       delState = #{record.delstate,jdbcType=VARCHAR},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      updateTime = #{record.updatetime,jdbcType=VARCHAR}
+      updateTime = #{record.updatetime,jdbcType=VARCHAR},
+      idCardZ = #{record.idcardz,jdbcType=VARCHAR},
+      IdCardF = #{record.idcardf,jdbcType=VARCHAR},
+      approveState = #{record.approvestate,jdbcType=VARCHAR},
+      userphoto = #{record.userphoto,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -319,6 +365,18 @@
       <if test="updatetime != null">
         updateTime = #{updatetime,jdbcType=VARCHAR},
       </if>
+      <if test="idcardz != null">
+        idCardZ = #{idcardz,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardf != null">
+        IdCardF = #{idcardf,jdbcType=VARCHAR},
+      </if>
+      <if test="approvestate != null">
+        approveState = #{approvestate,jdbcType=VARCHAR},
+      </if>
+      <if test="userphoto != null">
+        userphoto = #{userphoto,jdbcType=VARCHAR},
+      </if>
     </set>
     where userId = #{userid,jdbcType=INTEGER}
   </update>
@@ -335,7 +393,11 @@
       userState = #{userstate,jdbcType=VARCHAR},
       delState = #{delstate,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP},
-      updateTime = #{updatetime,jdbcType=VARCHAR}
+      updateTime = #{updatetime,jdbcType=VARCHAR},
+      idCardZ = #{idcardz,jdbcType=VARCHAR},
+      IdCardF = #{idcardf,jdbcType=VARCHAR},
+      approveState = #{approvestate,jdbcType=VARCHAR},
+      userphoto = #{userphoto,jdbcType=VARCHAR}
     where userId = #{userid,jdbcType=INTEGER}
   </update>
 </mapper>

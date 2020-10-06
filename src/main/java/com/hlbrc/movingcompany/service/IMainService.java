@@ -1,5 +1,7 @@
 package com.hlbrc.movingcompany.service;
 
+import java.io.IOException;
+
 public interface IMainService {
 	/**
 	 * 添加留言
@@ -22,4 +24,16 @@ public interface IMainService {
 	 * @return
 	 */
 	public String queryAllServiceType();
+	/**
+	  * 延时校验营业执照
+	 * @param message json串
+	 */
+	public void checkBusinessLicense(String message);
+	/**
+	 * 添加搬家公司
+	 * @param message json串
+	 * @param frontEndPath 前端项目路径
+	 * @throws IOException 
+	 */
+	public String insertMovingCompany(String message,String frontEndPath) throws IOException;
 }

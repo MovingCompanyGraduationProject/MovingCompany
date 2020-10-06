@@ -102,6 +102,17 @@ public interface IUserService {
 	 * @return
 	 */
 	public String updateuserliststatus(String message, HttpSession session);
-	
-	
+	/**
+	 * 延时执行检验身份证正反面
+	 * @param message json串
+	 * @return
+	 */
+	public void checkIdCard(String message,String uploadFolder);
+	/**
+	 * 修改用户头像路径
+	 * @param message
+	 * @param session
+	 * @return
+	 */
+	public String updateuserphoto(String message,HttpSession session);
 }

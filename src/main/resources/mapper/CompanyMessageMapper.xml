@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hlbrc.movingcompany.mapper.ICompanymessageMapper">
-  <resultMap id="BaseResultMap" type="com.hlbrc.movingcompany.entity.Companymessage">
+<mapper namespace="com.hlbrc.movingcompany.mapper.ICompanyMessageMapper">
+  <resultMap id="BaseResultMap" type="com.hlbrc.movingcompany.entity.CompanyMessage">
     <id column="CompanyMessageId" jdbcType="INTEGER" property="companymessageid" />
-    <result column="serviceTypeId" jdbcType="INTEGER" property="servicetypeid" />
     <result column="dis_id" jdbcType="INTEGER" property="disId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="serviceContext" jdbcType="VARCHAR" property="servicecontext" />
     <result column="feature" jdbcType="VARCHAR" property="feature" />
     <result column="region" jdbcType="VARCHAR" property="region" />
     <result column="promise" jdbcType="VARCHAR" property="promise" />
@@ -13,6 +14,8 @@
     <result column="tel" jdbcType="VARCHAR" property="tel" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="approveState" jdbcType="VARCHAR" property="approvestate" />
+    <result column="businessLicense" jdbcType="VARCHAR" property="businesslicense" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
@@ -75,10 +78,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    CompanyMessageId, serviceTypeId, dis_id, name, feature, region, promise, linkman, 
-    tel, address, approveState, createTime, updateTime
+    CompanyMessageId, dis_id, name, money, serviceContext, feature, region, promise, 
+    linkman, tel, address, approveState, businessLicense, userId, createTime, updateTime
   </sql>
-  <select id="selectByExample" parameterType="com.hlbrc.movingcompany.entity.CompanymessageExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hlbrc.movingcompany.entity.CompanyMessageExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -102,38 +105,43 @@
     delete from companymessage
     where CompanyMessageId = #{companymessageid,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hlbrc.movingcompany.entity.CompanymessageExample">
+  <delete id="deleteByExample" parameterType="com.hlbrc.movingcompany.entity.CompanyMessageExample">
     delete from companymessage
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.Companymessage">
-    insert into companymessage (CompanyMessageId, serviceTypeId, 
-      dis_id, name, feature, 
+  <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.CompanyMessage">
+    insert into companymessage (CompanyMessageId, dis_id, name, 
+      money, serviceContext, feature, 
       region, promise, linkman, 
       tel, address, approveState, 
-      createTime, updateTime)
-    values (#{companymessageid,jdbcType=INTEGER}, #{servicetypeid,jdbcType=INTEGER}, 
-      #{disId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{feature,jdbcType=VARCHAR}, 
+      businessLicense, userId, createTime, 
+      updateTime)
+    values (#{companymessageid,jdbcType=INTEGER}, #{disId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{money,jdbcType=DOUBLE}, #{servicecontext,jdbcType=VARCHAR}, #{feature,jdbcType=VARCHAR}, 
       #{region,jdbcType=VARCHAR}, #{promise,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{approvestate,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+      #{businesslicense,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.Companymessage">
+  <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.CompanyMessage">
     insert into companymessage
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="companymessageid != null">
         CompanyMessageId,
-      </if>
-      <if test="servicetypeid != null">
-        serviceTypeId,
       </if>
       <if test="disId != null">
         dis_id,
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="servicecontext != null">
+        serviceContext,
       </if>
       <if test="feature != null">
         feature,
@@ -156,6 +164,12 @@
       <if test="approvestate != null">
         approveState,
       </if>
+      <if test="businesslicense != null">
+        businessLicense,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
       <if test="createtime != null">
         createTime,
       </if>
@@ -167,14 +181,17 @@
       <if test="companymessageid != null">
         #{companymessageid,jdbcType=INTEGER},
       </if>
-      <if test="servicetypeid != null">
-        #{servicetypeid,jdbcType=INTEGER},
-      </if>
       <if test="disId != null">
         #{disId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="servicecontext != null">
+        #{servicecontext,jdbcType=VARCHAR},
       </if>
       <if test="feature != null">
         #{feature,jdbcType=VARCHAR},
@@ -197,6 +214,12 @@
       <if test="approvestate != null">
         #{approvestate,jdbcType=VARCHAR},
       </if>
+      <if test="businesslicense != null">
+        #{businesslicense,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -205,7 +228,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hlbrc.movingcompany.entity.CompanymessageExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.hlbrc.movingcompany.entity.CompanyMessageExample" resultType="java.lang.Long">
     select count(*) from companymessage
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -217,14 +240,17 @@
       <if test="record.companymessageid != null">
         CompanyMessageId = #{record.companymessageid,jdbcType=INTEGER},
       </if>
-      <if test="record.servicetypeid != null">
-        serviceTypeId = #{record.servicetypeid,jdbcType=INTEGER},
-      </if>
       <if test="record.disId != null">
         dis_id = #{record.disId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=DOUBLE},
+      </if>
+      <if test="record.servicecontext != null">
+        serviceContext = #{record.servicecontext,jdbcType=VARCHAR},
       </if>
       <if test="record.feature != null">
         feature = #{record.feature,jdbcType=VARCHAR},
@@ -247,6 +273,12 @@
       <if test="record.approvestate != null">
         approveState = #{record.approvestate,jdbcType=VARCHAR},
       </if>
+      <if test="record.businesslicense != null">
+        businessLicense = #{record.businesslicense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
       <if test="record.createtime != null">
         createTime = #{record.createtime,jdbcType=TIMESTAMP},
       </if>
@@ -261,9 +293,10 @@
   <update id="updateByExample" parameterType="map">
     update companymessage
     set CompanyMessageId = #{record.companymessageid,jdbcType=INTEGER},
-      serviceTypeId = #{record.servicetypeid,jdbcType=INTEGER},
       dis_id = #{record.disId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
+      money = #{record.money,jdbcType=DOUBLE},
+      serviceContext = #{record.servicecontext,jdbcType=VARCHAR},
       feature = #{record.feature,jdbcType=VARCHAR},
       region = #{record.region,jdbcType=VARCHAR},
       promise = #{record.promise,jdbcType=VARCHAR},
@@ -271,23 +304,28 @@
       tel = #{record.tel,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
       approveState = #{record.approvestate,jdbcType=VARCHAR},
+      businessLicense = #{record.businesslicense,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=INTEGER},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
       updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hlbrc.movingcompany.entity.Companymessage">
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlbrc.movingcompany.entity.CompanyMessage">
     update companymessage
     <set>
-      <if test="servicetypeid != null">
-        serviceTypeId = #{servicetypeid,jdbcType=INTEGER},
-      </if>
       <if test="disId != null">
         dis_id = #{disId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="servicecontext != null">
+        serviceContext = #{servicecontext,jdbcType=VARCHAR},
       </if>
       <if test="feature != null">
         feature = #{feature,jdbcType=VARCHAR},
@@ -310,6 +348,12 @@
       <if test="approvestate != null">
         approveState = #{approvestate,jdbcType=VARCHAR},
       </if>
+      <if test="businesslicense != null">
+        businessLicense = #{businesslicense,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
       <if test="createtime != null">
         createTime = #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -319,11 +363,12 @@
     </set>
     where CompanyMessageId = #{companymessageid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hlbrc.movingcompany.entity.Companymessage">
+  <update id="updateByPrimaryKey" parameterType="com.hlbrc.movingcompany.entity.CompanyMessage">
     update companymessage
-    set serviceTypeId = #{servicetypeid,jdbcType=INTEGER},
-      dis_id = #{disId,jdbcType=INTEGER},
+    set dis_id = #{disId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DOUBLE},
+      serviceContext = #{servicecontext,jdbcType=VARCHAR},
       feature = #{feature,jdbcType=VARCHAR},
       region = #{region,jdbcType=VARCHAR},
       promise = #{promise,jdbcType=VARCHAR},
@@ -331,6 +376,8 @@
       tel = #{tel,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       approveState = #{approvestate,jdbcType=VARCHAR},
+      businessLicense = #{businesslicense,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP},
       updateTime = #{updatetime,jdbcType=TIMESTAMP}
     where CompanyMessageId = #{companymessageid,jdbcType=INTEGER}

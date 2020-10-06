@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import com.hlbrc.movingcompany.mapper.ILeaveWordMapper;
 import com.hlbrc.movingcompany.service.IMainService;
 import com.hlbrc.movingcompany.service.IManagerService;
 import com.hlbrc.movingcompany.service.IUserService;
+import com.hlbrc.movingcompany.util.ChattingRecordsIO;
 import com.hlbrc.movingcompany.util.Log;
 import com.hlbrc.movingcompany.util.MD5;
 import com.hlbrc.movingcompany.util.QqEmailSendMessage;
@@ -32,6 +34,8 @@ public class MainController {
 	IManagerService manager_service;
 	@Autowired
 	IMainService main_service;
+	@Value("${file.frontEndPath}")
+    private String frontEndPath;
 	
 	 /**
      * 发送验证码
@@ -242,6 +246,72 @@ public class MainController {
 		}
     	catch (Exception e) {
     		Log.logger.debug("获取所有服务分类失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     *营业执照认证
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "checkBusinessLicense")
+    @ResponseBody
+    public String checkBusinessLicense(String message) {
+    	JSONObject obj = new JSONObject();
+		try {
+			main_service.checkBusinessLicense(message);
+			obj.put("msg", IMyEnums.SUCCEED);
+			return obj.toString();
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("营业执照认证失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     *发布咨询
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "insertZiXun")
+    @ResponseBody
+    public String insertZiXun(String message) {
+    	JSONObject obj = new JSONObject();
+		try {
+			JSONObject json = JSONObject.fromObject(message);
+			String filePath = frontEndPath+json.getString("fileName");
+			System.err.println(filePath);
+			ChattingRecordsIO.clearFile(filePath);
+			ChattingRecordsIO.writeFileByBytes(filePath,json.getString("message"));
+			obj.put("msg", IMyEnums.SUCCEED);
+			return obj.toString();
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("发布咨询失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     * 发布搬家公司
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "insertMovingCompany")
+    @ResponseBody
+    public String insertMovingCompany(String message) {
+    	JSONObject obj = new JSONObject();
+		try {
+			System.err.println(message);
+			return main_service.insertMovingCompany(message,frontEndPath);
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("发布搬家公司失败："+e.getMessage());
     		obj.put("msg", IMyEnums.FAIL);
 			return obj.toString();
 		}
