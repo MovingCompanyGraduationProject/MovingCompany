@@ -60,7 +60,7 @@ public class AddressServiceImpl implements IAddressService {
 			District dis = district_mapper.selectByPrimaryKey(Integer.parseInt(disid));
 			City city = city_mapper.selectByPrimaryKey(Integer.parseInt(dis.getCitid()));
 			Privince pri = privince_mapper.selectByPrimaryKey(Integer.parseInt(city.getProid()));
-			str = pri.getProname()+" "+city.getCitname()+" "+dis.getDisname();
+			str = pri.getProname()+"-"+city.getCitname()+"-"+dis.getDisname();
 			return str;
 		}
 		return null;

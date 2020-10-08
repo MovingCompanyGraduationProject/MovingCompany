@@ -9,6 +9,8 @@ public class Inform {
 
     private String name;
 
+    private String tel;
+
     private String contextnum;
 
     private Date createtime;
@@ -35,6 +37,14 @@ public class Inform {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel == null ? null : tel.trim();
     }
 
     public String getContextnum() {

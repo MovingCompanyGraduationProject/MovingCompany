@@ -5,6 +5,7 @@
     <id column="informId" jdbcType="INTEGER" property="informid" />
     <result column="CompanyMessageId" jdbcType="INTEGER" property="companymessageid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
     <result column="contextNum" jdbcType="VARCHAR" property="contextnum" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    informId, CompanyMessageId, name, contextNum, createTime
+    informId, CompanyMessageId, name, tel, contextNum, createTime
   </sql>
   <select id="selectByExample" parameterType="com.hlbrc.movingcompany.entity.InformExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="com.hlbrc.movingcompany.entity.Inform">
     insert into inform (informId, CompanyMessageId, name, 
-      contextNum, createTime)
+      tel, contextNum, createTime
+      )
     values (#{informid,jdbcType=INTEGER}, #{companymessageid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{contextnum,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+      #{tel,jdbcType=VARCHAR}, #{contextnum,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hlbrc.movingcompany.entity.Inform">
     insert into inform
@@ -116,6 +119,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="tel != null">
+        tel,
       </if>
       <if test="contextnum != null">
         contextNum,
@@ -133,6 +139,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
       </if>
       <if test="contextnum != null">
         #{contextnum,jdbcType=VARCHAR},
@@ -160,6 +169,9 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.tel != null">
+        tel = #{record.tel,jdbcType=VARCHAR},
+      </if>
       <if test="record.contextnum != null">
         contextNum = #{record.contextnum,jdbcType=VARCHAR},
       </if>
@@ -176,6 +188,7 @@
     set informId = #{record.informid,jdbcType=INTEGER},
       CompanyMessageId = #{record.companymessageid,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
+      tel = #{record.tel,jdbcType=VARCHAR},
       contextNum = #{record.contextnum,jdbcType=VARCHAR},
       createTime = #{record.createtime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -191,6 +204,9 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
       <if test="contextnum != null">
         contextNum = #{contextnum,jdbcType=VARCHAR},
       </if>
@@ -204,6 +220,7 @@
     update inform
     set CompanyMessageId = #{companymessageid,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
       contextNum = #{contextnum,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP}
     where informId = #{informid,jdbcType=INTEGER}

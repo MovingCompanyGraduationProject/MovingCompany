@@ -28,7 +28,7 @@ public interface IMainService {
 	  * 延时校验营业执照
 	 * @param message json串
 	 */
-	public void checkBusinessLicense(String message);
+	public void checkBusinessLicense(String message,String uploadFolder);
 	/**
 	 * 添加搬家公司
 	 * @param message json串
@@ -36,4 +36,22 @@ public interface IMainService {
 	 * @throws IOException 
 	 */
 	public String insertMovingCompany(String message,String frontEndPath) throws IOException;
+	/**
+	 * 查询符合条件的搬家公司
+	 * @param message
+	 * @return
+	 * @throws IOException 
+	 */
+	public String queryMovingCompany(String message) throws IOException;
+	/**
+	 * 添加评价表
+	 * @throws IOException 
+	 */
+	public String insertMovingCompanyAppraise(String message,String frontEndPath) throws IOException;
+	/**
+	 * 添加留言
+	 * @param message
+	 * @return
+	 */
+	public String insertInform(String message,String frontEndPath) throws IOException;
 }

@@ -9,6 +9,7 @@ import java.util.TimerTask;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.sound.midi.SysexMessage;
 
 import com.hlbrc.movingcompany.entity.CompanyMessage;
 import com.hlbrc.movingcompany.entity.CompanyMessageExample;
@@ -139,16 +140,22 @@ public class TimerUtil implements ServletContextListener {
 				String result = BusinessLicense.businessLicense(filePath);
 				JSONObject result_json = JSONObject.fromObject(result);
 				JSONObject json = JSONObject.fromObject(message);
-				String name = result_json.getJSONObject("").getJSONObject("").getString("");
-				String number = result_json.getJSONObject("").getJSONObject("").getString("");
+				String name = result_json.getJSONObject("words_result").getJSONObject("单位名称").getString("words");
+				String number = result_json.getJSONObject("words_result").getJSONObject("社会信用代码").getString("words");
 				if(json.getString("name").equals(name)&&json.getString("number").equals(number)) {
 					if(json.getString("userid")!=null&&!"".equals(json.getString("userid"))) {
 						criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
 					}
-					record.setBusinesslicense(json.getString("businesslicense"));
+					record.setBusinesslicense(json.getString("filePath"));
 					record.setApprovestate(IMyEnums.CERTIFICATION_STATUS_AUTHENTICATED);
 					record.setUpdatetime(new Date());
-					company_message_mapper.updateByExampleSelective(record, example);
+					int i = company_message_mapper.updateByExampleSelective(record, example);
+					if(i>0) {
+						System.err.println("营业执照认证状态修改成功");
+					}
+					else {
+						System.err.println("营业执照认证状态修改成功");
+					}
 				}
 				else {
 					if(json.getString("userid")!=null&&!"".equals(json.getString("userid"))) {
@@ -156,7 +163,13 @@ public class TimerUtil implements ServletContextListener {
 					}
 					record.setApprovestate(IMyEnums.CERTIFICATION_STATUS_FAIL);
 					record.setUpdatetime(new Date());
-					company_message_mapper.updateByExampleSelective(record, example);
+					int i = company_message_mapper.updateByExampleSelective(record, example);
+					if(i>0) {
+						System.err.println("营业执照认证状态修改成功");
+					}
+					else {
+						System.err.println("营业执照认证状态修改成功");
+					}
 				}
 			}
 		},time);

@@ -10,23 +10,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hlbrc.movingcompany.entity.Appointment;
+import com.hlbrc.movingcompany.entity.Appraise;
+import com.hlbrc.movingcompany.entity.AppraiseExample;
 import com.hlbrc.movingcompany.entity.CompanyMessage;
 import com.hlbrc.movingcompany.entity.CompanyMessageExample;
 import com.hlbrc.movingcompany.entity.Companyphoto;
+import com.hlbrc.movingcompany.entity.CompanyphotoExample;
+import com.hlbrc.movingcompany.entity.Inform;
 import com.hlbrc.movingcompany.entity.LeaveWord;
 import com.hlbrc.movingcompany.entity.LeaveWordExample;
 import com.hlbrc.movingcompany.entity.ServiceDescribe;
+import com.hlbrc.movingcompany.entity.ServiceDescribeExample;
 import com.hlbrc.movingcompany.entity.ServiceType;
 import com.hlbrc.movingcompany.entity.ServiceTypeExample;
 import com.hlbrc.movingcompany.entity.User;
 import com.hlbrc.movingcompany.enums.IMyEnums;
 import com.hlbrc.movingcompany.mapper.IAppointmentMapper;
+import com.hlbrc.movingcompany.mapper.IAppraiseMapper;
 import com.hlbrc.movingcompany.mapper.ICompanyMessageMapper;
 import com.hlbrc.movingcompany.mapper.ICompanyphotoMapper;
 import com.hlbrc.movingcompany.mapper.ILeaveWordMapper;
 import com.hlbrc.movingcompany.mapper.IServiceDescribeMapper;
 import com.hlbrc.movingcompany.mapper.IServiceTypeMapper;
 import com.hlbrc.movingcompany.mapper.IUserMapper;
+import com.hlbrc.movingcompany.mapper.InformMapper;
+import com.hlbrc.movingcompany.service.IAddressService;
 import com.hlbrc.movingcompany.service.IMainService;
 import com.hlbrc.movingcompany.util.ChattingRecordsIO;
 import com.hlbrc.movingcompany.util.TimerUtil;
@@ -49,6 +57,12 @@ public class MainServiceImpl implements IMainService {
 	IServiceDescribeMapper service_describe_mapper;
 	@Autowired
 	IUserMapper user_mapper;
+	@Autowired
+	private IAddressService address_service;
+	@Autowired
+	private IAppraiseMapper appraise_mapper;
+	@Autowired
+	private InformMapper inform_mapper;
 
 	@Override
 	public String insertLeaveMessage(String message) {
@@ -141,7 +155,7 @@ public class MainServiceImpl implements IMainService {
 	}
 
 	@Override
-	public void checkBusinessLicense(String message) {
+	public void checkBusinessLicense(String message,String uploadFolder) {
 		JSONObject json = JSONObject.fromObject(message);
 		CompanyMessage record = new CompanyMessage();
 		CompanyMessageExample example = new CompanyMessageExample();
@@ -152,7 +166,8 @@ public class MainServiceImpl implements IMainService {
 		record.setApprovestate(IMyEnums.CERTIFICATION_STATUS_UNDER_REVIEW);
 		record.setUpdatetime(new Date());
 		company_message_mapper.updateByExampleSelective(record, example);
-		TimerUtil.checkBusinessLicense(json.getString("filePath"), json.getInt("time"), message, company_message_mapper);
+		String[] filePath = json.getString("filePath").split("/");
+		TimerUtil.checkBusinessLicense( uploadFolder+filePath[4]+"/"+filePath[5]+"/"+filePath[6], json.getInt("time"), message, company_message_mapper);
 	}
 
 	@Override
@@ -219,6 +234,148 @@ public class MainServiceImpl implements IMainService {
 				else {
 					obj.put("msg", IMyEnums.FAIL);
 				}
+			}
+			else {
+				obj.put("msg", IMyEnums.FAIL);
+			}
+		}
+		else {
+			obj.put("msg", IMyEnums.FAIL);
+		}
+		return obj.toString();
+	}
+
+	@Override
+	public String queryMovingCompany(String message) throws IOException {
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		if(message!=null&&!"".equals(message)) {
+			json = JSONObject.fromObject(message);
+			CompanyMessageExample example = new CompanyMessageExample();
+			CompanyMessageExample.Criteria criteria = example.createCriteria();
+			if(!"全部".equals(json.getString("region"))) {
+				criteria.andRegionEqualTo(json.getString("region"));
+			}
+			if(!"全部".equals(json.getString("money"))) {
+				String[] moneys = json.getString("money").split("-");
+				criteria.andMoneyBetween(Double.parseDouble(moneys[0]), Double.parseDouble(moneys[1]));
+			}
+			List<CompanyMessage> list = company_message_mapper.selectByExample(example);
+			if(list!=null&&list.size()>0) {
+				for(int i=0;i<list.size();i++) {
+					if(!"全部".equals(json.getString("serviceType"))) {
+						ServiceTypeExample example2 = new ServiceTypeExample();
+						ServiceTypeExample.Criteria criteria2 = example2.createCriteria();
+						criteria2.andNameEqualTo(json.getString("serviceType"));
+						List<ServiceType> list2 = service_type_mapper.selectByExample(example2);
+						String[] servicecontexts = list.get(i).getServicecontext().split(";");
+						Boolean flag = false;
+						for(int j = 0;j<servicecontexts.length;j++) {
+							if(servicecontexts[j].equals(list2.get(0).getServicetypeid()+"")) {
+								flag = true;
+								break;
+							}
+						}
+						if(!flag) {
+							list.remove(i);
+						}
+					}
+					//搬家公司图片
+					CompanyphotoExample example2 = new CompanyphotoExample();
+					CompanyphotoExample.Criteria criteria2 = example2.createCriteria();
+					criteria2.andCompanymessageidEqualTo(list.get(i).getCompanymessageid());
+					List<Companyphoto> companyphotos = company_photo_mapper.selectByExample(example2);
+					list.get(i).setCompanyphoto(companyphotos);
+					//搬家公司描述
+					ServiceDescribeExample example3 = new ServiceDescribeExample();
+					ServiceDescribeExample.Criteria criteria3 = example3.createCriteria();
+					criteria3.andCompanymessageidEqualTo(list.get(i).getCompanymessageid());
+					List<ServiceDescribe> list3 = service_describe_mapper.selectByExample(example3);
+					list3.get(0).setContextnum(ChattingRecordsIO.readFile(list3.get(0).getContextnum()));
+					list.get(i).setServiceDescribe(list3.get(0));
+					//搬家公司地址
+					list.get(i).setAddress(address_service.getProCityDis(list.get(i).getDisId()+"")+"-"+list.get(i).getAddress());
+					//搬家公司评伦 留言
+					AppraiseExample example5 = new AppraiseExample();
+					AppraiseExample.Criteria criteria5 = example5.createCriteria();
+					criteria5.andCompanymessageidEqualTo(list.get(i).getCompanymessageid());
+					List<Appraise> list2 = appraise_mapper.selectByExample(example5);
+					if(list2!=null&&list2.size()>0) {
+						for(int j=0;j<list2.size();j++) {
+							//获取评伦信息
+							String content = ChattingRecordsIO.readFile(list2.get(j).getContextcode());
+							list2.get(j).setContextcode(content);
+							//获取评伦用户名
+							User user = user_mapper.selectByPrimaryKey(list2.get(j).getUserid());
+							list2.get(j).setUser(user);
+						}
+					}
+					list.get(i).setAppraises(list2);
+				}
+				obj.put("companyMessage", list);
+				obj.put("msg", IMyEnums.SUCCEED);
+			}
+			else {
+				obj.put("msg", IMyEnums.FAIL);
+			}
+		}
+		else {
+			obj.put("msg", IMyEnums.FAIL);
+		}
+		return obj.toString();
+	}
+
+	@Override
+	public String insertMovingCompanyAppraise(String message,String frontEndPath) throws IOException {
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		if(message!=null&&!"".equals(message)) {
+			json = JSONObject.fromObject(message);
+			Appraise appraise = new Appraise();
+			appraise.setAppraisetype(json.getString("appraiseType"));
+			appraise.setCompanymessageid(json.getInt("CompanyMessageId"));
+			String content = json.getString("contextCode");
+			String filePath = frontEndPath+"appraise/movingcompany."+new Date().getTime()+".txt";
+			ChattingRecordsIO.writeFileByBytes(filePath, content);
+			appraise.setContextcode(filePath);
+			appraise.setFiducialpoint(json.getString("fiducialPoint"));
+			appraise.setLikenum(0);
+			appraise.setManner(json.getString("manner"));
+			appraise.setUserid(json.getInt("userid"));
+			appraise.setVehiclecondition(json.getString("vehicleCondition"));
+			appraise.setOverallmerit(json.getString("overallMerit"));
+			int i = appraise_mapper.insertSelective(appraise);
+			if(i>0) {
+				obj.put("msg", IMyEnums.SUCCEED);
+			}
+			else {
+				obj.put("msg", IMyEnums.FAIL);
+			}
+		}
+		else {
+			obj.put("msg", IMyEnums.FAIL);
+		}
+		return obj.toString();
+	}
+
+	@Override
+	public String insertInform(String message, String frontEndPath) throws IOException {
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		if(message!=null&&!"".equals(message)) {
+			json = JSONObject.fromObject(message);
+			Inform inform = new Inform();
+			inform.setCompanymessageid(json.getInt("companymessageid"));
+			String filePath = frontEndPath+"liuyan/movingcompany."+new Date().getTime()+".txt";
+			String content = json.getString("contextNum");
+			ChattingRecordsIO.writeFileByBytes(filePath, content);
+			inform.setContextnum(filePath);
+			inform.setCreatetime(new Date());
+			inform.setName(json.getString("name"));
+			inform.setTel(json.getString("tel"));
+			int i = inform_mapper.insertSelective(inform);
+			if(i>0) {
+				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
 				obj.put("msg", IMyEnums.FAIL);

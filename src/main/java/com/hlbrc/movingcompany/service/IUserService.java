@@ -1,5 +1,6 @@
 package com.hlbrc.movingcompany.service;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 import javax.servlet.http.HttpSession;
@@ -9,8 +10,9 @@ public interface IUserService {
 	 * 用户登录
 	 * @param message
 	 * @return
+	 * @throws IOException 
 	 */
-	public String userlogin(String message, HttpSession session);
+	public String userlogin(String message, HttpSession session) throws IOException;
 	/**
 	 * 查看所有用户信息
 	 * @param message
@@ -36,9 +38,10 @@ public interface IUserService {
 	 * 根据用户手机号，查看用户信息
 	 * @param message
 	 * @return
+	 * @throws IOException 
 	 * @throws ParseException 
 	 */
-	public String queryuserByEmail(String message);
+	public String queryuserByEmail(String message,HttpSession session) throws IOException;
 	/**
 	 * 根据用户名称，查看用户信息
 	 * @param message
@@ -115,4 +118,10 @@ public interface IUserService {
 	 * @return
 	 */
 	public String updateuserphoto(String message,HttpSession session);
+	/**
+	 * 添加用户收藏
+	 * @param message
+	 * @return
+	 */
+	public String insertUserCollect(String message);
 }

@@ -20,8 +20,18 @@ public class Appraise {
     private String appraisetype;
 
     private Integer likenum;
+    
+    private User user;
 
-    public Integer getAppraiseid() {
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getAppraiseid() {
         return appraiseid;
     }
 

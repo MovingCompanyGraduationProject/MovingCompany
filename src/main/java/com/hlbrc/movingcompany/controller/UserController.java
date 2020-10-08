@@ -2,12 +2,9 @@ package com.hlbrc.movingcompany.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -27,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.hlbrc.movingcompany.enums.IMyEnums;
+import com.hlbrc.movingcompany.service.IOrderService;
 import com.hlbrc.movingcompany.service.IUserService;
 import com.hlbrc.movingcompany.util.Log;
 
@@ -38,6 +36,8 @@ import net.sf.json.JSONObject;
 public class UserController {
 	@Autowired 
 	IUserService user_service;
+	@Autowired
+	IOrderService order_service;
 	@Value("${file.uploadFolder}")
     private String uploadFolder;
 	
@@ -197,8 +197,47 @@ public class UserController {
 			return user_service.updateuserphoto(message, session);
 		}
     	catch (Exception e) {
-    		e.printStackTrace();
     		Log.logger.debug("上传头像失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     * 添加用户收藏
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "insertUserCollect")
+    @ResponseBody
+    public String insertUserCollect(String message) {
+    	JSONObject obj = new JSONObject();
+		try {
+			System.err.println(message);
+			return user_service.insertUserCollect(message);
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("添加用户收藏失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     * 添加用户订单
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "insertOrderForm")
+    @ResponseBody
+    public String insertOrderForm(String message) {
+    	JSONObject obj = new JSONObject();
+		try {
+			System.err.println(message);
+			return order_service.insertOrderForm(message);
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("添加用户订单失败："+e.getMessage());
     		obj.put("msg", IMyEnums.FAIL);
 			return obj.toString();
 		}

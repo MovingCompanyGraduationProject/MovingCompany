@@ -36,3 +36,76 @@
 ### SQL: insert into companyphoto      ( CompanyMessageId,                       path,                       uploadTime )       values ( ?,                       ?,                       ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'path' at row 1
 ; Data truncation: Data too long for column 'path' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'path' at row 1
+2020-10-06 21:13:37 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：For input string: "全部"
+2020-10-06 21:14:24 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:335) MainController.java DEBUG 查询符合条件的搬家公司失败：For input string: "全部"
+2020-10-06 21:15:12 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:335) MainController.java DEBUG 查询符合条件的搬家公司失败：For input string: "全部"
+2020-10-06 21:39:27 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：Index: 1, Size: 1
+2020-10-06 22:00:43 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：Index: 1, Size: 1
+2020-10-06 22:21:10 com.hlbrc.movingcompany.controller.UserController.userlogin(UserController.java:56) UserController.java DEBUG 用户登录出错了！：Index: 0, Size: 0
+2020-10-06 22:23:05 com.hlbrc.movingcompany.controller.UserController.userlogin(UserController.java:56) UserController.java DEBUG 用户登录出错了！：Index: 0, Size: 0
+2020-10-06 22:33:52 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：Index: 1, Size: 1
+2020-10-06 22:33:55 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：Index: 1, Size: 1
+2020-10-06 22:33:58 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：Index: 1, Size: 1
+2020-10-06 22:34:01 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：Index: 1, Size: 1
+2020-10-06 22:34:03 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：Index: 1, Size: 1
+2020-10-06 22:34:05 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：Index: 1, Size: 1
+2020-10-06 22:34:07 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：Index: 1, Size: 1
+2020-10-06 22:34:56 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:335) MainController.java DEBUG 查询符合条件的搬家公司失败：Index: 1, Size: 1
+2020-10-06 22:54:40 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：nested exception is org.apache.ibatis.exceptions.PersistenceException: 
+### Error querying database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: HikariDataSource HikariDataSource (HikariPool-1) has been closed.
+### The error may exist in file [D:\Users\DELL\MyPubRepository\MovingCompany\target\classes\mapper\CompanyMessageMapper.xml]
+### The error may involve com.hlbrc.movingcompany.mapper.ICompanyMessageMapper.selectByExample
+### The error occurred while executing a query
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: HikariDataSource HikariDataSource (HikariPool-1) has been closed.
+2020-10-06 22:55:59 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:334) MainController.java DEBUG 查询符合条件的搬家公司失败：Index: 1, Size: 1
+2020-10-07 14:54:37 com.hlbrc.movingcompany.controller.MainController.insertMovingCompanyAppraise(MainController.java:354) MainController.java DEBUG 查询符合条件的搬家公司失败：
+### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'contextCode' at row 1
+### The error may involve com.hlbrc.movingcompany.mapper.IAppraiseMapper.insertSelective-Inline
+### The error occurred while setting parameters
+### SQL: insert into appraise      ( userId,                       CompanyMessageId,                              manner,                       fiducialPoint,                       vehicleCondition,                       contextCode,                       appraiseType,                       likeNum )       values ( ?,                       ?,                              ?,                       ?,                       ?,                       ?,                       ?,                       ? )
+### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'contextCode' at row 1
+; Data truncation: Data too long for column 'contextCode' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'contextCode' at row 1
+2020-10-07 15:31:56 com.hlbrc.movingcompany.controller.ManagerController.managerlogin(ManagerController.java:35) ManagerController.java DEBUG 管理员登录出错了！：null
+2020-10-07 17:02:56 com.hlbrc.movingcompany.controller.UserController.insertUserCollect(UserController.java:217) UserController.java DEBUG 上传头像失败：
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+### The error may involve com.hlbrc.movingcompany.mapper.IMyCollectMapper.insertSelective-Inline
+### The error occurred while setting parameters
+### SQL: insert into collect      ( CompanyMessageId,                       userId )       values ( ?,                       ? )
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+; Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+2020-10-07 17:03:32 com.hlbrc.movingcompany.controller.UserController.insertUserCollect(UserController.java:217) UserController.java DEBUG 上传头像失败：
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+### The error may involve com.hlbrc.movingcompany.mapper.IMyCollectMapper.insertSelective-Inline
+### The error occurred while setting parameters
+### SQL: insert into collect      ( CompanyMessageId,                       userId )       values ( ?,                       ? )
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+; Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+2020-10-07 17:04:06 com.hlbrc.movingcompany.controller.UserController.insertUserCollect(UserController.java:217) UserController.java DEBUG 上传头像失败：
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+### The error may involve com.hlbrc.movingcompany.mapper.IMyCollectMapper.insertSelective-Inline
+### The error occurred while setting parameters
+### SQL: insert into collect      ( CompanyMessageId,                       userId )       values ( ?,                       ? )
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+; Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+2020-10-07 17:04:44 com.hlbrc.movingcompany.controller.UserController.insertUserCollect(UserController.java:217) UserController.java DEBUG 添加用户收藏失败：
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+### The error may involve com.hlbrc.movingcompany.mapper.IMyCollectMapper.insertSelective-Inline
+### The error occurred while setting parameters
+### SQL: insert into collect      ( CompanyMessageId,                       userId )       values ( ?,                       ? )
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+; Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`movingcompanydb`.`collect`, CONSTRAINT `FK_Reference_16` FOREIGN KEY (`CompanyMessageId`) REFERENCES `companymessage` (`CompanyMessageId`))
+2020-10-08 10:29:03 com.hlbrc.movingcompany.controller.UserController.insertOrderForm(UserController.java:241) UserController.java DEBUG 添加用户订单失败：null
+2020-10-08 10:29:52 com.hlbrc.movingcompany.controller.UserController.insertOrderForm(UserController.java:242) UserController.java DEBUG 添加用户订单失败：null
+2020-10-08 10:34:12 com.hlbrc.movingcompany.controller.UserController.insertOrderForm(UserController.java:242) UserController.java DEBUG 添加用户订单失败：Unparseable date: "2020-10-08T09:56"
+2020-10-08 10:36:33 com.hlbrc.movingcompany.controller.UserController.insertOrderForm(UserController.java:242) UserController.java DEBUG 添加用户订单失败：JSONObject["userid"] is not a number.
+2020-10-08 10:45:26 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:333) MainController.java DEBUG 查询符合条件的搬家公司失败：JSONObject["region"] not found.
+2020-10-08 10:46:27 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:333) MainController.java DEBUG 查询符合条件的搬家公司失败：JSONObject["region"] not found.
+2020-10-08 10:46:37 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:333) MainController.java DEBUG 查询符合条件的搬家公司失败：JSONObject["region"] not found.
+2020-10-08 10:47:05 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:333) MainController.java DEBUG 查询符合条件的搬家公司失败：JSONObject["region"] not found.
+2020-10-08 10:49:10 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:333) MainController.java DEBUG 查询符合条件的搬家公司失败：JSONObject["region"] not found.
+2020-10-08 10:49:33 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:333) MainController.java DEBUG 查询符合条件的搬家公司失败：JSONObject["region"] not found.
+2020-10-08 10:53:15 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:333) MainController.java DEBUG 查询符合条件的搬家公司失败：JSONObject["region"] not found.
+2020-10-08 10:53:29 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:333) MainController.java DEBUG 查询符合条件的搬家公司失败：JSONObject["region"] not found.
+2020-10-08 10:54:11 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:333) MainController.java DEBUG 查询符合条件的搬家公司失败：JSONObject["region"] not found.
+2020-10-08 13:21:09 com.hlbrc.movingcompany.controller.MainController.checkBusinessLicense(MainController.java:269) MainController.java DEBUG 营业执照认证失败：JSONObject["filePath"] not found.
+2020-10-08 13:29:04 com.hlbrc.movingcompany.controller.MainController.checkBusinessLicense(MainController.java:270) MainController.java DEBUG 营业执照认证失败：JSONObject["time"] is not a number.

@@ -2,6 +2,7 @@ package com.hlbrc.movingcompany.service.impl;
 
 
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,21 +14,28 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hlbrc.movingcompany.entity.Appraise;
+import com.hlbrc.movingcompany.entity.AppraiseExample;
 import com.hlbrc.movingcompany.entity.CompanyMessage;
 import com.hlbrc.movingcompany.entity.CompanyMessageExample;
 import com.hlbrc.movingcompany.entity.Companyphoto;
 import com.hlbrc.movingcompany.entity.CompanyphotoExample;
 import com.hlbrc.movingcompany.entity.Manager;
+import com.hlbrc.movingcompany.entity.MyCollect;
+import com.hlbrc.movingcompany.entity.MyCollectExample;
 import com.hlbrc.movingcompany.entity.ServiceDescribe;
 import com.hlbrc.movingcompany.entity.ServiceDescribeExample;
 import com.hlbrc.movingcompany.entity.User;
 import com.hlbrc.movingcompany.entity.UserExample;
 import com.hlbrc.movingcompany.enums.IMyEnums;
+import com.hlbrc.movingcompany.mapper.IAppraiseMapper;
 import com.hlbrc.movingcompany.mapper.ICompanyMessageMapper;
 import com.hlbrc.movingcompany.mapper.ICompanyphotoMapper;
+import com.hlbrc.movingcompany.mapper.IMyCollectMapper;
 import com.hlbrc.movingcompany.mapper.IServiceDescribeMapper;
 import com.hlbrc.movingcompany.mapper.IUserMapper;
 import com.hlbrc.movingcompany.service.IUserService;
+import com.hlbrc.movingcompany.util.ChattingRecordsIO;
 import com.hlbrc.movingcompany.util.MD5;
 import com.hlbrc.movingcompany.util.Time;
 import com.hlbrc.movingcompany.util.TimerUtil;
@@ -45,9 +53,13 @@ public class UserServiceImpl implements IUserService {
 	ICompanyphotoMapper company_photo_mapper;
 	@Autowired
 	IServiceDescribeMapper service_describe_mapper;
+	@Autowired
+	IAppraiseMapper appraise_mapper;
+	@Autowired
+	IMyCollectMapper mycollect_mapper;
 	
 	@Override
-	public String userlogin(String message, HttpSession session) {
+	public String userlogin(String message, HttpSession session) throws IOException {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		if(message!=null&&!"".equals(message)) {
@@ -58,23 +70,41 @@ public class UserServiceImpl implements IUserService {
 			criteria.andPasswordEqualTo(MD5.getMD5(json.getString("password")));
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
+				//公司信息
 				CompanyMessageExample example2 = new CompanyMessageExample();
 				CompanyMessageExample.Criteria criteria2 = example2.createCriteria();
 				criteria2.andUseridEqualTo(list.get(0).getUserid());
 				List<CompanyMessage> companyMessage = company_message_mapper.selectByExample(example2);
 				if(companyMessage!=null&&companyMessage.size()>0) {
+					//公司描述
 					ServiceDescribeExample example3 = new ServiceDescribeExample();
 					ServiceDescribeExample.Criteria criteria3 = example3.createCriteria();
 					criteria3.andCompanymessageidEqualTo(companyMessage.get(0).getCompanymessageid());
 					List<ServiceDescribe> serviceDescribe = service_describe_mapper.selectByExample(example3);
 					companyMessage.get(0).setServiceDescribe(serviceDescribe.get(0));
+					//公司图片
 					CompanyphotoExample example4 = new CompanyphotoExample();
 					CompanyphotoExample.Criteria criteria4 = example4.createCriteria();
 					criteria4.andCompanymessageidEqualTo(companyMessage.get(0).getCompanymessageid());
 					List<Companyphoto> companyphotos = company_photo_mapper.selectByExample(example4);
 					companyMessage.get(0).setCompanyphoto(companyphotos);
+					//搬家公司评伦 留言
+					AppraiseExample example5 = new AppraiseExample();
+					AppraiseExample.Criteria criteria5 = example5.createCriteria();
+					criteria5.andCompanymessageidEqualTo(companyMessage.get(0).getCompanymessageid());
+					List<Appraise> list2 = appraise_mapper.selectByExample(example5);
+					if(list2!=null&&list2.size()>0) {
+						for(int i=0;i<list2.size();i++) {
+							//获取评伦信息
+							String content = ChattingRecordsIO.readFile(list2.get(i).getContextcode());
+							list2.get(i).setContextcode(content);
+							//获取评伦用户名
+							User user = user_mapper.selectByPrimaryKey(list2.get(i).getUserid());
+							list2.get(i).setUser(user);
+						}
+					}
+					list.get(0).setCompanyMessage(companyMessage.get(0));
 				}
-				list.get(0).setCompanyMessage(companyMessage.get(0));
 				session.setAttribute("user", list.get(0));
 				obj.put("user", list.get(0));
 				obj.put("msg", IMyEnums.SUCCEED);
@@ -190,7 +220,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public String queryuserByEmail(String message) {
+	public String queryuserByEmail(String message,HttpSession session) throws IOException {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		if(message!=null&&!"".equals(message)) {
@@ -200,6 +230,42 @@ public class UserServiceImpl implements IUserService {
 			criteria.andEmailEqualTo(json.getString("email"));
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
+				//公司信息
+				CompanyMessageExample example2 = new CompanyMessageExample();
+				CompanyMessageExample.Criteria criteria2 = example2.createCriteria();
+				criteria2.andUseridEqualTo(list.get(0).getUserid());
+				List<CompanyMessage> companyMessage = company_message_mapper.selectByExample(example2);
+				if(companyMessage!=null&&companyMessage.size()>0) {
+					//公司描述
+					ServiceDescribeExample example3 = new ServiceDescribeExample();
+					ServiceDescribeExample.Criteria criteria3 = example3.createCriteria();
+					criteria3.andCompanymessageidEqualTo(companyMessage.get(0).getCompanymessageid());
+					List<ServiceDescribe> serviceDescribe = service_describe_mapper.selectByExample(example3);
+					companyMessage.get(0).setServiceDescribe(serviceDescribe.get(0));
+					//公司图片
+					CompanyphotoExample example4 = new CompanyphotoExample();
+					CompanyphotoExample.Criteria criteria4 = example4.createCriteria();
+					criteria4.andCompanymessageidEqualTo(companyMessage.get(0).getCompanymessageid());
+					List<Companyphoto> companyphotos = company_photo_mapper.selectByExample(example4);
+					companyMessage.get(0).setCompanyphoto(companyphotos);
+					//搬家公司评伦 留言
+					AppraiseExample example5 = new AppraiseExample();
+					AppraiseExample.Criteria criteria5 = example5.createCriteria();
+					criteria5.andCompanymessageidEqualTo(companyMessage.get(0).getCompanymessageid());
+					List<Appraise> list2 = appraise_mapper.selectByExample(example5);
+					if(list2!=null&&list2.size()>0) {
+						for(int i=0;i<list2.size();i++) {
+							//获取评伦信息
+							String content = ChattingRecordsIO.readFile(list2.get(i).getContextcode());
+							list2.get(i).setContextcode(content);
+							//获取评伦用户名
+							User user = user_mapper.selectByPrimaryKey(list2.get(i).getUserid());
+							list2.get(i).setUser(user);
+						}
+					}
+					list.get(0).setCompanyMessage(companyMessage.get(0));
+				}
+				session.setAttribute("user", list.get(0));
 				obj.put("user", list.get(0));
 				obj.put("msg", IMyEnums.SUCCEED);
 			}
@@ -683,6 +749,40 @@ public class UserServiceImpl implements IUserService {
 		user_mapper.updateByExampleSelective(user, example);
 		String[] filePath = json.getString("idcardz").split("/");
 		TimerUtil.checkIdCard(json.getString("idCardSide"), uploadFolder+filePath[4]+"/"+filePath[5]+"/"+filePath[6], json.getInt("time"), message, user_mapper);
+	}
+	
+	@Override
+	public String insertUserCollect(String message) {
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		if(message!=null&&!"".equals(message)) {
+			json = JSONObject.fromObject(message);
+			MyCollectExample example = new MyCollectExample();
+			MyCollectExample.Criteria criteria = example.createCriteria();
+			criteria.andCompanymessageidEqualTo(json.getInt("companymessageid"));
+			criteria.andUseridEqualTo(json.getInt("userid"));
+			List<MyCollect> collects = mycollect_mapper.selectByExample(example);
+			int i = 0;
+			if(collects!=null&&collects.size()<=0) {
+				MyCollect myCollect = new MyCollect();
+				myCollect.setCompanymessageid(json.getInt("companymessageid"));
+				myCollect.setUserid(json.getInt("userid"));
+				i =mycollect_mapper.insertSelective(myCollect);
+			}
+			else {
+				i=1;
+			}
+			if(i>0) {
+				obj.put("msg", IMyEnums.SUCCEED);
+			}
+			else {
+				obj.put("msg", IMyEnums.FAIL);
+			}
+		}
+		else {
+			obj.put("msg", IMyEnums.FAIL);
+		}
+		return obj.toString();
 	}
 	
 }

@@ -39,8 +39,18 @@ public class CompanyMessage {
     private ServiceDescribe serviceDescribe;
     
     private List<Companyphoto> companyphoto;
+    
+    private List<Appraise> appraises;
 
-    public ServiceDescribe getServiceDescribe() {
+    public List<Appraise> getAppraises() {
+		return appraises;
+	}
+
+	public void setAppraises(List<Appraise> appraises) {
+		this.appraises = appraises;
+	}
+
+	public ServiceDescribe getServiceDescribe() {
 		return serviceDescribe;
 	}
 
