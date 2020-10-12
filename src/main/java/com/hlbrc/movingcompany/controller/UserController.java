@@ -49,12 +49,14 @@ public class UserController {
 	@RequestMapping(value="userlogin")
 	@ResponseBody
 	public String userlogin(String message,HttpSession session) {
+		JSONObject obj = new JSONObject();
 		try {
 			System.err.println(message.toString());
 			return user_service.userlogin(message,session);
 		}catch (Exception e) {
 			Log.logger.debug("用户登录出错了！："+e.getMessage());
-			return "{'msg':'no'}";
+			obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
 		}
 	}
 	
@@ -90,7 +92,6 @@ public class UserController {
     		return user_service.insertuser(message);
 	    }
 		catch (Exception e) {
-			e.printStackTrace();
 			Log.logger.debug("用户注册失败："+e.getMessage());
 			obj.put("msg", IMyEnums.FAIL);
 			return obj.toString();
@@ -238,6 +239,110 @@ public class UserController {
 		}
     	catch (Exception e) {
     		Log.logger.debug("添加用户订单失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     * 查询所有没有被删除的用户信息
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "queryAllNotDelUserList")
+    @ResponseBody
+    public String queryAllNotDelUserList(String message) {
+    	JSONObject obj = new JSONObject();
+		try {
+			System.err.println(message);
+			return user_service.querynotdeluser(message);
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("查询所有没有被删除的用户信息失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     * 查询所有被删除的用户信息
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "queryAllDelUserList")
+    @ResponseBody
+    public String queryAllDelUserList(String message) {
+    	JSONObject obj = new JSONObject();
+		try {
+			System.err.println(message);
+			return user_service.querydeluser(message);
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("查询所有被删除的用户信息失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     * 修改用户状态
+     * @param message
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "updateUserDelStatus")
+    @ResponseBody
+    public String updateUserDelStatus(String message,HttpSession session) {
+    	JSONObject obj = new JSONObject();
+		try {
+			System.err.println(message);
+			return user_service.updateuserstatus(message, session);
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("查询所有被删除的用户信息失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     * 批量修改用户状态
+     * @param message
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "updateUserDeListStatus")
+    @ResponseBody
+    public String updateUserDeListStatus(String message,HttpSession session) {
+    	JSONObject obj = new JSONObject();
+		try {
+			System.err.println(message);
+			return user_service.updateuserliststatus(message, session);
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("查询所有被删除的用户信息失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     * 修改用户信息
+     * @param message
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "updateUserMessage")
+    @ResponseBody
+    public String updateUserMessage(String message,HttpSession session) {
+    	JSONObject obj = new JSONObject();
+		try {
+			System.err.println(message);
+			return user_service.updateuser(message, session);
+		}
+    	catch (Exception e) {
+    		e.printStackTrace();
+    		Log.logger.debug("修改用户信息失败："+e.getMessage());
     		obj.put("msg", IMyEnums.FAIL);
 			return obj.toString();
 		}

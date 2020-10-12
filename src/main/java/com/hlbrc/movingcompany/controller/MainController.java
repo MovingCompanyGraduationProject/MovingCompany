@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hlbrc.movingcompany.enums.IMyEnums;
 import com.hlbrc.movingcompany.service.IMainService;
 import com.hlbrc.movingcompany.service.IManagerService;
+import com.hlbrc.movingcompany.service.IOrderService;
 import com.hlbrc.movingcompany.service.IUserService;
 import com.hlbrc.movingcompany.util.ChattingRecordsIO;
 import com.hlbrc.movingcompany.util.Log;
@@ -32,6 +33,8 @@ public class MainController {
 	IManagerService manager_service;
 	@Autowired
 	IMainService main_service;
+	@Autowired
+	IOrderService order_service;
 	@Value("${file.frontEndPath}")
     private String frontEndPath;
 	@Value("${file.uploadFolder}")
@@ -373,6 +376,66 @@ public class MainController {
 		}
     	catch (Exception e) {
     		Log.logger.debug("添加留言失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     * 查询所有订单信息
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "queryAllOrderForm")
+    @ResponseBody
+    public String queryAllOrderForm(String message) {
+    	JSONObject obj = new JSONObject();
+		try {
+			System.err.println(message);
+			return order_service.queryAllOrderForm(message);
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("查询所有订单信息失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     * 删除订单
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "deleteOrderForm")
+    @ResponseBody
+    public String deleteOrderForm(String message) {
+    	JSONObject obj = new JSONObject();
+		try {
+			System.err.println(message);
+			return order_service.deleteOrderForm(message);
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("删除订单失败："+e.getMessage());
+    		obj.put("msg", IMyEnums.FAIL);
+			return obj.toString();
+		}
+	}
+    
+    /**
+     * 批量删除订单
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "deleteListOrderForm")
+    @ResponseBody
+    public String deleteListOrderForm(String message) {
+    	JSONObject obj = new JSONObject();
+		try {
+			System.err.println(message);
+			return order_service.deleteListOrderForm(message);
+		}
+    	catch (Exception e) {
+    		Log.logger.debug("批量删除订单失败："+e.getMessage());
     		obj.put("msg", IMyEnums.FAIL);
 			return obj.toString();
 		}

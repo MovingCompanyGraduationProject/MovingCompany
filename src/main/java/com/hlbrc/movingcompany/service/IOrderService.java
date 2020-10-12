@@ -4,10 +4,12 @@ import java.text.ParseException;
 
 public interface IOrderService {
 	/**
-	 * 查看所有订单
+	 * 查看所有订单 模糊查询 分页
+	 * @param message
 	 * @return
+	 * @throws ParseException 
 	 */
-	public String queryAllOrderForm();
+	public String queryAllOrderForm(String message) throws ParseException;
 	/**
 	 * 添加订单
 	 * @param message
@@ -15,8 +17,16 @@ public interface IOrderService {
 	 * @throws ParseException 
 	 */
 	public String insertOrderForm(String message) throws ParseException;
-	//改变订单状态
-	//批量改变订单状态
-	//模糊查询
-	//分页
+	/**
+	 * 删除订单
+	 * @param message
+	 * @return
+	 */
+	public String deleteOrderForm(String message);
+	/**
+	 * 批量删除订单
+	 * @param message
+	 * @return
+	 */
+	public String deleteListOrderForm(String message);
 }

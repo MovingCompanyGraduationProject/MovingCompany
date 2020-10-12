@@ -22,8 +22,28 @@ public class Orderform {
     private Date movingtime;
 
     private Date createtime;
+    
+    private CompanyMessage companyMessage;
+    
+    private User user;
 
-    public Integer getOrderformid() {
+    public CompanyMessage getCompanyMessage() {
+		return companyMessage;
+	}
+
+	public void setCompanyMessage(CompanyMessage companyMessage) {
+		this.companyMessage = companyMessage;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getOrderformid() {
         return orderformid;
     }
 

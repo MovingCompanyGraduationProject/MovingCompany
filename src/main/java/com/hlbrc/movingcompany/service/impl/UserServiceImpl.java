@@ -1,7 +1,5 @@
 package com.hlbrc.movingcompany.service.impl;
 
-
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -20,7 +18,6 @@ import com.hlbrc.movingcompany.entity.CompanyMessage;
 import com.hlbrc.movingcompany.entity.CompanyMessageExample;
 import com.hlbrc.movingcompany.entity.Companyphoto;
 import com.hlbrc.movingcompany.entity.CompanyphotoExample;
-import com.hlbrc.movingcompany.entity.Manager;
 import com.hlbrc.movingcompany.entity.MyCollect;
 import com.hlbrc.movingcompany.entity.MyCollectExample;
 import com.hlbrc.movingcompany.entity.ServiceDescribe;
@@ -34,6 +31,7 @@ import com.hlbrc.movingcompany.mapper.ICompanyphotoMapper;
 import com.hlbrc.movingcompany.mapper.IMyCollectMapper;
 import com.hlbrc.movingcompany.mapper.IServiceDescribeMapper;
 import com.hlbrc.movingcompany.mapper.IUserMapper;
+import com.hlbrc.movingcompany.service.IAddressService;
 import com.hlbrc.movingcompany.service.IUserService;
 import com.hlbrc.movingcompany.util.ChattingRecordsIO;
 import com.hlbrc.movingcompany.util.MD5;
@@ -57,6 +55,8 @@ public class UserServiceImpl implements IUserService {
 	IAppraiseMapper appraise_mapper;
 	@Autowired
 	IMyCollectMapper mycollect_mapper;
+	@Autowired
+	IAddressService address_service;
 	
 	@Override
 	public String userlogin(String message, HttpSession session) throws IOException {
@@ -128,10 +128,7 @@ public class UserServiceImpl implements IUserService {
 			UserExample.Criteria criteria = example.createCriteria();
 			json = JSONObject.fromObject(message);
 			String format = "yyyy-MM-dd";
-			example.setOrderByClause("createTime ASC");
-			example.setPageIndex(Integer.parseInt(json.getString("pageIndex"))-1);
-	        example.setPageSize(2);
-	        if(!"".equals(json.getString("username"))) {
+			if(!"".equals(json.getString("username"))) {
 	        	criteria.andNameLike("%"+json.getString("username")+"%");
 	        }
 			if(!"".equals(json.getString("startTime"))&&!"".equals(json.getString("endTime"))) {
@@ -143,6 +140,23 @@ public class UserServiceImpl implements IUserService {
 			else if("".equals(json.getString("startTime"))&&!"".equals(json.getString("endTime"))) {
 				criteria.andCreatetimeLessThanOrEqualTo(new SimpleDateFormat(format).parse(json.getString("endTime")));
 			}
+			criteria.andDelstateEqualTo(IMyEnums.NORMAL);
+			long all = user_mapper.countByExample(example);
+			int index = json.getInt("pageIndex");
+			int star = 0;
+			int psize = 8;
+			obj.put("allNumber", all);
+			if (all % psize == 0) {
+				all = all / psize;
+			} else {
+				all = all / psize + 1;
+			}
+			if (index > 1) {
+				star = (index - 1) * psize;
+			}
+			example.setOrderByClause("createTime ASC");
+			example.setPageIndex(star);
+	        example.setPageSize(psize);
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
 				obj.put("msg", IMyEnums.SUCCEED);
@@ -307,9 +321,9 @@ public class UserServiceImpl implements IUserService {
 	public String insertuser(String message, HttpSession session) {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
-		User ord_user = (User) session.getAttribute("user");
-		Manager manager = (Manager) session.getAttribute("manager");
-		if(manager!=null||ord_user!=null) {
+//		User ord_user = (User) session.getAttribute("user");
+//		Manager manager = (Manager) session.getAttribute("manager");
+//		if(manager!=null||ord_user!=null) {
 			if(message!=null&&!"".equals(message)) {
 				json = JSONObject.fromObject(message);
 				User user = new User();
@@ -339,7 +353,7 @@ public class UserServiceImpl implements IUserService {
 					user.setSex(sex);
 				}
 				user.setCreatetime(new Date());
-				user.setDelstate(IMyEnums.NORMAL);
+				user.setDelstate(IMyEnums.USER_NORMAL);
 				user.setDisid(Integer.parseInt(json.getString("disId")));
 				user.setEmail(json.getString("email"));
 				user.setIdnumber(idnumber);
@@ -358,10 +372,10 @@ public class UserServiceImpl implements IUserService {
 			else {
 				obj.put("msg", IMyEnums.FAIL);
 			}
-		}
-		else {
-			obj.put("msg", IMyEnums.FAIL);
-		}
+//		}
+//		else {
+//			obj.put("msg", IMyEnums.FAIL);
+//		}
 		return obj.toString();
 	}
 	
@@ -388,7 +402,12 @@ public class UserServiceImpl implements IUserService {
 				obj.put("msg", IMyEnums.USERNAME_ALREADY_EXISTS);
 				return obj.toString();
 			}
-			user.setAddress(json.getString("disId"));
+			if(json.getString("disId")!=null&&!"".equals(json.getString("disId"))) {
+				user.setDisid(Integer.parseInt(json.getString("disId")));
+			}
+			if(json.getString("address")!=null&&!"".equals(json.getString("address"))) {
+				user.setAddress(json.getString("address"));
+			}
 			String idnumber = json.getString("idnumber");
 			if(idnumber!=null&&!"".equals(idnumber)) {
 //				String birthday=idnumber.substring(6,14);
@@ -407,9 +426,7 @@ public class UserServiceImpl implements IUserService {
 			}
 			user.setCreatetime(new Date());
 			user.setDelstate(IMyEnums.NORMAL);
-			if(json.getString("disId")!=null&&!"".equals(json.getString("disId"))) {
-				user.setDisid(Integer.parseInt(json.getString("disId")));
-			}
+			
 			user.setEmail(json.getString("email"));
 			user.setIdnumber(idnumber);
 			user.setName(json.getString("name"));
@@ -435,17 +452,15 @@ public class UserServiceImpl implements IUserService {
 	public String updateuser(String message,HttpSession session) {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
-		User ord_user = (User) session.getAttribute("user");
-		Manager manager = (Manager) session.getAttribute("manager");
-		if(manager!=null||ord_user!=null) {
+//		User ord_user = (User) session.getAttribute("user");
+//		Manager manager = (Manager) session.getAttribute("manager");
+//		if(manager!=null||ord_user!=null) {
 			if(message!=null&&!"".equals(message)) {
 				User user = new User();
 				UserExample example = new UserExample();
 				UserExample.Criteria criteria = example.createCriteria();
 				json = JSONObject.fromObject(message);
 				criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
-				AddressServiceImpl address = new AddressServiceImpl();
-				user.setAddress(address.getCityDis(json.getString("disId")));
 				String idnumber = json.getString("idnumber");
 				if(idnumber!=null&&!"".equals(idnumber)) {
 	//				String birthday=idnumber.substring(6,14);
@@ -461,16 +476,24 @@ public class UserServiceImpl implements IUserService {
 						sex="男";
 					user.setAge(age);
 					user.setSex(sex);
+					user.setIdnumber(idnumber);
 				}
 				user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
-				user.setDelstate(IMyEnums.NORMAL);
-				user.setDisid(Integer.parseInt(json.getString("disId")));
-				user.setEmail(json.getString("email"));
-				user.setIdnumber(idnumber);
-				user.setName(json.getString("name"));
-				user.setPassword(MD5.getMD5(json.getString("password")));
-				user.setUserstate(json.getString("userstate"));
-				user.setUsertel(json.getString("usertel"));
+				if(json.getString("disId")!=null&&!"".equals(json.getString("disId"))) {
+					user.setDisid(Integer.parseInt(json.getString("disId")));
+				}
+				if(json.getString("email")!=null&&!"".equals(json.getString("email"))) {
+					user.setEmail(json.getString("email"));
+				}
+				if(json.getString("name")!=null&&!"".equals(json.getString("name"))) {
+					user.setName(json.getString("name"));
+				}
+				if(json.getString("password")!=null&&!"".equals(json.getString("password"))) {
+					user.setPassword(MD5.getMD5(json.getString("password")));
+				}
+				if(json.getString("usertel")!=null&&!"".equals(json.getString("usertel"))) {
+					user.setUsertel(json.getString("usertel"));
+				}
 				int i = user_mapper.updateByExampleSelective(user, example);
 				if(i>0) {
 					obj.put("msg", IMyEnums.SUCCEED);
@@ -482,10 +505,10 @@ public class UserServiceImpl implements IUserService {
 			else {
 				obj.put("msg", IMyEnums.FAIL);
 			}
-		}
-		else {
-			obj.put("msg", IMyEnums.FAIL);
-		}
+//		}
+//		else {
+//			obj.put("msg", IMyEnums.FAIL);
+//		}
 		return obj.toString();
 	}
 	
@@ -493,9 +516,9 @@ public class UserServiceImpl implements IUserService {
 	public String updateuserphoto(String message,HttpSession session) {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
-		User ord_user = (User) session.getAttribute("user");
-		Manager manager = (Manager) session.getAttribute("manager");
-		if(manager!=null||ord_user!=null) {
+//		User ord_user = (User) session.getAttribute("user");
+//		Manager manager = (Manager) session.getAttribute("manager");
+//		if(manager!=null||ord_user!=null) {
 			if(message!=null&&!"".equals(message)) {
 				User user = new User();
 				UserExample example = new UserExample();
@@ -517,10 +540,10 @@ public class UserServiceImpl implements IUserService {
 			else {
 				obj.put("msg", IMyEnums.FAIL);
 			}
-		}
-		else {
-			obj.put("msg", IMyEnums.FAIL);
-		}
+//		}
+//		else {
+//			obj.put("msg", IMyEnums.FAIL);
+//		}
 		return obj.toString();
 	}
 
@@ -532,12 +555,9 @@ public class UserServiceImpl implements IUserService {
 			UserExample example = new UserExample();
 			UserExample.Criteria criteria = example.createCriteria();
 			json = JSONObject.fromObject(message);
-			criteria.andUserstateNotEqualTo(IMyEnums.DELETE);
+			criteria.andDelstateGreaterThan(IMyEnums.DELETE);
 			String format = "yyyy-MM-dd";
-			example.setOrderByClause("createTime ASC");
-			example.setPageIndex(Integer.parseInt(json.getString("pageIndex"))-1);
-	        example.setPageSize(2);
-	        if(!"".equals(json.getString("username"))) {
+			if(!"".equals(json.getString("username"))) {
 	        	criteria.andNameLike("%"+json.getString("username")+"%");
 	        }
 			if(!"".equals(json.getString("startTime"))&&!"".equals(json.getString("endTime"))) {
@@ -549,9 +569,37 @@ public class UserServiceImpl implements IUserService {
 			else if("".equals(json.getString("startTime"))&&!"".equals(json.getString("endTime"))) {
 				criteria.andCreatetimeLessThanOrEqualTo(new SimpleDateFormat(format).parse(json.getString("endTime")));
 			}
+			criteria.andDelstateEqualTo(IMyEnums.NORMAL);
+			long all = user_mapper.countByExample(example);
+			int index = json.getInt("pageIndex");
+			int star = 0;
+			int psize = 8;
+			obj.put("allNumber", all);
+			if (all % psize == 0) {
+				all = all / psize;
+			} else {
+				all = all / psize + 1;
+			}
+			if (index > 1) {
+				star = (index - 1) * psize;
+			}
+			example.setOrderByClause("createTime ASC");
+			example.setPageIndex(star);
+	        example.setPageSize(psize);
 			List<User> list = user_mapper.selectByExample(example);
+			obj.put("allPageNumber", all);
 			if(list!=null&&list.size()>0) {
-				obj.put("user", list.get(0));
+				for(int i = 0;i<list.size();i++) {
+					String address = "";
+					if(list.get(i).getDisid()!=null) {
+						address = address_service.getProCityDis(list.get(i).getDisid()+"");
+					}
+					if(list.get(i).getAddress()!=null) {
+						address+="-"+list.get(i).getAddress();
+					}
+					list.get(i).setAddress(address);
+				}
+				obj.put("usernotdellist", list);
 				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
@@ -572,12 +620,9 @@ public class UserServiceImpl implements IUserService {
 			UserExample example = new UserExample();
 			UserExample.Criteria criteria = example.createCriteria();
 			json = JSONObject.fromObject(message);
-			criteria.andUserstateEqualTo(IMyEnums.DELETE);
+			criteria.andDelstateEqualTo(IMyEnums.DELETE);
 			String format = "yyyy-MM-dd";
-			example.setOrderByClause("createTime ASC");
-			example.setPageIndex(Integer.parseInt(json.getString("pageIndex"))-1);
-	        example.setPageSize(2);
-	        if(!"".equals(json.getString("username"))) {
+			if(!"".equals(json.getString("username"))) {
 	        	criteria.andNameLike("%"+json.getString("username")+"%");
 	        }
 			if(!"".equals(json.getString("startTime"))&&!"".equals(json.getString("endTime"))) {
@@ -589,9 +634,37 @@ public class UserServiceImpl implements IUserService {
 			else if("".equals(json.getString("startTime"))&&!"".equals(json.getString("endTime"))) {
 				criteria.andCreatetimeLessThanOrEqualTo(new SimpleDateFormat(format).parse(json.getString("endTime")));
 			}
+			criteria.andDelstateEqualTo(IMyEnums.DELETE);
+			long all = user_mapper.countByExample(example);
+			int index = json.getInt("pageIndex");
+			int star = 0;
+			int psize = 8;
+			obj.put("allNumber", all);
+			if (all % psize == 0) {
+				all = all / psize;
+			} else {
+				all = all / psize + 1;
+			}
+			if (index > 1) {
+				star = (index - 1) * psize;
+			}
+			example.setOrderByClause("createTime ASC");
+			example.setPageIndex(star);
+	        example.setPageSize(psize);
 			List<User> list = user_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
-				obj.put("user", list.get(0));
+				for(int i = 0;i<list.size();i++) {
+					String address = "";
+					if(list.get(i).getDisid()!=null) {
+						address = address_service.getProCityDis(list.get(i).getDisid()+"");
+					}
+					if(list.get(i).getAddress()!=null) {
+						address+="-"+list.get(i).getAddress();
+					}
+					list.get(i).setAddress(address);
+				}
+				obj.put("userdellist", list);
+				obj.put("allPageNumber", all);
 				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
@@ -608,9 +681,9 @@ public class UserServiceImpl implements IUserService {
 	public String updateuserpassword(String message, HttpSession session) {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
-		User ord_user = (User) session.getAttribute("user");
-		Manager manager = (Manager) session.getAttribute("manager");
-		if(manager!=null||ord_user!=null) {
+//		User ord_user = (User) session.getAttribute("user");
+//		Manager manager = (Manager) session.getAttribute("manager");
+//		if(manager!=null||ord_user!=null) {
 			if(message!=null&&!"".equals(message)) {
 				UserExample example = new UserExample();
 				UserExample.Criteria criteria = example.createCriteria();
@@ -630,10 +703,10 @@ public class UserServiceImpl implements IUserService {
 			else {
 				obj.put("msg", IMyEnums.FAIL);
 			}
-		}
-		else {
-			obj.put("msg", IMyEnums.FAIL);
-		}
+//		}
+//		else {
+//			obj.put("msg", IMyEnums.FAIL);
+//		}
 		return obj.toString();
 	}
 	
@@ -667,16 +740,21 @@ public class UserServiceImpl implements IUserService {
 	public String updateuserstatus(String message, HttpSession session) {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
-		User ord_user = (User) session.getAttribute("user");
-		Manager manager = (Manager) session.getAttribute("manager");
-		if(manager!=null||ord_user!=null) {
+//		User ord_user = (User) session.getAttribute("user");
+//		Manager manager = (Manager) session.getAttribute("manager");
+//		if(manager!=null||ord_user!=null) {
 			if(message!=null&&!"".equals(message)) {
 				UserExample example = new UserExample();
 				UserExample.Criteria criteria = example.createCriteria();
 				User user = new User();
 				json = JSONObject.fromObject(message);
 				criteria.andUseridEqualTo(Integer.parseInt(json.getString("userid")));
-				user.setUserstate(json.getString("userstate"));
+				if(json.getString("userstate")!=null&&!"".equals(json.getString("userstate"))) {
+					user.setUserstate(json.getString("userstate"));
+				}
+				if(json.getString("delstate")!=null&&!"".equals(json.getString("delstate"))) {
+					user.setDelstate(json.getString("delstate"));
+				}
 				user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
 				int i = user_mapper.updateByExampleSelective(user, example);
 				if(i>0) {
@@ -689,10 +767,10 @@ public class UserServiceImpl implements IUserService {
 			else {
 				obj.put("msg", IMyEnums.FAIL);
 			}
-		}
-		else {
-			obj.put("msg", IMyEnums.FAIL);
-		}
+//		}
+//		else {
+//			obj.put("msg", IMyEnums.FAIL);
+//		}
 		return obj.toString();
 	}
 
@@ -700,9 +778,9 @@ public class UserServiceImpl implements IUserService {
 	public String updateuserliststatus(String message, HttpSession session) {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
-		User ord_user = (User) session.getAttribute("user");
-		Manager manager = (Manager) session.getAttribute("manager");
-		if(manager!=null||ord_user!=null) {
+//		User ord_user = (User) session.getAttribute("user");
+//		Manager manager = (Manager) session.getAttribute("manager");
+//		if(manager!=null||ord_user!=null) {
 			if(message!=null&&!"".equals(message)) {
 				UserExample example = new UserExample();
 				UserExample.Criteria criteria = example.createCriteria();
@@ -712,8 +790,16 @@ public class UserServiceImpl implements IUserService {
 				int i = 0;
 				if(userids!=null&&userids.length>0) {
 					for(String id:userids) {
+						user = new User();
+						example = new UserExample();
+						criteria = example.createCriteria();
 						criteria.andUseridEqualTo(Integer.parseInt(id));
-						user.setUserstate(json.getString("userstate"));
+						if(json.getString("userstate")!=null&&!"".equals(json.getString("userstate"))) {
+							user.setUserstate(json.getString("userstate"));
+						}
+						if(json.getString("delstate")!=null&&!"".equals(json.getString("delstate"))) {
+							user.setDelstate(json.getString("delstate"));
+						}
 						user.setUpdatetime(new Timestamp(new Date().getTime()).toString());
 						i += user_mapper.updateByExampleSelective(user, example);
 					}
@@ -728,10 +814,10 @@ public class UserServiceImpl implements IUserService {
 			else {
 				obj.put("msg", IMyEnums.FAIL);
 			}
-		}
-		else {
-			obj.put("msg", IMyEnums.FAIL);
-		}
+//		}
+//		else {
+//			obj.put("msg", IMyEnums.FAIL);
+//		}
 		return obj.toString();
 	}
 
@@ -784,5 +870,4 @@ public class UserServiceImpl implements IUserService {
 		}
 		return obj.toString();
 	}
-	
 }

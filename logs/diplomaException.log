@@ -109,3 +109,86 @@
 2020-10-08 10:54:11 com.hlbrc.movingcompany.controller.MainController.queryMovingCompany(MainController.java:333) MainController.java DEBUG 查询符合条件的搬家公司失败：JSONObject["region"] not found.
 2020-10-08 13:21:09 com.hlbrc.movingcompany.controller.MainController.checkBusinessLicense(MainController.java:269) MainController.java DEBUG 营业执照认证失败：JSONObject["filePath"] not found.
 2020-10-08 13:29:04 com.hlbrc.movingcompany.controller.MainController.checkBusinessLicense(MainController.java:270) MainController.java DEBUG 营业执照认证失败：JSONObject["time"] is not a number.
+2020-10-09 15:25:18 com.hlbrc.movingcompany.controller.UserController.queryAllNotDelUserList(UserController.java:260) UserController.java DEBUG 查询所有用户信息失败：For input string: "null"
+2020-10-09 15:25:21 com.hlbrc.movingcompany.controller.UserController.queryAllNotDelUserList(UserController.java:260) UserController.java DEBUG 查询所有用户信息失败：For input string: "null"
+2020-10-09 15:27:42 com.hlbrc.movingcompany.controller.UserController.queryAllNotDelUserList(UserController.java:260) UserController.java DEBUG 查询所有用户信息失败：For input string: "null"
+2020-10-09 15:27:52 com.hlbrc.movingcompany.controller.UserController.queryAllNotDelUserList(UserController.java:260) UserController.java DEBUG 查询所有用户信息失败：For input string: "null"
+2020-10-09 15:28:41 com.hlbrc.movingcompany.controller.UserController.queryAllNotDelUserList(UserController.java:261) UserController.java DEBUG 查询所有用户信息失败：For input string: "null"
+2020-10-09 15:31:31 com.hlbrc.movingcompany.controller.UserController.queryAllNotDelUserList(UserController.java:261) UserController.java DEBUG 查询所有用户信息失败：For input string: "null"
+2020-10-09 15:32:33 com.hlbrc.movingcompany.controller.UserController.queryAllNotDelUserList(UserController.java:261) UserController.java DEBUG 查询所有用户信息失败：For input string: "null"
+2020-10-09 17:49:37 com.hlbrc.movingcompany.controller.ManagerController.managerquery(ManagerController.java:52) ManagerController.java DEBUG  管理员查询(模糊 分页)！：
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+### The error may exist in file [D:\Users\DELL\MyPubRepository\MovingCompany\target\classes\mapper\ManagerMapper.xml]
+### The error may involve com.hlbrc.movingcompany.mapper.IManagerMapper.selectByExample-Inline
+### The error occurred while setting parameters
+### SQL: select                 managerId, name, password, createTime, updateTime, tel, email, creator, modifier,      status         from manager                                            order by createTime ASC                  limit ?,?
+### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+2020-10-09 21:54:35 com.hlbrc.movingcompany.controller.UserController.updateUserMessage(UserController.java:323) UserController.java DEBUG 修改用户信息失败：null
+2020-10-09 21:55:28 com.hlbrc.movingcompany.controller.UserController.updateUserMessage(UserController.java:323) UserController.java DEBUG 修改用户信息失败：null
+2020-10-09 21:56:44 com.hlbrc.movingcompany.controller.UserController.updateUserMessage(UserController.java:323) UserController.java DEBUG 修改用户信息失败：null
+2020-10-09 22:04:20 com.hlbrc.movingcompany.controller.UserController.updateUserMessage(UserController.java:324) UserController.java DEBUG 修改用户信息失败：null
+2020-10-09 22:19:14 com.hlbrc.movingcompany.controller.UserController.updateUserMessage(UserController.java:324) UserController.java DEBUG 修改用户信息失败：JSONObject["password"] not found.
+2020-10-10 00:10:44 com.hlbrc.movingcompany.controller.UserController.userRegister(UserController.java:95) UserController.java DEBUG 用户注册失败：JSONObject["password"] not found.
+2020-10-10 01:33:03 com.hlbrc.movingcompany.controller.ManagerController.managerquery(ManagerController.java:52) ManagerController.java DEBUG  管理员查询(模糊 分页)！：
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+### The error may exist in file [D:\Users\DELL\MyPubRepository\MovingCompany\target\classes\mapper\ManagerMapper.xml]
+### The error may involve com.hlbrc.movingcompany.mapper.IManagerMapper.selectByExample-Inline
+### The error occurred while setting parameters
+### SQL: select                 managerId, name, password, createTime, updateTime, tel, email, creator, modifier,      status         from manager                                            order by createTime ASC                  limit ?,?
+### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+2020-10-10 09:47:41 com.hlbrc.movingcompany.controller.UserController.queryAllNotDelUserList(UserController.java:261) UserController.java DEBUG 查询所有没有被删除的用户信息失败：JSONObject["pageIndex"] is not a number.
+2020-10-10 23:53:44 com.hlbrc.movingcompany.controller.MainController.deleteOrderForm(MainController.java:418) MainController.java DEBUG 删除订单失败：JSONObject["orderformid"] is not a number.
+2020-10-10 23:58:14 com.hlbrc.movingcompany.controller.ManagerController.managerquery(ManagerController.java:52) ManagerController.java DEBUG  管理员查询(模糊 分页)！：
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+### The error may exist in file [D:\Users\DELL\MyPubRepository\MovingCompany\target\classes\mapper\ManagerMapper.xml]
+### The error may involve com.hlbrc.movingcompany.mapper.IManagerMapper.selectByExample-Inline
+### The error occurred while setting parameters
+### SQL: select                 managerId, name, password, createTime, updateTime, tel, email, creator, modifier,      status         from manager                                            order by createTime ASC                  limit ?,?
+### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+2020-10-10 23:59:25 com.hlbrc.movingcompany.controller.ManagerController.managerquery(ManagerController.java:52) ManagerController.java DEBUG  管理员查询(模糊 分页)！：
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+### The error may exist in file [D:\Users\DELL\MyPubRepository\MovingCompany\target\classes\mapper\ManagerMapper.xml]
+### The error may involve com.hlbrc.movingcompany.mapper.IManagerMapper.selectByExample-Inline
+### The error occurred while setting parameters
+### SQL: select                 managerId, name, password, createTime, updateTime, tel, email, creator, modifier,      status         from manager                                            order by createTime ASC                  limit ?,?
+### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-1,2' at line 17
+2020-10-11 00:17:29 com.hlbrc.movingcompany.controller.ManagerController.managerquery(ManagerController.java:58) ManagerController.java DEBUG  管理员查询(模糊 分页)！：JSONObject["username"] not found.
+2020-10-11 11:04:48 com.hlbrc.movingcompany.controller.UserController.updateUserDeListStatus(UserController.java:323) UserController.java DEBUG 查询所有被删除的用户信息失败：JSONObject["userids"] not found.
+2020-10-11 11:05:09 com.hlbrc.movingcompany.controller.UserController.updateUserDeListStatus(UserController.java:323) UserController.java DEBUG 查询所有被删除的用户信息失败：JSONObject["userstate"] not found.
+2020-10-11 11:05:44 com.hlbrc.movingcompany.controller.ManagerController.setManagerstatus(ManagerController.java:78) ManagerController.java DEBUG 设置管理员状态！：JSONObject["managerid"] not found.
+2020-10-11 11:08:55 com.hlbrc.movingcompany.controller.ManagerController.setManagerliststatus(ManagerController.java:98) ManagerController.java DEBUG 批量设置管理员状态失败！：JSONObject["managerid"] not found.
+2020-10-11 11:09:24 com.hlbrc.movingcompany.controller.ManagerController.setManagerliststatus(ManagerController.java:98) ManagerController.java DEBUG 批量设置管理员状态失败！：JSONObject["managerid"] not found.
+2020-10-11 11:10:11 com.hlbrc.movingcompany.controller.ManagerController.setManagerliststatus(ManagerController.java:98) ManagerController.java DEBUG 批量设置管理员状态失败！：JSONObject["managerid"] not found.
+2020-10-11 13:04:12 com.hlbrc.movingcompany.controller.ManagerController.queryallauthoritytype(ManagerController.java:137) ManagerController.java DEBUG 查询所有权限分类失败！：JSONObject["authoritytypename"] not found.
+2020-10-11 13:12:29 com.hlbrc.movingcompany.controller.ManagerController.queryallauthoritytype(ManagerController.java:137) ManagerController.java DEBUG 查询所有权限分类失败！：JSONObject["authoritytypename"] not found.
+2020-10-11 13:12:50 com.hlbrc.movingcompany.controller.ManagerController.queryallauthoritytype(ManagerController.java:137) ManagerController.java DEBUG 查询所有权限分类失败！：JSONObject["authoritytypename"] not found.
+2020-10-11 13:14:40 com.hlbrc.movingcompany.controller.ManagerController.queryallauthoritytype(ManagerController.java:137) ManagerController.java DEBUG 查询所有权限分类失败！：JSONObject["authoritytypename"] not found.
+2020-10-11 13:16:39 com.hlbrc.movingcompany.controller.ManagerController.queryallauthoritytype(ManagerController.java:137) ManagerController.java DEBUG 查询所有权限分类失败！：JSONObject["authoritytypename"] not found.
+2020-10-11 13:38:47 com.hlbrc.movingcompany.controller.ManagerController.queryallauthoritytype(ManagerController.java:137) ManagerController.java DEBUG 查询所有权限分类失败！：null
+2020-10-11 13:38:50 com.hlbrc.movingcompany.controller.ManagerController.queryallauthoritytype(ManagerController.java:137) ManagerController.java DEBUG 查询所有权限分类失败！：null
+2020-10-11 14:06:05 com.hlbrc.movingcompany.controller.ManagerController.setauthoritytypestatus(ManagerController.java:157) ManagerController.java DEBUG 设置权限分类状态失败！：JSONObject["authoritytypeid"] not found.
+2020-10-11 18:21:05 com.hlbrc.movingcompany.controller.ManagerController.queryauthority(ManagerController.java:256) ManagerController.java DEBUG 查询权限 分页失败！：null
+2020-10-11 18:21:11 com.hlbrc.movingcompany.controller.ManagerController.queryauthority(ManagerController.java:256) ManagerController.java DEBUG 查询权限 分页失败！：null
+2020-10-11 18:21:13 com.hlbrc.movingcompany.controller.ManagerController.queryauthority(ManagerController.java:256) ManagerController.java DEBUG 查询权限 分页失败！：null
+2020-10-11 22:07:43 com.hlbrc.movingcompany.controller.ManagerController.updateauthority(ManagerController.java:316) ManagerController.java DEBUG 修改权限管理失败！：nested exception is org.apache.ibatis.exceptions.PersistenceException: 
+### Error querying database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: HikariDataSource HikariDataSource (HikariPool-3) has been closed.
+### The error may exist in file [D:\Users\DELL\MyPubRepository\MovingCompany\target\classes\mapper\AuthorityManagerMapper.xml]
+### The error may involve com.hlbrc.movingcompany.mapper.IAuthorityManagerMapper.selectByExample
+### The error occurred while executing a query
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: HikariDataSource HikariDataSource (HikariPool-3) has been closed.
+2020-10-12 01:42:59 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:354) ManagerController.java DEBUG 查询所有角色失败！：null
+2020-10-12 01:45:04 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:354) ManagerController.java DEBUG 查询所有角色失败！：null
+2020-10-12 01:45:55 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:354) ManagerController.java DEBUG 查询所有角色失败！：null
+2020-10-12 01:46:01 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:354) ManagerController.java DEBUG 查询所有角色失败！：null
+2020-10-12 01:48:49 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:354) ManagerController.java DEBUG 查询所有角色失败！：null
+2020-10-12 01:51:43 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:354) ManagerController.java DEBUG 查询所有角色失败！：null
+2020-10-12 01:53:02 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:355) ManagerController.java DEBUG 查询所有角色失败！：null
+2020-10-12 13:40:18 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:374) ManagerController.java DEBUG 查询所有角色失败！：null
+2020-10-12 13:40:31 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:374) ManagerController.java DEBUG 查询所有角色失败！：null
+2020-10-12 13:41:34 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:375) ManagerController.java DEBUG 查询所有角色失败！：null
+2020-10-12 13:43:23 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:375) ManagerController.java DEBUG 查询所有角色失败！：null
+2020-10-12 13:46:52 com.hlbrc.movingcompany.controller.ManagerController.queryrole1(ManagerController.java:375) ManagerController.java DEBUG 查询所有角色失败！：null

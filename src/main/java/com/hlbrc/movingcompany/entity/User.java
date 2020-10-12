@@ -40,8 +40,8 @@ public class User {
     private String address;
     
     private CompanyMessage companyMessage;
-
-    public String getAddress() {
+    
+	public String getAddress() {
         return address;
     }
 

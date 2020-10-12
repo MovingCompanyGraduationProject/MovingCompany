@@ -22,20 +22,21 @@ public interface IManagerService {
 	 * 显示所有角色（模糊查询）
 	 * @param message
 	 * @return
+	 * @throws ParseException 
 	 */
-	public String queryrole(String message);
+	public String queryrole(String message,Integer psize) throws ParseException;
 	/**
 	 * 显示所有权限分类（模糊查询）
 	 * @param message
 	 * @return
 	 */
-	public String queryauthoritytype(String message);
+	public String queryauthoritytype(String message,Integer psize);
 	/**
 	 * 显示所有权限（模糊查询）
 	 * @param message
 	 * @return
 	 */
-	public String queryauthority(String message);
+	public String queryauthority(String message,Integer psize);
 	/**
 	 * 显示角色权限对应表
 	 * @param message

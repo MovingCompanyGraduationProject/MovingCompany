@@ -20,6 +20,25 @@ import com.github.pagehelper.PageHelper;
 public class StartApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(StartApplication.class, args);
+		String str = "<table  class=\"layui-table layui-input-block\">\r\n" + 
+				"                        <tbody>\r\n" + 
+				"                            <tr>\r\n" + 
+				"                                <td>\r\n" + 
+				"                                    用户管理\r\n" + 
+				"                                    <input name=\"id[]\" type=\"checkbox\" value=\"2\">\r\n" + 
+				"                                </td>\r\n" + 
+				"                                <td>\r\n" + 
+				"                                    <div class=\"layui-input-block\">\r\n" + 
+				"                                        <input name=\"id[]\" type=\"checkbox\" value=\"2\"> 用户停用\r\n" + 
+				"                                        <input name=\"id[]\" type=\"checkbox\" value=\"2\"> 用户删除\r\n" + 
+				"                                        <input name=\"id[]\" type=\"checkbox\" value=\"2\"> 用户修改\r\n" + 
+				"                                        <input name=\"id[]\" type=\"checkbox\" value=\"2\"> 用户改密\r\n" + 
+				"                                        <input name=\"id[]\" type=\"checkbox\" value=\"2\"> 用户列表\r\n" + 
+				"                                    </div>\r\n" + 
+				"                                </td>\r\n" + 
+				"                            </tr>\r\n" + 
+				"                        </tbody>\r\n" + 
+				"                    </table>";
 	}
     /**
      * 设置匹配*.action后缀请求

@@ -6,6 +6,8 @@ public class AuthorityManager {
     private Integer authoritymanagerid;
 
     private Integer authoritytypeid;
+    
+    private String authoritytypename;
 
     private String authorityrule;
 
@@ -14,14 +16,42 @@ public class AuthorityManager {
     private String authoritymanagerstatus;
 
     private Integer creator;
+    
+    private String creatorname;
 
     private Date createtime;
 
     private Integer modifier;
+    
+    private String modifiername;
 
     private Date updatetime;
 
-    public Integer getAuthoritymanagerid() {
+    public String getAuthoritytypename() {
+		return authoritytypename;
+	}
+
+	public void setAuthoritytypename(String authoritytypename) {
+		this.authoritytypename = authoritytypename;
+	}
+
+	public String getCreatorname() {
+		return creatorname;
+	}
+
+	public void setCreatorname(String creatorname) {
+		this.creatorname = creatorname;
+	}
+
+	public String getModifiername() {
+		return modifiername;
+	}
+
+	public void setModifiername(String modifiername) {
+		this.modifiername = modifiername;
+	}
+
+	public Integer getAuthoritymanagerid() {
         return authoritymanagerid;
     }
 

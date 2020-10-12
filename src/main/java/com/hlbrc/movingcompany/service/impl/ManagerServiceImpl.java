@@ -62,6 +62,7 @@ public class ManagerServiceImpl implements IManagerService {
 			List<Manager> list = manager_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
 				session.setAttribute("manager", list.get(0));
+				obj.put("manager", list.get(0));
 				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
@@ -83,10 +84,7 @@ public class ManagerServiceImpl implements IManagerService {
 			ManagerExample.Criteria criteria = example.createCriteria();
 			json = JSONObject.fromObject(message);
 			String format = "yyyy-MM-dd";
-			example.setOrderByClause("createTime ASC");
-			example.setPageIndex(Integer.parseInt(json.getString("pageIndex"))-1);
-	        example.setPageSize(2);
-	        if(!"".equals(json.getString("username"))) {
+			if(!"".equals(json.getString("username"))) {
 	        	criteria.andNameLike("%"+json.getString("username")+"%");
 	        }
 			if(!"".equals(json.getString("startTime"))&&!"".equals(json.getString("endTime"))) {
@@ -98,6 +96,26 @@ public class ManagerServiceImpl implements IManagerService {
 			else if("".equals(json.getString("startTime"))&&!"".equals(json.getString("endTime"))) {
 				criteria.andCreatetimeLessThanOrEqualTo(new SimpleDateFormat(format).parse(json.getString("endTime")));
 			}
+			criteria.andStatusGreaterThan(IMyEnums.DELETE);
+			example.setOrderByClause("createTime ASC");
+			long all = manager_mapper.countByExample(example);
+			if(all>0) {
+				int index = json.getInt("pageIndex");
+				int star = 0;
+				int psize = 6;
+				obj.put("allNumber", all);
+				if (all % psize == 0) {
+					all = all / psize;
+				} else {
+					all = all / psize + 1;
+				}
+				if (index > 1) {
+					star = (index - 1) * psize;
+				}
+				example.setPageIndex(star);
+		        example.setPageSize(psize);
+			}
+			
 			List<Manager> list = manager_mapper.selectByExample(example);
 			if(list!=null&&list.size()>0) {
 				obj.put("msg", IMyEnums.SUCCEED);
@@ -105,6 +123,7 @@ public class ManagerServiceImpl implements IManagerService {
 					RoleAndRuleExample rexample = new RoleAndRuleExample();
 					RoleAndRuleExample.Criteria rcriteria = rexample.createCriteria();
 					rcriteria.andManageridEqualTo(m.getManagerid());
+					rcriteria.andRoleandrulestatusGreaterThan(IMyEnums.DELETE);
 					List<RoleAndRule> rlist = role_and_rule_mapper.selectByExample(rexample);
 					String rose = "";
 					int i=0;
@@ -122,13 +141,8 @@ public class ManagerServiceImpl implements IManagerService {
 						rose = "暂无角色";
 					}
 					m.setRose(rose);
-					if(!IMyEnums.USER_LIMIT_LOGIN.equals(m.getStatus())) {
-						m.setStatus("已启用");
-					}
-					else {
-						m.setStatus("已停用");
-					}
 				}
+				obj.put("allPageNumber", all);
 				JSONArray jsonarray = JSONArray.fromObject(list);
 				obj.put("jsonarray", jsonarray);
 			}
@@ -139,35 +153,76 @@ public class ManagerServiceImpl implements IManagerService {
 		else {
 			obj.put("msg", IMyEnums.FAIL);
 		}
-		System.err.println("qwe:"+obj.toString());
 		return obj.toString();
 	}
 
 	@Override
-	public String queryrole(String message) {
+	public String queryrole(String message,Integer psize) throws ParseException {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		if(message!=null&&!"".equals(message)) {
 			RoleManagerExample example = new RoleManagerExample();
 			RoleManagerExample.Criteria criteria = example.createCriteria();
 			json = JSONObject.fromObject(message);
-			example.setOrderByClause("createTime ASC");
-			example.setPageIndex(Integer.parseInt(json.getString("pageIndex"))-1);
-	        example.setPageSize(2);
+			String format = "yyyy-MM-dd";
 	        if(!"".equals(json.getString("rolename"))) {
 	        	criteria.andRolenameLike("%"+json.getString("rolename")+"%");
 	        }
+			if(!"".equals(json.getString("startTime"))&&!"".equals(json.getString("endTime"))) {
+				criteria.andCreatetimeBetween(new SimpleDateFormat(format).parse(json.getString("startTime")),new SimpleDateFormat(format).parse(json.getString("endTime")));
+			}
+			else if(!"".equals(json.getString("startTime"))&&"".equals(json.getString("endTime"))) {
+				criteria.andCreatetimeGreaterThanOrEqualTo(new SimpleDateFormat(format).parse(json.getString("startTime")));
+			}
+			else if("".equals(json.getString("startTime"))&&!"".equals(json.getString("endTime"))) {
+				criteria.andCreatetimeLessThanOrEqualTo(new SimpleDateFormat(format).parse(json.getString("endTime")));
+			}
+			criteria.andRolestatusGreaterThan(IMyEnums.DELETE);
+			example.setOrderByClause("createTime ASC");
+			long all = role_manager_mapper.countByExample(example);
+			if(all>0&&psize!=null) {
+				int index = json.getInt("pageIndex");
+				int star = 0;
+				obj.put("allNumber", all);
+				if (all % psize == 0) {
+					all = all / psize;
+				} else {
+					all = all / psize + 1;
+				}
+				if (index > 1) {
+					star = (index - 1) * psize;
+				}
+				example.setPageIndex(star);
+		        example.setPageSize(psize);
+			}
 	        List<RoleManager> list = role_manager_mapper.selectByExample(example);
+	        obj.put("allPageNumber", all);
 	        if(list!=null&&list.size()>0) {
 	        	for(RoleManager r:list) {
-	        		if(!IMyEnums.USER_LIMIT_LOGIN.equals(r.getRolestatus())) {
-	        			r.setRolestatus("已启用");
+	        		r.setCreatorname(manager_mapper.selectByPrimaryKey(r.getCreator()).getName());
+	        		if(r.getModifier()!=null&&!"".equals(r.getModifier()+"")) {
+	        			r.setModifiername(manager_mapper.selectByPrimaryKey(r.getModifier()).getName());
 	        		}
-	        		else {
-	        			r.setRolestatus("已停用");
+	        		RoleAndRuleExample example2 = new RoleAndRuleExample();
+	        		RoleAndRuleExample.Criteria criteria2 = example2.createCriteria();
+	        		criteria2.andRolemanageridEqualTo(r.getRolemanagerid());
+	        		criteria2.andManageridIsNull();
+	        		criteria2.andRoleandrulestatusGreaterThan(IMyEnums.DELETE);
+	        		List<RoleAndRule> list2 = role_and_rule_mapper.selectByExample(example2);
+	        		String str = "";
+	        		if(list2!=null&&list2.size()>0) {
+	        			int i=0;
+	        			for(RoleAndRule rr:list2) {
+	        				str+=authority_manager_mapper.selectByPrimaryKey(rr.getAuthoritymanagerid()).getAuthorityname();
+	        				if(i<list2.size()-1) {
+	        					str+=",";
+	        				}
+	        				i++;
+	        			}
 	        		}
+	        		r.setAuthoritynames(str);
 	        	}
-	        	obj.put("role", list.get(0));
+	        	obj.put("rolelist", list);
 				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
@@ -181,22 +236,52 @@ public class ManagerServiceImpl implements IManagerService {
 	}
 
 	@Override
-	public String queryauthoritytype(String message) {
+	public String queryauthoritytype(String message,Integer psize) {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		if(message!=null&&!"".equals(message)) {
 			AuthorityTypeExample example = new AuthorityTypeExample();
 			AuthorityTypeExample.Criteria criteria = example.createCriteria();
 			json = JSONObject.fromObject(message);
-			example.setOrderByClause("createTime ASC");
-			example.setPageIndex(Integer.parseInt(json.getString("pageIndex"))-1);
-	        example.setPageSize(2);
-	        if(!"".equals(json.getString("authoritytypename"))) {
+			if(!"".equals(json.getString("authoritytypename"))) {
 	        	criteria.andAuthoritynameLike("%"+json.getString("authoritytypename")+"%");
 	        }
+			criteria.andAuthoritytypestatusGreaterThan(IMyEnums.DELETE);
+			example.setOrderByClause("createTime ASC");
+			long all = authority_type_mapper.countByExample(example);
+			if(all>0) {
+				int index = json.getInt("pageIndex");
+				if(psize!=null) {
+					int star = 0;
+					obj.put("allNumber", all);
+					if (all % psize == 0) {
+						all = all / psize;
+					} else {
+						all = all / psize + 1;
+					}
+					if (index > 1) {
+						star = (index - 1) * psize;
+					}
+					example.setPageIndex(star);
+			        example.setPageSize(psize);
+				}
+			}
 	        List<AuthorityType> list = authority_type_mapper.selectByExample(example);
+	        obj.put("allPageNumber", all);
 	        if(list!=null&&list.size()>0) {
-	        	obj.put("authoritytype", list.get(0));
+	        	for(int i=0;i<list.size();i++) {
+	        		list.get(i).setCreatorname(manager_mapper.selectByPrimaryKey(list.get(i).getCreator()).getName());
+	        		if(list.get(i).getModifier()!=null&&!"".equals(list.get(i).getModifier()+"")) {
+	        			list.get(i).setModifiername(manager_mapper.selectByPrimaryKey(list.get(i).getModifier()).getName());
+	        		}
+	        		AuthorityManagerExample example2 = new AuthorityManagerExample();
+	        		AuthorityManagerExample.Criteria criteria2 = example2.createCriteria();
+	        		criteria2.andAuthoritytypeidEqualTo(list.get(i).getAuthoritytypeid());
+	        		criteria2.andAuthoritymanagerstatusGreaterThan(IMyEnums.DELETE);
+	        		List<AuthorityManager> list2 = authority_manager_mapper.selectByExample(example2);
+	        		list.get(i).setAuthorityManager(list2);
+	        	}
+	        	obj.put("authoritytype", list);
 				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
@@ -210,25 +295,50 @@ public class ManagerServiceImpl implements IManagerService {
 	}
 
 	@Override
-	public String queryauthority(String message) {
+	public String queryauthority(String message,Integer psize) {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		if(message!=null&&!"".equals(message)) {
 			AuthorityManagerExample example = new AuthorityManagerExample();
 			AuthorityManagerExample.Criteria criteria = example.createCriteria();
 			json = JSONObject.fromObject(message);
-			example.setOrderByClause("createTime ASC");
-			example.setPageIndex(Integer.parseInt(json.getString("pageIndex"))-1);
-	        example.setPageSize(2);
 	        if(!"".equals(json.getString("authorityname"))) {
 	        	criteria.andAuthoritynameLike("%"+json.getString("authorityname")+"%");
 	        }
 	        if(!"".equals(json.getString("authorityrule"))) {
 	        	criteria.andAuthoritynameLike("%"+json.getString("authorityrule")+"%");
 	        }
+	        criteria.andAuthoritymanagerstatusGreaterThan(IMyEnums.DELETE);
+	        example.setOrderByClause("createTime ASC");
+			long all = authority_manager_mapper.countByExample(example);
+			if(all>0) {
+				int index = json.getInt("pageIndex");
+				if(psize!=null) {
+					int star = 0;
+					obj.put("allNumber", all);
+					if (all % psize == 0) {
+						all = all / psize;
+					} else {
+						all = all / psize + 1;
+					}
+					if (index > 1) {
+						star = (index - 1) * psize;
+					}
+					example.setPageIndex(star);
+			        example.setPageSize(psize);
+				}
+			}
 	        List<AuthorityManager> list = authority_manager_mapper.selectByExample(example);
+	        obj.put("allPageNumber", all);
 	        if(list!=null&&list.size()>0) {
-	        	obj.put("authority", list.get(0));
+	        	for(int i=0;i<list.size();i++) {
+	        		list.get(i).setAuthoritytypename(authority_type_mapper.selectByPrimaryKey(list.get(i).getAuthoritytypeid()).getAuthorityname());
+	        		list.get(i).setCreatorname(manager_mapper.selectByPrimaryKey(list.get(i).getCreator()).getName());
+	        		if(list.get(i).getModifier()!=null&&!"".equals(list.get(i).getModifier()+"")) {
+	        			list.get(i).setModifiername(manager_mapper.selectByPrimaryKey(list.get(i).getModifier()).getName());
+	        		}
+	        	}
+	        	obj.put("authority", list);
 				obj.put("msg", IMyEnums.SUCCEED);
 			}
 			else {
@@ -472,14 +582,26 @@ public class ManagerServiceImpl implements IManagerService {
 				AuthorityManager authoritymanager = new AuthorityManager();
 				AuthorityManagerExample example = new AuthorityManagerExample();
 				AuthorityManagerExample.Criteria criteria = example.createCriteria();
-				criteria.andAuthoritynameEqualTo(json.getString("authorityname"));
-				List<AuthorityManager> list = authority_manager_mapper.selectByExample(example);
-				if(list!=null&&list.size()>0) {
-					obj.put("msg", IMyEnums.AUTHORITY_NAME_ALREADY_EXISTS);
-					return obj.toString();
+				if(json.getString("authorityrule")!=null&&!"".equals(json.getString("authorityrule"))) {
+					criteria.andAuthorityruleEqualTo(json.getString("authorityrule"));
+					List<AuthorityManager> list = authority_manager_mapper.selectByExample(example);
+					if(list!=null&&list.size()>0) {
+						obj.put("msg", IMyEnums.AUTHORITY_ALREADY_EXISTS);
+						return obj.toString();
+					}
+					authoritymanager.setAuthorityrule(json.getString("authorityrule"));
 				}
-				authoritymanager.setAuthorityname(json.getString("authorityname"));
-				authoritymanager.setAuthorityrule(json.getString("authorityrule"));
+				if(json.getString("authorityname")!=null&&!"".equals(json.getString("authorityname"))) {
+					example = new AuthorityManagerExample();
+					criteria = example.createCriteria();
+					criteria.andAuthoritynameEqualTo(json.getString("authorityname"));
+					List<AuthorityManager> list = authority_manager_mapper.selectByExample(example);
+					if(list!=null&&list.size()>0) {
+						obj.put("msg", IMyEnums.AUTHORITY_NAME_ALREADY_EXISTS);
+						return obj.toString();
+					}
+					authoritymanager.setAuthorityname(json.getString("authorityname"));
+				}
 				authoritymanager.setAuthoritytypeid(Integer.parseInt(json.getString("authoritytypeid")));
 				authoritymanager.setCreatetime(new Date());
 				authoritymanager.setCreator(manager.getManagerid());
@@ -578,16 +700,17 @@ public class ManagerServiceImpl implements IManagerService {
 					RoleAndRuleExample example1 = new RoleAndRuleExample();
 					RoleAndRuleExample.Criteria criteria1 = example1.createCriteria();
 					criteria1.andManageridEqualTo(Integer.parseInt(json.getString("managerid")));
+					criteria1.andRoleandrulestatusGreaterThan(IMyEnums.DELETE);
 					List<RoleAndRule> list = role_and_rule_mapper.selectByExample(example1);
 					rolemanagerids = json.getString("rolemanagerids").split(";");
 					String[] orgList = null;
-					if(list!=null&&list.size()>0&&rolemanagerids.length>0) {
+					if(list!=null&&list.size()>0&&rolemanagerids!=null&&rolemanagerids.length>0) {
 						orgList = new String[list.size()];
 						for(int j=0;j<list.size();j++) {
 							orgList[j] = list.get(j).getRolemanagerid()+"";
 						}
 						MyToos mytoos = new MyToos();
-						Map<String,Set<String>> map = mytoos.Bj(orgList, rolemanagerids);
+						Map<String,Set<String>> map = mytoos.Bj(orgList, rolemanagerids);//判断数据状态 新增 修改 删除
 						for(String s:map.get("1")) {
 							RoleAndRule roleandrule = new RoleAndRule();
 							roleandrule.setCreatetime(new Date());
@@ -599,7 +722,7 @@ public class ManagerServiceImpl implements IManagerService {
 						}
 						for(String s:map.get("-1")) {
 							RoleAndRuleExample example2 = new RoleAndRuleExample();
-							RoleAndRuleExample.Criteria criteria2 = example1.createCriteria();
+							RoleAndRuleExample.Criteria criteria2 = example2.createCriteria();
 							criteria2.andManageridEqualTo(Integer.parseInt(json.getString("managerid")));
 							criteria2.andRolemanageridEqualTo(Integer.parseInt(s));
 							RoleAndRule rar = new RoleAndRule();
@@ -609,17 +732,15 @@ public class ManagerServiceImpl implements IManagerService {
 							i += role_and_rule_mapper.updateByExampleSelective(rar, example2);
 						}
 					}
-					else if(list!=null&&list.size()<=0){
-						if(rolemanagerids!=null&&rolemanagerids.length>0) {
-							for(String s:rolemanagerids) {
-								RoleAndRule roleandrule = new RoleAndRule();
-								roleandrule.setCreatetime(new Date());
-								roleandrule.setCreator(old_manager.getManagerid());
-								roleandrule.setManagerid(Integer.parseInt(json.getString("managerid")));
-								roleandrule.setRoleandrulestatus(IMyEnums.NORMAL);
-								roleandrule.setRolemanagerid(Integer.parseInt(s));
-								i += role_and_rule_mapper.insertSelective(roleandrule);
-							}
+					else if(list!=null&&list.size()<=0&&rolemanagerids!=null&&rolemanagerids.length>0){
+						for(String s:rolemanagerids) {
+							RoleAndRule roleandrule = new RoleAndRule();
+							roleandrule.setCreatetime(new Date());
+							roleandrule.setCreator(old_manager.getManagerid());
+							roleandrule.setManagerid(Integer.parseInt(json.getString("managerid")));
+							roleandrule.setRoleandrulestatus(IMyEnums.NORMAL);
+							roleandrule.setRolemanagerid(Integer.parseInt(s));
+							i += role_and_rule_mapper.insertSelective(roleandrule);
 						}
 					}
 					else{
@@ -683,24 +804,26 @@ public class ManagerServiceImpl implements IManagerService {
 					}
 					rolemanager.setRolename(json.getString("rolename"));
 				}
+				example = new RoleManagerExample();
 				criteria = example.createCriteria();
 				criteria.andRolemanageridEqualTo(Integer.parseInt(json.getString("rolemanagerid")));
 				int i = role_manager_mapper.updateByExampleSelective(rolemanager, example);
-				String[] rolemanagerids = null;
+				String[] authoritymanagerids = null;
 				if(json.getString("authoritymanagerids")!=null&&!"".equals(json.getString("authoritymanagerids"))) {
 					RoleAndRuleExample example1 = new RoleAndRuleExample();
 					RoleAndRuleExample.Criteria criteria1 = example1.createCriteria();
 					criteria1.andRolemanageridEqualTo(Integer.parseInt(json.getString("rolemanagerid")));
+					criteria1.andRoleandrulestatusGreaterThan(IMyEnums.DELETE);
 					List<RoleAndRule> list = role_and_rule_mapper.selectByExample(example1);
-					rolemanagerids = json.getString("authoritymanagerids").split(";");
+					authoritymanagerids = json.getString("authoritymanagerids").split(";");
 					String[] orgList = null;
-					if(list!=null&&list.size()>0&&rolemanagerids.length>0) {
+					if(list!=null&&list.size()>0&&authoritymanagerids.length>0) {
 						orgList = new String[list.size()];
 						for(int j=0;j<list.size();j++) {
-							orgList[j] = list.get(j).getRolemanagerid()+"";
+							orgList[j] = list.get(j).getAuthoritymanagerid()+"";
 						}
 						MyToos mytoos = new MyToos();
-						Map<String,Set<String>> map = mytoos.Bj(orgList, rolemanagerids);
+						Map<String,Set<String>> map = mytoos.Bj(orgList, authoritymanagerids);
 						for(String s:map.get("1")) {
 							RoleAndRule roleandrule = new RoleAndRule();
 							roleandrule.setCreatetime(new Date());
@@ -712,7 +835,7 @@ public class ManagerServiceImpl implements IManagerService {
 						}
 						for(String s:map.get("-1")) {
 							RoleAndRuleExample example2 = new RoleAndRuleExample();
-							RoleAndRuleExample.Criteria criteria2 = example1.createCriteria();
+							RoleAndRuleExample.Criteria criteria2 = example2.createCriteria();
 							criteria2.andRolemanageridEqualTo(Integer.parseInt(json.getString("rolemanagerid")));
 							criteria2.andAuthoritymanageridEqualTo(Integer.parseInt(s));
 							RoleAndRule rar = new RoleAndRule();
@@ -722,21 +845,19 @@ public class ManagerServiceImpl implements IManagerService {
 							i += role_and_rule_mapper.updateByExampleSelective(rar, example2);
 						}
 					}
-					else if(list!=null&&list.size()<=0){
-						if(rolemanagerids!=null&&rolemanagerids.length>0) {
-							for(String s:rolemanagerids) {
-								RoleAndRule roleandrule = new RoleAndRule();
-								roleandrule.setCreatetime(new Date());
-								roleandrule.setCreator(old_manager.getManagerid());
-								roleandrule.setRolemanagerid(Integer.parseInt(json.getString("rolemanagerid")));
-								roleandrule.setRoleandrulestatus(IMyEnums.NORMAL);
-								roleandrule.setAuthoritymanagerid(Integer.parseInt(s));
-								i += role_and_rule_mapper.insertSelective(roleandrule);
-							}
+					else if(list!=null&&list.size()<=0&&authoritymanagerids!=null&&authoritymanagerids.length>0){
+						for(String s:authoritymanagerids) {
+							RoleAndRule roleandrule = new RoleAndRule();
+							roleandrule.setCreatetime(new Date());
+							roleandrule.setCreator(old_manager.getManagerid());
+							roleandrule.setRolemanagerid(Integer.parseInt(json.getString("rolemanagerid")));
+							roleandrule.setRoleandrulestatus(IMyEnums.NORMAL);
+							roleandrule.setAuthoritymanagerid(Integer.parseInt(s));
+							i += role_and_rule_mapper.insertSelective(roleandrule);
 						}
 					}
 					else{
-						if(rolemanagerids!=null&&rolemanagerids.length<=0) {
+						if(authoritymanagerids!=null&&authoritymanagerids.length<=0) {
 							RoleAndRuleExample example2 = new RoleAndRuleExample();
 							RoleAndRuleExample.Criteria criteria2 = example1.createCriteria();
 							for(int j=0;j<list.size();j++) {
@@ -837,7 +958,7 @@ public class ManagerServiceImpl implements IManagerService {
 				if(json.getString("authorityname")!=null&&!"".equals(json.getString("authorityname"))) {
 					example = new AuthorityManagerExample();
 					criteria = example.createCriteria();
-					criteria.andAuthorityruleEqualTo(json.getString("authorityname"));
+					criteria.andAuthoritynameEqualTo(json.getString("authorityname"));
 					List<AuthorityManager> list = authority_manager_mapper.selectByExample(example);
 					if(list!=null&&list.size()>0) {
 						obj.put("msg", IMyEnums.AUTHORITY_NAME_ALREADY_EXISTS);
@@ -848,6 +969,9 @@ public class ManagerServiceImpl implements IManagerService {
 				if(json.getString("authoritytypeid")!=null&&!"".equals(json.getString("authoritytypeid"))) {
 					authoritymanager.setAuthoritytypeid(Integer.parseInt(json.getString("authoritytypeid")));
 				}
+				example = new AuthorityManagerExample();
+				criteria = example.createCriteria();
+				criteria.andAuthoritymanageridEqualTo(json.getInt("authoritymanagerid"));
 				authoritymanager.setModifier(manager.getManagerid());
 				authoritymanager.setUpdatetime(new Date());
 				if(json.getString("authoritymanagerstatus")!=null&&!"".equals(json.getString("authoritymanagerstatus"))) {
@@ -874,6 +998,7 @@ public class ManagerServiceImpl implements IManagerService {
 	@Override
 	public String updateroleandrule(String message, HttpSession session) {
 		JSONObject obj = new JSONObject();
+		@SuppressWarnings("unused")
 		JSONObject json = new JSONObject();
 		Manager manager = (Manager) session.getAttribute("manager");
 		if(manager!=null) {
@@ -1073,7 +1198,7 @@ public class ManagerServiceImpl implements IManagerService {
 		if(old_manager!=null) {
 			if(message!=null&&!"".equals(message)) {
 				json = JSONObject.fromObject(message);
-				if(json.getString("status")!=null&&!"".equals(json.getString("status"))&&json.getString("managerids")!=null&&!"".equals(json.getString("managerid"))) {
+				if(json.getString("status")!=null&&!"".equals(json.getString("status"))&&json.getString("managerids")!=null&&!"".equals(json.getString("managerids"))) {
 					int i = 0;
 					String[] managerids = json.getString("managerids").split(";");
 					if(managerids!=null&&managerids.length>0) {
@@ -1116,7 +1241,7 @@ public class ManagerServiceImpl implements IManagerService {
 			if(message!=null&&!"".equals(message)) {
 				json = JSONObject.fromObject(message);
 				if(json.getString("rolestatus")!=null&&!"".equals(json.getString("rolestatus"))&&json.getString("rolemanagerids")!=null&&!"".equals(json.getString("rolemanagerids"))) {
-					String[] rolemanagerids = json.getString("rolemanagerid").split(";");
+					String[] rolemanagerids = json.getString("rolemanagerids").split(";");
 					int i = 0;
 					if(rolemanagerids!=null&&rolemanagerids.length>0) {
 						for(int j=0;j<rolemanagerids.length;j++) {

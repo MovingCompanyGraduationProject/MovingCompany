@@ -1,6 +1,7 @@
 package com.hlbrc.movingcompany.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class AuthorityType {
     private Integer authoritytypeid;
@@ -10,14 +11,44 @@ public class AuthorityType {
     private String authoritytypestatus;
 
     private Integer creator;
+    
+    private String creatorname;
 
     private Date createtime;
 
     private Integer modifier;
+    
+    private String modifiername;
 
     private Date updatetime;
+    
+    private List<AuthorityManager> authorityManager;
 
-    public Integer getAuthoritytypeid() {
+    public List<AuthorityManager> getAuthorityManager() {
+		return authorityManager;
+	}
+
+	public void setAuthorityManager(List<AuthorityManager> authorityManager) {
+		this.authorityManager = authorityManager;
+	}
+
+	public String getCreatorname() {
+		return creatorname;
+	}
+
+	public void setCreatorname(String creatorname) {
+		this.creatorname = creatorname;
+	}
+
+	public String getModifiername() {
+		return modifiername;
+	}
+
+	public void setModifiername(String modifiername) {
+		this.modifiername = modifiername;
+	}
+
+	public Integer getAuthoritytypeid() {
         return authoritytypeid;
     }
 

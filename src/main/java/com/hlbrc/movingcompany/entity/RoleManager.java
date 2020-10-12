@@ -12,14 +12,45 @@ public class RoleManager {
     private String rolestatus;
 
     private Integer creator;
+    
+    private String creatorname;
 
     private Date createtime;
 
     private Integer modifier;
+    
+    private String modifiername;
+    
+    private String authoritynames;
 
     private Date updatetime;
 
-    public Integer getRolemanagerid() {
+    public String getAuthoritynames() {
+		return authoritynames;
+	}
+
+	public void setAuthoritynames(String authoritynames) {
+		this.authoritynames = authoritynames;
+	}
+
+	public String getCreatorname() {
+		return creatorname;
+	}
+
+	public void setCreatorname(String creatorname) {
+		this.creatorname = creatorname;
+	}
+
+	public String getModifiername() {
+		return modifiername;
+	}
+
+	public void setModifiername(String modifiername) {
+		this.modifiername = modifiername;
+	}
+
+
+	public Integer getRolemanagerid() {
         return rolemanagerid;
     }
 
